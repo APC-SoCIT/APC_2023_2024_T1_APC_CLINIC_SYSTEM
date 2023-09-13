@@ -42,7 +42,7 @@ class UserRolesTestSeeder extends Seeder
             'name' => 'Clinic User',
             'email' => 'clinic@apc.edu.ph',
             'password' => Hash::make('password'),
-            'role_id' => Role::where('role', 'Clinic')->first()->id,
+            'role_id' => Role::where('role', 'Nurse')->first()->id,
         ]);
 
         User::create([

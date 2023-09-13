@@ -35,9 +35,9 @@ Route::middleware(['auth', 'role:Staff'])->group(function () {
     Route::get('/staff/home', [HomeController::class, 'staffHome'])->name('staffHome');
 });
 
-//Clinic
-Route::middleware(['auth', 'role:Clinic'])->group(function () {
-    Route::get('/clinic/home', [HomeController::class, 'clinicHome'])->name('clinicHome');
+//Nurse
+Route::middleware(['auth', 'role:Nurse'])->group(function () {
+    Route::get('/nurse/home', [HomeController::class, 'nurseHome'])->name('nurseHome');
 });
 
 //Doctor

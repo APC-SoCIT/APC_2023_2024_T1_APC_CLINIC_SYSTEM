@@ -41,9 +41,9 @@ class HomeController extends Controller
     }
 
     //Clinic
-    public function clinicHome()
+    public function nurseHome()
     {
-        return view('clinic.homepage');
+        return view('nurse.homepage');
     }
 
     //Doctor

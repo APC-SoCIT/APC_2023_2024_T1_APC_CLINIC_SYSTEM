@@ -21,7 +21,7 @@ return new class extends Migration
             ['role' => 'Student'],
             ['role' => 'Faculty'],
             ['role' => 'Staff'],
-            ['role' => 'Clinic'],
+            ['role' => 'Nurse'],
             ['role' => 'Doctor'],
             ['role' => 'Dentist'],
             ['role' => 'Admin'],
