@@ -16,11 +16,24 @@
 @section('classes_body'){{ ($auth_type ?? 'login') . '-page' }}@stop
 
 @section('body')
-    <div class="{{ $auth_type ?? 'login' }}-box">
+    <!-- Custom made CSS for background picture of auth page -->
+    <div style="
+    height: 100%;
+    width: 100%;
+    background-image: url(../assets/APC_Building_BG.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    ">
+
+    <!-- Customize LogIn box to the position in the center -->
+    <div class="{{ $auth_type ?? 'login' }}-box" style="margin: auto; background-color: #e7ae41;">
 
         {{-- Logo --}}
-        <div class="{{ $auth_type ?? 'login' }}-logo">
-            <a href="{{ $dashboard_url }}">
+        <div class="{{ $auth_type ?? 'login' }}-logo" style="height: 100px;">
+            <a href="{{ $dashboard_url }}" style="position: absolute; margin: 30px -80px;">
 
                 {{-- Logo Image --}}
                 @if (config('adminlte.auth_logo.enabled', false))

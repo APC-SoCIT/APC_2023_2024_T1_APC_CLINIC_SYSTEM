@@ -18,9 +18,10 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('adminlte::adminlte.login_message'))
-
 @section('auth_body')
+    <!-- Change text into "Login into 365 office account" -->
+    <h5 style="text-align: center;" class="fw-normal">Login into your <img src="assets/office.png" alt="office" width="80"> account</h5>
+
     <form action="{{ $login_url }}" method="post">
         @csrf
 
