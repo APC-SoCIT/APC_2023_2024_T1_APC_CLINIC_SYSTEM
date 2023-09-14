@@ -14,8 +14,13 @@ use App\Http\Controllers\HomeController;
 |
 */
 
+//On open, redirect to login page 
 Route::get('/', function () {
-    return view('login');
+    return redirect('login');
+});
+
+Route::get('/login', function(){
+    return view('auth.login');
 });
 
 Auth::routes();
