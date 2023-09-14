@@ -46,8 +46,8 @@ class UserRolesTestSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Clinic User',
-            'email' => 'clinic@apc.edu.ph',
+            'name' => 'Nurse User',
+            'email' => 'nurse@apc.edu.ph',
             'password' => Hash::make('password'),
             'role_id' => Role::where('role', 'Nurse')->first()->id,
         ]);
