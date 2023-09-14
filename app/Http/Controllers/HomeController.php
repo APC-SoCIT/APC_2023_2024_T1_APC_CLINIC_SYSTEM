@@ -22,6 +22,12 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
+    //No Role
+    public function noRoleHome()
+    {
+        return view('no-role.homepage');
+    }
+
     //Student
     public function studentHome()
     {

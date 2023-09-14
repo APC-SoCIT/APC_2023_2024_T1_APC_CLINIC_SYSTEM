@@ -25,6 +25,11 @@ Route::get('/login', function(){
 
 Auth::routes();
 
+//No Role
+Route::middleware(['auth', 'role:No Role'])->group(function () {
+    Route::get('/home', [HomeController::class, 'noRoleHome'])->name('noRoleHome');
+});
+
 //Student
 Route::middleware(['auth', 'role:Student'])->group(function () {
     Route::get('/student/home', [HomeController::class, 'studentHome'])->name('studentHome');

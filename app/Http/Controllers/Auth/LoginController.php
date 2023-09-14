@@ -64,6 +64,8 @@ class LoginController extends Controller
                 return redirect()->route('dentistHome');
             }else if (auth()->user()->role->role == 'Admin') {      //if User's role is Admin
                 return redirect()->route('adminHome');
+            }else if (auth()->user()->role->role == 'No Role') {      //if User's role is No Role
+                return redirect()->route('noRoleHome');
             }
         }else{
             return redirect()->route('login')
