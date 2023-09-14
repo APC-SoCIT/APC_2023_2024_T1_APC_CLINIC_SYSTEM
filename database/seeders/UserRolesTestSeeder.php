@@ -18,6 +18,13 @@ class UserRolesTestSeeder extends Seeder
     {
         // Create Users with Roles
         User::create([
+            'name' => 'No Role User',
+            'email' => 'norole@apc.edu.ph',
+            'password' => Hash::make('password'),
+            'role_id' => Role::where('role', 'No Role')->first()->id,
+        ]);
+
+        User::create([
             'name' => 'Student User',
             'email' => 'student@student.apc.edu.ph',
             'password' => Hash::make('password'),
