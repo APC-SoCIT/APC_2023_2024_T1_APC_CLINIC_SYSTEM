@@ -22,7 +22,26 @@
                  class="user-image img-circle elevation-2"
                  alt="{{ Auth::user()->name }}">
         @endif
-        <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
+        <!-- Change font color depends on user's role -->
+        <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif
+            @if(auth()->user()->role->role == 'Student')
+                style="color: white;"
+            @elseif(auth()->user()->role->role == 'Faculty')
+                style="color: white;"
+            @elseif(auth()->user()->role->role == 'Staff')
+                style="color: white;"
+            @elseif(auth()->user()->role->role == 'Nurse')
+                style="color: black;"
+            @elseif(auth()->user()->role->role == 'Doctor')
+                style="color: white;"
+            @elseif(auth()->user()->role->role == 'Dentist')
+                style="color: white;"
+            @elseif(auth()->user()->role->role == 'Admin')
+                style="color: white;"
+            @else
+                style="color: white;"
+            @endif
+        >
             {{ Auth::user()->name }}
         </span>
     </a>
