@@ -64,11 +64,18 @@ return [
     */
 
     'logo' => '<b>E-Cliniq</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo1' => '<b>E-Cliniq</b> | Student',
+    'logo2' => '<b>E-Cliniq</b> | Faculty',
+    'logo3' => '<b>E-Cliniq</b> | Staff',
+    'logo4' => '<b>E-Cliniq</b> | Nurse',
+    'logo5' => '<b>E-Cliniq</b> | Doctor',
+    'logo6' => '<b>E-Cliniq</b> | Dentist',
+    'logo7' => '<b>E-Cliniq</b> | Admin',
+    'logo_img' => 'assets/APC_Logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'Asia Pacific College Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,8 +93,8 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
+            'path' => 'assets/APC_Logo.png',
+            'alt' => 'Asia Pacific College Logo',
             'class' => '',
             'width' => 50,
             'height' => 50,
@@ -109,8 +116,8 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'assets/APC_Logo.png',
+            'alt' => 'Asia Pacific College Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
@@ -152,7 +159,7 @@ return [
     'layout_boxed' => null,
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
-    'layout_fixed_footer' => null,
+    'layout_fixed_footer' => true,
     'layout_dark_mode' => null,
 
     /*
@@ -252,13 +259,20 @@ return [
     |
     */
 
-    'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'use_route_url' => true,
+    'dashboard_url' => 'noRoleHome',
+    'dashboard_url1' => 'studentHome',
+    'dashboard_url2' => 'facultyHome',
+    'dashboard_url3' => 'staffHome',
+    'dashboard_url4' => 'nurseHome',
+    'dashboard_url5' => 'doctorHome',
+    'dashboard_url6' => 'dentistHome',
+    'dashboard_url7' => 'adminHome',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
+    'register_url' => '',
+    'password_reset_url' => '',
+    'password_email_url' => '',
     'profile_url' => false,
 
     /*
@@ -294,94 +308,119 @@ return [
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         [
             'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
 
         // Sidebar items:
+
+        //Student
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'Appointment',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-solid fa-calendar',
+            'can' => 'student',
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text' => "My Health Record",
+            'url' => '#',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'student',
+        ],
+
+        //Faculty
+        [
+            'text' => 'Appointment',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-solid fa-calendar',
+            'can' => 'faculty',
+        ],
+
+        [
+            'text' => "My Health Record",
+            'url' => '#',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'faculty',
+        ],
+
+        //Staff
+        [
+            'text' => 'Appointment',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-solid fa-calendar',
+            'can' => 'staff',
+        ],
+
+        [
+            'text' => "My Health Record",
+            'url' => '#',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'staff',
+        ],
+        
+        //Nurse
+        [
+            'text' => 'Appointment',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-solid fa-calendar',
+            'can' => 'nurse',
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => "Patient's Records",
+            'url' => '#',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'nurse',
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Inventory',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-regular fa-box',
+            'can' => 'nurse',
         ],
         [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
+            'text' => 'Reports',
+            'icon' => 'fas fa-sharp fa-regular fa-folder',
+            'url' => '#',
+            'can' => 'nurse',
         ],
-        ['header' => 'labels'],
+
+        //Doctor
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
+            'text' => 'Appointment',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-solid fa-calendar',
+            'can' => 'doctor',
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
+            'text' => "Patient's Records",
+            'url' => '#',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'doctor',
+        ],
+        
+        //Dentist
+        [
+            'text' => 'Appointment',
+            'url' => '#',
+            'icon' => 'fas fa-sharp fa-solid fa-calendar',
+            'can' => 'dentist',
         ],
         [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
+            'text' => "Patient's Records",
+            'url' => '#',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'dentist',
+        ],
+        
+        //Admin
+        [
+            'text' => 'Reports',
+            'icon' => 'fas fa-sharp fa-regular fa-folder',
+            'url' => '#',
+            'can' => 'admin',
         ],
     ],
 
