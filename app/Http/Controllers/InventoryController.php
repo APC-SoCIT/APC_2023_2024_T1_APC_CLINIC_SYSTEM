@@ -14,9 +14,10 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::latest()->paginate(10);
+        //declaring Inventory Model to "inventoryItems" to callout items on inventory table max of 10
+        $inventoryItems = Inventory::latest()->paginate(10);
 
-        return view('nurse.inventory.inventory-home', compact('inventories'))
+        return view('nurse.inventory.inventory-home', compact('inventoryItems'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
