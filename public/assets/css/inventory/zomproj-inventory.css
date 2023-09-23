@@ -1,3 +1,10 @@
 .inventory-customize-container-height{
     height: 520px;
 }
+
+.inventory-customize-dropdown{
+    z-index: 3; 
+    background-color: #fbfbfb; 
+    position: absolute; 
+    width: 590px;
+}
