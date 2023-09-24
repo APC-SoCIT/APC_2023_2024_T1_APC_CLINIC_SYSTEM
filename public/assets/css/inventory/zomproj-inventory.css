@@ -8,3 +8,25 @@
     position: absolute; 
     width: 590px;
 }
+
+/* Custom table */
+.customize-table-container {
+    max-height: 400px; /* Adjust this value to control the maximum height of the table body */
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #dcdcdc;
+    z-index: 2;
+}
