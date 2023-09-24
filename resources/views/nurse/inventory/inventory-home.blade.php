@@ -21,14 +21,12 @@
 
         <!-- Search Item -->
         <div class="col">
-            <form method="GET">
-                <div class="row">
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Search Item Name">
-                    </div>
-                    <button type="submit" class="btn btn-primary"><span class="fas fa-search "></span></button>
+            <div class="row">
+                <div class="col">
+                    <input type="search" name="search" id="search" class="form-control" placeholder="Search Item Name">
                 </div>
-            </form>
+                <button type="button" class="btn btn-primary" style="cursor: auto;" disabled><span class="fas fa-search "></span></button>
+            </div>
         </div>
     </div>
     
@@ -45,7 +43,7 @@
                 </tr>
             </thead>
             <!-- Body of the table -->
-            <tbody>
+            <tbody class="inventory-content-default">
                 <!-- Showing all items in the inventory table and each item will be called as "inventoryItem" -->
                 @foreach($inventoryItems as $inventoryItem)
                 <tr>
@@ -61,6 +59,8 @@
                 </tr>
                 @endforeach
             </tbody>
+
+            <tbody id="inventory-content" class="inventory-content-search"></tbody>
         </table>
     </div>
 </div>
@@ -75,11 +75,46 @@
     <link rel="stylesheet" href="/css/admin_custom.css">
 
     <!-- ZomProj css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/zomproj-table-design.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/inventory/zomproj-invetory-design.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/inventory/zomproj-inventory.css') }}">
 @stop
 
 <!-- JavaScript -->
 @section('js')
-    
+<!-- JQuery CDN (Content Delivery Network) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!-- Live Search on table -->
+<script type="text/javascript">
+    // This script listens for user input in the 'search' input field and triggers an action when a key is released.
+    $('#search').on('keyup', function(){
+        // Get the value entered by the user.
+        $value=$(this).val();
+
+        // default will be change into search if it has value
+        if($value){
+            $('.inventory-content-default').hide();
+            $('.inventory-content-search').show();
+        }else{
+            $('.inventory-content-default').show();
+            $('.inventory-content-search').hide();            
+        }
+
+        // Send an AJAX GET request to the server to perform a search using the user's input.
+        $.ajax({
+            type:'get',
+            // Define the URL for the search request (likely configured in a Laravel route).
+            url:'{{ URL::to('search') }}',
+            // Send the user's input as search data.
+            data:{'search':$value},
+
+            // When the server responds successfully, update the page with the received data.
+            success:function(data){
+                // Log the received data to the console for debugging.
+                console.log(data);
+                // Replace the HTML content of an element with id 'Content' with the new data.
+                $('#inventory-content').html(data)
+            }
+        });
+    });
+</script>
 @stop

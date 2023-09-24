@@ -59,6 +59,7 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     Route::resource('inventory', InventoryController::class)->names([
         'index' => 'inventoryIndex',
     ]);
+    Route::get('/search', [InventoryController::class, 'search']);
 });
 
 //Doctor

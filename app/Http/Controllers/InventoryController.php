@@ -10,6 +10,34 @@ use Illuminate\View\View;
 class InventoryController extends Controller
 {
     /**
+     * Live Search on Table
+     */
+    public function search(Request $request)
+    {
+        $output = "";
+        $inventoryItem = Inventory::where('name', 'LIKE', '%'.$request->search.'%')->get();
+
+        foreach($inventoryItem as $inventoryItem)
+        {
+            $output.=
+            '<tr>
+            <td>'.$inventoryItem->name.'</td>
+            <td>'.$inventoryItem->type.'</td>
+            <td>'.$inventoryItem->quantity.'</td>';
+            if($inventoryItem->type == 'Medicine'){
+                $output.='<td>'.$inventoryItem->gram.'</td>';
+            } 
+            else {
+                $output.='<td></td>';
+            }
+            
+            $output.='</tr>';
+        }
+
+        return response($output);
+    }
+    
+    /**
      * Display a listing of the resource.
      */
     public function index()
