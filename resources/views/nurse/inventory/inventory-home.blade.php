@@ -42,7 +42,7 @@
                     <th class="th-position">Item Type</th>
                 </tr>
             </thead>
-            <!-- Body of the table -->
+            <!-- Default body of the table -->
             <tbody class="inventory-content-default">
                 <!-- Showing all items in the inventory table and each item will be called as "inventoryItem" -->
                 @foreach($inventoryItems as $inventoryItem)
@@ -60,6 +60,7 @@
                 @endforeach
             </tbody>
 
+            <!-- Search body of the table -->
             <tbody id="inventory-content" class="inventory-content-search"></tbody>
         </table>
     </div>
