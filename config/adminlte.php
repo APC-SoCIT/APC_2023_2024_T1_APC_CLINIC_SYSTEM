@@ -370,7 +370,7 @@ return [
         ],
         [
             'text' => "Patient's Records",
-            'url' => '#',
+            'route' => 'nurse.recordIndex',
             'icon' => 'fas fa-regular fa-file-medical',
             'can' => 'nurse',
         ],
