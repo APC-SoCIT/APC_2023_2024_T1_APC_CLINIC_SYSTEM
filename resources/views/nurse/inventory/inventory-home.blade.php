@@ -491,7 +491,7 @@
         $.ajax({
             type:'get',
             // Define the URL for the search request (likely configured in a Laravel route).
-            url:'{{ URL::to('search') }}',
+            url:'{{ URL::to('inventory/search') }}',
             // Send the user's input as search data.
             data:{'search':$value},
 
