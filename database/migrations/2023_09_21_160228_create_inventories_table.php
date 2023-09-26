@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('type');
             $table->integer('quantity')->default(0);
+            $table->integer('add_quantity')->default(0);
+            $table->integer('reduce_quantity')->default(0);
             $table->integer('dosage')->default(0);
             $table->timestamps();
         });
