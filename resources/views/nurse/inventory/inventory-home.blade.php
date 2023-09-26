@@ -11,7 +11,7 @@
 <!-- Content Body -->
 @section('content')
 <!-- Body -->
-<div class="container-xxl mb-2 inventory-customize-container-height customize-overflow">
+<div class="container-xxl mb-2 inventory-customize-container-height">
     <!-- Add and Search Item -->
     <div class="row">
         <!-- Adding new item button -->
