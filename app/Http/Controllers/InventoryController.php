@@ -13,9 +13,9 @@ class InventoryController extends Controller
     public function search(Request $request)
     {
         $output = "";
-        $inventoryItem = Inventory::where('name', 'LIKE', '%'.$request->search.'%')->get();
+        $inventoryItems = Inventory::where('name', 'LIKE', '%'.$request->search.'%')->get();
 
-        foreach($inventoryItem as $inventoryItem)
+        foreach($inventoryItems as $inventoryItem)
         {
             $output.=
             '<tr>
@@ -54,11 +54,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //declaring Inventory Model to "inventoryItems" to callout items on inventory table max of 10
-        $inventoryItems = Inventory::orderBy('name', 'asc')->paginate(10);
+        $inventoryItems = Inventory::orderBy('name', 'asc')->get();
 
-        return view('nurse.inventory.inventory-home', compact('inventoryItems'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('nurse.inventory.inventory-home', compact('inventoryItems'));
     }
 
     /**

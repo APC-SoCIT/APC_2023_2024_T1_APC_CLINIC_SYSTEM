@@ -451,9 +451,6 @@
         </div>
     </div>
 </div>
-
-<!-- Buttons that allow to next page of the table -->
-{!! $inventoryItems->links('zomproj.customize-pagination', ['paginator' => $inventoryItems]) !!}
 @stop
 
 <!-- CSS -->
