@@ -186,7 +186,7 @@
                             </div>
 
                             <!-- Reducing Quantity -->
-                            <div class="col-3">
+                            <div class="col-4">
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropReduce{{ $inventoryItem->id }}">Reduce Quantity</button>
                             </div>
 
