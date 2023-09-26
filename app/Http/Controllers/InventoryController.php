@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
 
 class InventoryController extends Controller
 {
@@ -62,7 +60,25 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'type' => 'in:Medicine,Equipment',
+            'quantity' => 'required_if:type,Medicine,Equipment|integer',
+            'dosage' => 'required_if:type,Medicine|integer',
+        ]);
+
+        // Check if a record with the same 'name' (case-insensitive) already exists
+        $existingRecord = Inventory::where('name', 'LIKE', $request->name)->first();
+
+        if ($existingRecord) {
+            // If a record with the same 'name' already exists, return an error message
+            return redirect()->route('nurse.inventoryIndex')
+                ->with('error', 'Item already exist');
+        }
+
+        Inventory::create($request->all());
+        return redirect()->route('nurse.inventoryIndex')
+            ->with('success', 'Item added successfully');
     }
 
     /**

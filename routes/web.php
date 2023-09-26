@@ -57,8 +57,11 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
 
     //inventory
     Route::resource('inventory', InventoryController::class)->names([
-        'index' => 'inventoryIndex',
-    ]);
+        'index' => 'nurse.inventoryIndex',
+        'store' => 'nurse.inventoryStore',
+    ])->except([
+        'show', 'create', 'edit', 'update', 'delete'
+    ]);;
     Route::get('/search', [InventoryController::class, 'search']);
 });
 
