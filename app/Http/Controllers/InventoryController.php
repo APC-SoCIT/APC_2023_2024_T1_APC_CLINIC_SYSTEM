@@ -23,13 +23,27 @@ class InventoryController extends Controller
             <td>'.$inventoryItem->type.'</td>
             <td>'.$inventoryItem->quantity.'</td>';
             if($inventoryItem->type == 'Medicine'){
-                $output.='<td>'.$inventoryItem->gram.'</td>';
+                $output.='<td>'.$inventoryItem->dosage.'</td>';
             } 
             else {
                 $output.='<td></td>';
             }
             
-            $output.='</tr>';
+            $output.=
+            '<td>
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdate'.$inventoryItem->id.'">Update Item</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdropAdd'.$inventoryItem->id.'">Add Quantity</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropReduce'.$inventoryItem->id.'">Reduce Quantity</button>
+                    </div>
+                </div>
+            </td>
+            </tr>';
         }
 
         return response($output);
@@ -98,11 +112,61 @@ class InventoryController extends Controller
     }
 
     /**
+     * Update item info
+     */
+    public function update(Request $request, Inventory $inventoryItem)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'type' => 'in:Medicine,Equipment',
+            'dosage' => 'required_if:type,Medicine|integer',
+        ]);
+
+        $inventoryItem->update($request->all());
+        return redirect()->route('nurse.inventoryIndex')
+            ->with('success', 'Item update successfully');
+    }
+
+    /**
+     * adding quantity
+     */
+    public function add(Request $request, Inventory $inventoryItem)
+    {
+        /**
+         * Update item info
+         */
+        $request->validate([
+            'add_quantity' => 'required|integer',
+        ]);
+    
+        // Ensure the reduce_quantity is less than or equal to the current quantity
+        $newQuantity = $inventoryItem->quantity + $request->input('add_quantity');
+        $inventoryItem->update(['quantity' => $newQuantity]);
+
+        return redirect()->route('nurse.inventoryIndex')
+            ->with('success', "Item's quantity added successfully");
+    }
+
+    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inventory $inventory)
+    public function reduce(Request $request, Inventory $inventoryItem)
     {
-        //
+        $request->validate([
+            'reduce_quantity' => 'required|integer',
+        ]);
+    
+        // Ensure the reduce_quantity is less than or equal to the current quantity
+        if ($request->input('reduce_quantity') <= $inventoryItem->quantity) {
+            $newQuantity = $inventoryItem->quantity - $request->input('reduce_quantity');
+            $inventoryItem->update(['quantity' => $newQuantity]);
+    
+            return redirect()->route('nurse.inventoryIndex')
+                ->with('success', "Item's quantity deducted successfully");
+        } else {
+            return redirect()->route('nurse.inventoryIndex')
+                ->with('error', 'Input cannot exceed on the current quantity');
+        }
     }
 
     /**

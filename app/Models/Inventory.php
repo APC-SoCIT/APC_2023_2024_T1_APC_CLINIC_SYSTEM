@@ -13,6 +13,8 @@ class Inventory extends Model
         'name',
         'type',
         'quantity',
+        'add_quantity',
+        'reduce_quantity',
         'dosage',
     ];
 }
