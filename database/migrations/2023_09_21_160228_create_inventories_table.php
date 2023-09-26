@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('gram')->default(0);
-            $table->integer('quantity')->default(0);
             $table->string('type');
+            $table->integer('quantity')->default(0);
+            $table->integer('dosage')->default(0);
             $table->timestamps();
         });
     }
