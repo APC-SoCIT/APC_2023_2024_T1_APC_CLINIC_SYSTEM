@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RecordController;
 use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,17 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     //homepage
     Route::get('/nurse/home', [HomeController::class, 'nurseHome'])->name('nurseHome');
 
+    //record
+    Route::resource('/nurse/record', RecordController::class)->names([
+        'index' => 'nurse.recordIndex',
+        'store' => 'nurse.recordStore',
+    ])->except([
+        'show', 'create', 'edit', 'update', 'delete'
+    ]);;
+
+    //record (Extra)
+    Route::get('/record/search', [InventoryController::class, 'search']);
+
     //inventory
     Route::resource('/nurse/inventory', InventoryController::class)->names([
         'index' => 'nurse.inventoryIndex',
@@ -72,7 +84,7 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
         ->name('nurse.inventoryReduce');
     
     //inventory (Extra)
-    Route::get('/search', [InventoryController::class, 'search']);
+    Route::get('/inventory/search', [InventoryController::class, 'search']);
 });
 
 //Doctor
