@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InventoryController extends Controller
 {
@@ -22,6 +23,8 @@ class InventoryController extends Controller
             <td>'.$inventoryItem->name.'</td>
             <td>'.$inventoryItem->type.'</td>
             <td>'.$inventoryItem->quantity.'</td>';
+
+            //If item type is 'Medicine'
             if($inventoryItem->type == 'Medicine'){
                 $output.='<td>'.$inventoryItem->dosage.' mg</td>';
             } 
@@ -73,20 +76,19 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('inventories')->where(function ($query) use ($request) {
+                    return $query->where('type', $request->type)
+                        ->orWhere('dosage', $request->dosage);
+                }),
+            ],
             'type' => 'in:Medicine,Equipment',
             'quantity' => 'required_if:type,Medicine,Equipment|integer',
             'dosage' => 'required_if:type,Medicine|integer',
         ]);
-
-        // Check if a record with the same 'name' (case-insensitive) already exists
-        $existingRecord = Inventory::where('name', 'LIKE', $request->name)->first();
-
-        if ($existingRecord) {
-            // If a record with the same 'name' already exists, return an error message
-            return redirect()->route('nurse.inventoryIndex')
-                ->with('error', 'Item already exist');
-        }
 
         Inventory::create($request->all());
         return redirect()->route('nurse.inventoryIndex')
@@ -115,14 +117,28 @@ class InventoryController extends Controller
     public function update(Request $request, Inventory $inventoryItem)
     {
         $request->validate([
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('inventories')
+                    ->ignore($inventoryItem->id)
+                    ->where(function ($query) use ($request) {
+                        return $query->where('type', $request->type)
+                            ->orWhere('dosage', $request->dosage);
+                    }),
+            ],
             'type' => 'in:Medicine,Equipment',
             'dosage' => 'required_if:type,Medicine|integer',
         ]);
 
+        // Capitalize the 'name' before updating
+        $request->merge(['name' => ucwords($request->input('name'))]);
+
         $inventoryItem->update($request->all());
+
         return redirect()->route('nurse.inventoryIndex')
-            ->with('success', 'Item update successfully');
+            ->with('success', 'Item updated successfully');
     }
 
     /**
