@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-9">
                     @if($errors->has('name') || $errors->has('type') || $errors->has('quantity') || $errors->has('dosage'))
-                    <div class="alert alert-danger">Adding fail, there are missing credentials</div>
+                    <div class="alert alert-danger">Adding fail, there must be missing credential or errors</div>
                     @endif
                     <!-- id Item already exist -->
                     @if(session('error'))
@@ -491,7 +491,7 @@
         $.ajax({
             type:'get',
             // Define the URL for the search request (likely configured in a Laravel route).
-            url:'{{ URL::to('inventory/search') }}',
+            url:'{{ route('nurse.inventorySearch') }}',
             // Send the user's input as search data.
             data:{'search':$value},
 
