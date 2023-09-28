@@ -74,11 +74,12 @@
                     <td>{{ $inventoryItem->type }}</td>
                     <td>{{ $inventoryItem->quantity }}</td>
                     <!-- If Item type is 'Medicine', show 'dosages' -->
-                    @if($inventoryItem->type == 'Medicine')
-                    <td>{{ $inventoryItem->dosage }} mg</td>
-                    @else
-                    <td></td>
-                    @endif
+                    <td>    
+                        @if($inventoryItem->type == 'Medicine')
+                        {{ $inventoryItem->dosage }} mg
+                        @else
+                        @endif
+                    </td>
                     <td>
                         <div class="row justify-content-center">
                             <!-- Update Info Button -->
