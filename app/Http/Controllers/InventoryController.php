@@ -23,7 +23,7 @@ class InventoryController extends Controller
             <td>'.$inventoryItem->type.'</td>
             <td>'.$inventoryItem->quantity.'</td>';
             if($inventoryItem->type == 'Medicine'){
-                $output.='<td>'.$inventoryItem->dosage.'</td>';
+                $output.='<td>'.$inventoryItem->dosage.' mg</td>';
             } 
             else {
                 $output.='<td></td>';
