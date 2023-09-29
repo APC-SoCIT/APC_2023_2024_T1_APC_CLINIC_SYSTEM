@@ -56,18 +56,21 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     //homepage
     Route::get('/nurse/home', [HomeController::class, 'nurseHome'])->name('nurseHome');
 
-    //record
+    // record //////////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/record', RecordController::class)->names([
         'index' => 'nurse.recordIndex',
+        'create' => 'nurse.recordCreate',
         'store' => 'nurse.recordStore',
+        'show' => 'nurse.recordShow',
     ])->except([
-        'show', 'create', 'edit', 'update', 'delete'
+        'edit', 'update', 'delete'
     ]);;
 
     //record (Extra)
-    Route::get('/record/search', [InventoryController::class, 'search']);
+    Route::get('/record/search', [RecordController::class, 'search'])
+        ->name('nurse.recordSearch');
 
-    //inventory
+    // inventory ///////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/inventory', InventoryController::class)->names([
         'index' => 'nurse.inventoryIndex',
         'store' => 'nurse.inventoryStore',
@@ -84,7 +87,8 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
         ->name('nurse.inventoryReduce');
     
     //inventory (Extra)
-    Route::get('/inventory/search', [InventoryController::class, 'search']);
+    Route::get('/inventory/search', [InventoryController::class, 'search'])
+        ->name('nurse.inventorySearch');
 });
 
 //Doctor

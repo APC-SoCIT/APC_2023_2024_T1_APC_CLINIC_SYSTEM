@@ -14,11 +14,47 @@ class RecordController extends Controller
     public function search(Request $request)
     {
         $output = "";
-        $users = User::where('name', 'LIKE', '%'.$request->search.'%')->get();
+        $users = User::where('name', 'LIKE', '%'.$request->search.'%')
+            ->whereNotIn('role_id', [5, 6, 7, 8])
+            ->get();
+        $records = Record::get();
 
         foreach($users as $user)
         {
+            $output.='<tr>
+            <td>'. $user->name.'</td>
+            <td>'. $user->school_id .'</td>';
             
+            // if patient has course or specialization
+            if($user->course || $user->specialization){
+                $output.='<td>'. $user->course ?: $user->specialization .'</td>';
+            } else {
+                $output.='<td>Not Applicable</td>';
+            }
+
+            // if patient has grade or year
+            if($user->grade || $user->year){
+                $output.='<td>'. $user->grade ?: $user->year .'</td>';
+            } else {
+                $output.='<td>Not Applicable</td>';
+            }
+
+            // if patient has section
+            if($user->section){
+                $output.='<td>'. $user->sectiuon .'</td>';
+            } else {
+                $output.='<td>Not Applicable</td>';
+            }
+            
+            $output.='<td>'. $user->role->role .'</td>
+            <td>';
+            if($records->where('user_id', $user->id)->isEmpty()){
+                $output.="<button type='button' href='". route("nurse.recordCreate") ."' class='btn btn-success'>Create Patient's Health Record</button>";
+            } else {
+                $output.="<button type='button' href='". route("nurse.recordShow") ."' class='btn btn-info'>Show Patient's Health Record</button>";
+            }
+
+            $output.='</td></tr>';
         }
 
         return response($output);
@@ -32,7 +68,7 @@ class RecordController extends Controller
         $users = User::whereNotIn('role_id', [5, 6, 7, 8])
             ->orderBy('name', 'asc')
             ->paginate(10);
-        $records = Record::all();
+        $records = Record::get();
 
         //if(auth()->user()->role->role == 'Student')
         //{
@@ -69,7 +105,7 @@ class RecordController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
