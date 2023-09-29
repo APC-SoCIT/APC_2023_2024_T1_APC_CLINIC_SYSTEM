@@ -105,7 +105,7 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <label><b>Item Name:</b></label>
-                                                        <input type="text" class="form-control" name="name" value="{{ $inventoryItem->name }}" required>
+                                                        <input type="text" class="form-control" name="name" value="{{ old('name', $inventoryItem->name) }}" required>
                                                         @error('name')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
@@ -123,7 +123,7 @@
                                                 <div class="row update-choosen-medicine" id="update-choosen-medicine-{{ $inventoryItem->id }}">
                                                     <div class="col">
                                                         <label><b>Dosage:</b></label>
-                                                        <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->id }}" name="dosage" value="{{ $inventoryItem->dosage }}">
+                                                        <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->id }}" name="dosage" value="{{ old('dosage', $inventoryItem->dosage) }}">
                                                         @error('dosage')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
@@ -257,7 +257,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <label><b>Item Name:</b></label>
-                                            <input type="text" class="form-control" name="name" value="{{ $inventoryItem->name }}" required>
+                                            <input type="text" class="form-control" name="name" value="{{ old('name', $inventoryItem->name) }}" required>
                                             @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -275,7 +275,7 @@
                                     <div class="row update-choosen-medicine" id="update-choosen-medicine-{{ $inventoryItem->id }}">
                                         <div class="col">
                                             <label><b>Dosage:</b></label>
-                                            <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->id }}" name="dosage" value="{{ $inventoryItem->dosage }}">
+                                            <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->id }}" name="dosage" value="{{ old('dosage', $inventoryItem->dosage) }}">
                                             @error('dosage')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -395,7 +395,7 @@
                     <div class="row">
                         <div class="col">
                             <label><b>Item Name:</b></label>
-                            <input type="text" class="form-control" name="name" required>
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
                             @error('name')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -416,14 +416,14 @@
                     <div class="row" id="choosen-medicine">
                         <div class="col">
                             <label><b>Quantity:</b></label>
-                            <input type="number" class="form-control" id="quantity-status-1" name="quantity">
+                            <input type="number" class="form-control" id="quantity-status-1" name="quantity" value="{{ old('quantity') }}">
                             @error('quantity')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col">
                             <label><b>Dosage:</b></label>
-                            <input type="number" class="form-control" id="dosage-status" name="dosage">
+                            <input type="number" class="form-control" id="dosage-status" name="dosage" value="{{ old('dosage') }}">
                             @error('dosage')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -434,7 +434,7 @@
                     <div class="row" id="choosen-equipment" style="display: none;">
                         <div class="col">
                             <label><b>Quantity:</b></label>
-                            <input type="number" class="form-control" id="quantity-status-2" name="quantity" disabled>
+                            <input type="number" class="form-control" id="quantity-status-2" name="quantity" value="{{ old('quantity') }}" disabled>
                             @error('quantity')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
