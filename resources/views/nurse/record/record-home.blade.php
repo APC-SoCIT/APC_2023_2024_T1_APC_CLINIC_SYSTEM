@@ -75,9 +75,11 @@
                     <!-- Show Patient's Record -->
                     <td class="text-center">
                     @if($records->where('user_id', $user->id)->isEmpty())
-                        <a href="{{ route('nurse.recordCreate', $user->id) }}" class="btn btn-success">Create Patient's Health Record</a>
+                    <a href="{{ route('nurse.recordCreate', $user->id) }}" class="btn btn-success">Create Patient's Health Record</a>
                     @else
-                        <a href="{{ route('nurse.recordShow', $records->id) }}" class="btn btn-info">Show Patient's Health Record</a>
+                        @foreach($records->where('user_id', $user->id) as $record)
+                        <a href="{{ route('nurse.recordShow', $record->id) }}" class="btn btn-info">Show Patient's Health Record</a>
+                        @endforeach
                     @endif
                     </td>
                 </tr>
