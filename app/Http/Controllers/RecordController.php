@@ -49,9 +49,9 @@ class RecordController extends Controller
             $output.='<td>'. $user->role->role .'</td>
             <td>';
             if($records->where('user_id', $user->id)->isEmpty()){
-                $output.="<button type='button' href='". route("nurse.recordCreate") ."' class='btn btn-success'>Create Patient's Health Record</button>";
+                $output.="<a href='". route("nurse.recordCreate", $user->id) ."' class='btn btn-success'>Create Patient's Health Record</a>";
             } else {
-                $output.="<button type='button' href='". route("nurse.recordShow") ."' class='btn btn-info'>Show Patient's Health Record</button>";
+                $output.="<a href='". route("nurse.recordShow", $records->id) ."' class='btn btn-info'>Show Patient's Health Record</a>";
             }
 
             $output.='</td></tr>';
@@ -103,9 +103,9 @@ class RecordController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(User $user)
     {
-        
+        return view('nurse.record.record-create', compact('user'));
     }
 
     /**
@@ -113,7 +113,29 @@ class RecordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'integer',
+            'birth_date' => 'required|date',
+            'age' => 'integer',
+            'sex' => 'in:Male,Female',
+            'civil_status' => 'in:Single,Married,Divorced,Widowed',
+            'address' => 'required|string',
+            'street' => 'required|string',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'zip' => 'required|string',
+            'mobile_number' => 'required|regex:/^09\d{9}$/',
+            'contact_person' => 'required|string',
+            'contact_person_number' => 'required|regex:/^09\d{9}$/',
+        ], [
+            'mobile_number.regex' => 'The input for mobile number must contain \'09\' at the start.',
+            'contact_person_number.regex' => 'The input for contact person number must contain \'09\' at the start.',
+        ]);
+
+        Record::create($request->all());
+
+        return redirect()->route('nurse.recordIndex')
+            ->with('success', 'Record created successfully');
     }
 
     /**
