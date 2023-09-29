@@ -19,6 +19,10 @@ return new class extends Migration
             $table->enum('sex', ['Male', 'Female']);
             $table->enum('civil_status', ['Single', 'Married', 'Divorced', 'Widowed']);
             $table->string('address');
+            $table->string('street');
+            $table->string('city');
+            $table->string('province');
+            $table->string('zip');
             $table->string('mobile_number');
             $table->string('contact_person');
             $table->string('contact_person_number');
