@@ -64,6 +64,7 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     ])->except([
         'edit', 'create', 'update', 'delete'
     ]);
+    
     // record alternatives
     Route::get('/nurse/record/create/{user}', [RecordController::class, 'create'])
         ->name('nurse.recordCreate');
