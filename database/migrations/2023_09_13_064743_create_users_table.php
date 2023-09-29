@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('school_id')->nullable(); //ID
+            $table->enum('course', ['BSCS', 'BSIT'])->nullable();
+            $table->enum('specialization', ['Computer Science',])->nullable();
             $table->enum('grade', ['11', '12'])->nullable();
             $table->enum('year', ['1st', '2nd', '3rd', '4th'])->nullable();
-            $table->enum('specialization', ['1st', '2nd', '3rd', '4th'])->nullable();
+            $table->string('section')->nullable();
             $table->timestamps();
 
             // Add foreign key constraint 
