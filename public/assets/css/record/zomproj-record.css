@@ -2,6 +2,16 @@
     height: 550px;
 }
 
+.record-customize-create-container-height{
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.record-create-width{
+    width: 1250px;
+}
+
 .record-customize-dropdown{
     z-index: 3; 
     background-color: #fbfbfb; 
