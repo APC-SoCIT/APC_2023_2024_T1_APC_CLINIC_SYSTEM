@@ -75,9 +75,9 @@
                     <!-- Show Patient's Record -->
                     <td class="text-center">
                     @if($records->where('user_id', $user->id)->isEmpty())
-                        <button type="button" href="{{ route('nurse.recordCreate') }}" class="btn btn-success">Create Patient's Health Record</button>
+                        <a href="{{ route('nurse.recordCreate', $user->id) }}" class="btn btn-success">Create Patient's Health Record</a>
                     @else
-                        <button type="button" href="{{ route('nurse.recordShow') }}" class="btn btn-info">Show Patient's Health Record</button>
+                        <a href="{{ route('nurse.recordShow', $records->id) }}" class="btn btn-info">Show Patient's Health Record</a>
                     @endif
                     </td>
                 </tr>
