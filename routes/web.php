@@ -59,14 +59,16 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     // record //////////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/record', RecordController::class)->names([
         'index' => 'nurse.recordIndex',
-        'create' => 'nurse.recordCreate',
         'store' => 'nurse.recordStore',
         'show' => 'nurse.recordShow',
     ])->except([
-        'edit', 'update', 'delete'
-    ]);;
+        'edit', 'create', 'update', 'delete'
+    ]);
+    // record alternatives
+    Route::get('/nurse/record/create/{user}', [RecordController::class, 'create'])
+        ->name('nurse.recordCreate');
 
-    //record (Extra)
+    // record (Extra)
     Route::get('/record/search', [RecordController::class, 'search'])
         ->name('nurse.recordSearch');
 
@@ -77,16 +79,18 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     ])->except([
         'show', 'create', 'edit', 'update', 'delete'
     ]);;
+
+    // inventory alternatives
     Route::put('/nurse/inventory/{inventoryItem}', [InventoryController::class, 'update'])
         ->name('nurse.inventoryUpdate');
 
-    //inventory (Update Extra)
+    // inventory (Update Extra)
     Route::put('/nurse/inventory/{inventoryItem}/add', [InventoryController::class, 'add'])
         ->name('nurse.inventoryAdd');
     Route::put('/nurse/inventory/{inventoryItem}/reduce', [InventoryController::class, 'reduce'])
         ->name('nurse.inventoryReduce');
     
-    //inventory (Extra)
+    // inventory (Extra)
     Route::get('/inventory/search', [InventoryController::class, 'search'])
         ->name('nurse.inventorySearch');
 });
