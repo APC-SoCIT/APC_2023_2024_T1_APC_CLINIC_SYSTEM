@@ -122,7 +122,7 @@
             <!-- Mobile Number -->
             <div class="col">
                 <label>Mobile Number:</label>
-                <input type="text" class="form-control" name="mobile_number" value="{{ old('mobile_number') }}" required>
+                <input type="text" class="form-control" name="mobile_number" value="{{ old('mobile_number') }}" placeholder="09*********" required>
                 @error('mobile_number')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -140,7 +140,7 @@
             <!-- Contact Person Number -->
             <div class="col">
                 <label>Contact Person Number:</label>
-                <input type="text" class="form-control" name="contact_person_number" value="{{ old('contact_person_number') }}" required>
+                <input type="text" class="form-control" name="contact_person_number" value="{{ old('contact_person_number') }}" placeholder="09*********" required>
                 @error('contact_person_number')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
