@@ -25,6 +25,15 @@ class Record extends Model
         'contact_person_number',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'birth_date' => 'date:m-d-Y',
+    ];
+
     //where this model belong to other model
     public function user(){
         return $this->belongsTo(User::class);
