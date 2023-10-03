@@ -1,22 +1,80 @@
+/* Font will be used */
+span.info{font-family: 'Oswald', sans-serif;}
+label.info{font-family: 'Oswald', sans-serif;}
+
+/* CSS for Home */
 .record-customize-container-height{
     height: 550px;
 }
 
+/* CSS for Create */
 .record-customize-create-container-height{
     height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
+/* Inside size for create */
 .record-create-width{
     width: 1250px;
 }
 
-.record-customize-dropdown{
-    z-index: 3; 
-    background-color: #fbfbfb; 
-    position: absolute; 
-    width: 590px;
+/* CSS for Show */
+.record-customize-show-container-height{
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Inside size for show */
+.record-show-width{
+    width: 1250px;
+}
+
+.record-show-info-header{
+    width: 1235px;
+    box-shadow: 1px 1px 10px 1px;
+}
+
+/* Consultation stick on the top or top of Medical Exam*/
+.record-show-consultation-header{
+    width: 1235px;
+    position: sticky;
+    top: 0;
+    bottom: 90px;
+}
+
+/* Medical Exam stick on top of Dental Exam or next to Consultation */
+.record-show-medical-exam-header{
+    width: 1235px;
+    position: sticky;
+    top: 45px;
+    bottom: 45px;
+}
+
+/* Dental Exam stick on bot or next to Medical Exam */
+.record-show-dental-exam-header{
+    width: 1235px;
+    position: sticky;
+    top: 90px;
+    bottom: 0;
+}
+
+/* Content */
+#consultation-content{
+    width: 1235px;
+    height: 1000px;
+    display: none; /* Hide it initially */
+}
+#medical-exam-content{
+    width: 1235px;
+    height: 1000px;
+    display: none; /* Hide it initially */
+}
+#dental-exam-content{
+    width: 1235px;
+    height: 1000px;
+    display: none; /* Hide it initially */
 }
 
 /* Custom table */
