@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Record;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RecordController extends Controller
@@ -143,7 +144,7 @@ class RecordController extends Controller
      */
     public function show(Record $record)
     {
-        //
+        return view('nurse.record.record-show', compact('record'));
     }
 
     /**
