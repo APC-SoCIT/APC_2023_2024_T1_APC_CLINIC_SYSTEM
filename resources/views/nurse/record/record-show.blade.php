@@ -128,22 +128,39 @@
 
     <!-- Consultation -->
     <div class="record-show-consultation-header border-top border-bottom border-secondary btn-info mx-auto text-center" id="consultation-header">
-        <label class="info h3">Consultation</label>
+        <label class="info h4">Consultation</label>
     </div>
+    <!-- If user doesn't have made Consultation -->
+    <div class="border border-secondary mx-auto text-center" id="consultation-content-empty">
+        <span class="info">No Consultation has been made, would you like to <a href="#">Create</a>?</span> 
+    </div>
+    <!-- If user have made Consultation -->
     <div class="border border-secondary mx-auto" id="consultation-content">
     </div>
+    
 
     <!-- Medical Medical -->
     <div class="record-show-medical-exam-header border-top border-bottom border-secondary btn-info mx-auto mx-auto text-center" id="medical-exam-header">
-        <label class="info h3">Medical Exam</label>
+        <label class="info h4">Medical Exam</label>
     </div>
+    <!-- If user doesn't have made Medical Exam -->
+    <div class="border border-secondary mx-auto text-center" id="medical-exam-content-empty">
+        <span class="info">No Medical Exam has been made, would you like to <a href="#">Create</a>?</span> 
+    </div>
+    <!-- If user have made Medical Exam -->
     <div class="border border-secondary mx-auto" id="medical-exam-content">
     </div>
-
+    
+    
     <!-- Dental Record -->
     <div class="record-show-dental-exam-header border-top border-bottom border-secondary btn-info mx-auto mx-auto text-center" id="dental-exam-header">
-        <label class="info h3">Dental Exam</label>
+        <label class="info h4">Dental Exam</label>
     </div>
+    <!-- If user doesn't have made Dental Exam -->
+    <div class="border border-secondary mx-auto text-center" id="dental-exam-content-empty">
+        <span class="info">No Dental Exam has been made, only the dentist can provide this area.</span> 
+    </div>
+    <!-- If user have made Dental Exam -->
     <div class="border border-secondary mx-auto" id="dental-exam-content">
     </div>
 </div>
@@ -176,8 +193,13 @@
     $(document).ready(function () {
         // When the consultation-header is clicked
         $("#consultation-header").click(function () {
+            @if (isset($record->consultations->record_id) === $record->id)
             // Show consultation-content
             $("#consultation-content").slideToggle(500);
+            @else
+            // Show consultation-empty-content
+            $("#consultation-content-empty").slideToggle(100);
+            @endif;
         });
 
         // When the medical-exam-header is clicked
