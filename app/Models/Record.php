@@ -38,4 +38,10 @@ class Record extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    //how many relationship does this model have with other models
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
 }
