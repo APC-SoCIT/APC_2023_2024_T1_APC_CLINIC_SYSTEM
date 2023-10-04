@@ -76,6 +76,21 @@ label.info{font-family: 'Oswald', sans-serif;}
     height: 1000px;
     display: none; /* Hide it initially */
 }
+#consultation-content-empty{
+    width: 1235px;
+    height: 30px;
+    display: none; /* Hide it initially */
+}
+#medical-exam-content-empty{
+    width: 1235px;
+    height: 30px;
+    display: none; /* Hide it initially */
+}
+#dental-exam-content-empty{
+    width: 1235px;
+    height: 30px;
+    display: none; /* Hide it initially */
+}
 
 /* Custom table */
 .customize-table-container {
