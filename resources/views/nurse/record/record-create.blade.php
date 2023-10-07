@@ -24,17 +24,29 @@
         <div class="row border border-3 record-create-width mx-auto py-3">
             <!-- Birthdate -->
             <div class="col">
-                <label>Birthdate:</label>
-                <input type="date" class="form-control" name="birth_date" id="birth_date" value="{{ old('birth_date') }}" onchange="calculateAge()">
-                @error('birth_date')
-                <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
+                <div class="row">
+                    <div class="col-sm-2 pt-2">
+                        <label>Birthdate:</label>
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control" name="birth_date" id="birth_date" value="{{ old('birth_date') }}" onchange="calculateAge()">
+                        @error('birth_date')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <!-- Age -->
             <div class="col">
-                <label>Age:</label>
-                <input type="number" class="form-control" style="cursor: auto;" name="age" id="age" value="{{ old('age') }}" readonly>
+                <div class="row">
+                    <div class="col-sm-1 pt-2">
+                        <label>Age:</label>
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control-plaintext" style="cursor: auto;" name="age" id="age" placeholder="0" value="{{ old('age') }}" readonly>
+                    </div>
+                </div>
             </div>
         </div>
         
