@@ -14,7 +14,8 @@
 <a class="btn btn-danger mb-2" href="{{ route('nurse.recordIndex') }}">Go Back</a>
 
 <!-- Body -->
-<div class="container-xxl mb-2 record-customize-show-container-height">
+<div class="container-xxl border mb-2 record-customize-show-container-height">
+    <!-- General Head -->
     <div class="row mx-auto mt-4 mb-2 record-show-info-header">
         <!-- Left Side -->
         <div class="col">
@@ -136,6 +137,7 @@
     </div>
     <!-- If user have made Consultation -->
     <div class="border border-secondary mx-auto" id="consultation-content">
+        @if(isset($record->consultations))
         @if(isset($record) && !empty($record))
         <!-- Date that being created (Automated) -->
         <div class="row mx-auto">
@@ -249,6 +251,7 @@
                 @endif
             </div>
         </div>
+        @endif
         @endif
     </div>
     
