@@ -41,6 +41,7 @@ label.info{font-family: 'Oswald', sans-serif;}
     width: 1235px;
     position: sticky;
     top: 0;
+    z-index: 2;
 }
 
 /* Medical Exam stick on top of Dental Exam or next to Consultation */
@@ -49,6 +50,7 @@ label.info{font-family: 'Oswald', sans-serif;}
     position: sticky;
     top: 39px;
     bottom: 38px;
+    z-index: 2;
 }
 
 /* Dental Exam stick on bot or next to Medical Exam */
@@ -57,12 +59,13 @@ label.info{font-family: 'Oswald', sans-serif;}
     position: sticky;
     top: 78px;
     bottom: 0;
+    z-index: 2;
 }
 
 /* Content */
 #consultation-content{
     width: 1235px;
-    height: 1000px;
+    height: auto;
     display: none; /* Hide it initially */
 }
 #medical-exam-content{
