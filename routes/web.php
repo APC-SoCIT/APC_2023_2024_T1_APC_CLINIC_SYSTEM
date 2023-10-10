@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RecordController;
+use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,7 +72,20 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
 
     // record (Extra)
     Route::get('/record/search', [RecordController::class, 'search'])
-        ->name('nurse.recordSearch');
+    ->name('nurse.recordSearch');
+        
+    // record (Consultation part) //////////////////////////////////////////////////////////////////
+    Route::resource('nurse/record/consultation', ConsultationController::class)->names([
+        'store' => 'nurse.consultationStore',
+        'edit' => 'nurse.consultationEdit',
+        'update' => 'nurse.consultationUpdate',
+    ])->except([
+        'index', 'create', 'delete'
+    ]);
+
+    // record alternatives
+    Route::get('/nurse/record/consultation/create/{record}', [ConsultationController::class, 'create'])
+        ->name('nurse.consultationCreate');
 
     // inventory ///////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/inventory', InventoryController::class)->names([

@@ -132,10 +132,124 @@
     </div>
     <!-- If user doesn't have made Consultation -->
     <div class="border border-secondary mx-auto text-center" id="consultation-content-empty">
-        <span class="info">No Consultation has been made, would you like to <a href="#">Create</a>?</span> 
+        <span class="info">No Consultation has been made, would you like to <a href="{{ route('nurse.consultationCreate', $record->id ) }}">Create</a>?</span> 
     </div>
     <!-- If user have made Consultation -->
     <div class="border border-secondary mx-auto" id="consultation-content">
+        @if(isset($record) && !empty($record))
+        <!-- Date that being created (Automated) -->
+        <div class="row mx-auto">
+            <div class="col pt-2 text-right">
+                <i class="far fa-calendar"></i>
+                <span class="info">{{ $record->consultations->date_created->format('F d, Y') }}</span>
+            </div>
+        </div>
+
+        <!-- First Row -->
+        <div class="border border-2 row row-cols-2 pt-2 mt-2 mx-auto">
+            <!-- Complaint -->
+            <div class="col-sm-2">
+                <label class="info h2">Complaint: </label>
+            </div>
+            <div class="col-md-5">
+                <span class="info h2">{{ $record->consultations->consultation_responses->complaint }}</span>
+            </div>
+        </div>
+            
+        <!-- Second Row -->
+        <div class="border border-2 row row-cols-1 mt-1 pt-2 mx-auto">
+            <div class="col">
+                <label class="info h3">Vital Signs:</label>
+            </div>
+            
+            <div class="col mb-1">
+                <!-- Vital Signs -->
+                <div class="row mt-1 mx-auto">
+                    <!-- Heart Rate -->
+                    <div class="col pb-2 border border-1">
+                        <div class="row row-cols-1">
+                            <div class="col">
+                                <label class="info">Pulse / Heart Rate:</label>
+                            </div>
+                            <div class="col text-center">
+                                <span class="info">{{ $record->consultations->consultation_responses->pulse }} BPM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- O2 Stat -->
+                    <div class="col pb-2 border border-1">
+                        <div class="row row-cols-1">
+                            <div class="col">
+                                <label class="info">O2 Stat:</label>
+                            </div>
+                            <div class="col text-center">
+                                <span class="info">{{ $record->consultations->consultation_responses->oxygen }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Respiratory Rate -->
+                    <div class="col pb-2 border border-1">
+                        <div class="row row-cols-1">
+                            <div class="col">
+                                <label class="info">Respiratory Rate:</label>
+                            </div>
+                            <div class="col text-center">
+                                <span class="info">{{ $record->consultations->consultation_responses->respiratory_rate }} BPM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Blood Pressure -->
+                    <div class="col pb-2 border border-1">
+                        <div class="row row-cols-1">
+                            <div class="col">
+                                <label class="info">Blood Pressure (mm/hg):</label>
+                            </div>
+                            <div class="col text-center">
+                                <span class="info">{{ $record->consultations->consultation_responses->top_bp }} / {{ $record->consultations->consultation_responses->bot_bp }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Temperature -->
+                    <div class="col pb-2 border border-1">
+                        <div class="row row-cols-1">
+                            <div class="col">
+                                <label class="info">Temperature:</label>
+                            </div>
+                            <div class="col text-center">
+                                <span class="info">{{ $record->consultations->consultation_responses->temperature }}°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Third Row -->
+        <div class="border border-2 row row-cols-1 mt-1 py-2 mx-auto">
+            <div class="col">
+                <label class="info h3">Treatment:</label>
+            </div>
+            <div class="col">
+                <textarea class="form-control-plaintext" name="treatment" rows="auto" readonly>{{ $record->consultations->consultation_responses->treatment }}</textarea>
+            </div>
+        </div>
+        
+        <!-- Fourth Row -->
+        <div class="border border-2 row row-cols-1 mt-1 py-1 mx-auto">
+            <div class="col">
+                <label class="info h3">Nurse Remark:</label>
+                @if($record->consultations->consultation_responses->remarks === 'Monitoring Case')
+                <span class="info h3 text-warning">Monitoring Case</span>
+                @else
+                <span class="info h3 text-success">Resolved Case</span>
+                @endif
+            </div>
+        </div>
+        @endif
     </div>
     
 
@@ -193,7 +307,7 @@
     $(document).ready(function () {
         // When the consultation-header is clicked
         $("#consultation-header").click(function () {
-            @if (isset($record->consultations->record_id) === $record->id)
+            @if (isset($record->consultations))
             // Show consultation-content
             $("#consultation-content").slideToggle(500);
             @else
