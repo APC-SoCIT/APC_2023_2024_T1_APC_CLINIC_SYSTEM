@@ -42,6 +42,6 @@ class Record extends Model
     //how many relationship does this model have with other models
     public function consultations()
     {
-        return $this->hasMany(Consultation::class);
+        return $this->hasOne(Consultation::class);
     }
 }
