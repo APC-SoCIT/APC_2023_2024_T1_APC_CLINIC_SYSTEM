@@ -22,3 +22,5 @@
 10. Next, type `php artisan migrate` after the migrate, type `php artisan db:seed` to generate data on migrate table
 11. Finally run the node.js by typing in your terminal `npm run dev`
 12. Open new terminal or mirror the existing one on your Visual Studio Code and type `php artisan serve` 
+
+Note: If there are no other files for the framework, you might be in the main branch to change this, type 'git switch framework' onto the terminal to switch.
