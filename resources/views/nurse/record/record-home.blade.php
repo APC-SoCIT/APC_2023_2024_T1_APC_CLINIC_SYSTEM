@@ -77,9 +77,7 @@
                     @if($records->where('user_id', $user->id)->isEmpty())
                     <a href="{{ route('nurse.recordCreate', $user->id) }}" class="btn btn-success">Create Patient's Health Record</a>
                     @else
-                        @foreach($records->where('user_id', $user->id) as $record)
-                        <a href="{{ route('nurse.recordShow', $record->id) }}" class="btn btn-info">Show Patient's Health Record</a>
-                        @endforeach
+                    <a href="{{ route('nurse.recordShow', $user->record->id) }}" class="btn btn-info">Show Patient's Health Record</a>
                     @endif
                     </td>
                 </tr>
@@ -137,8 +135,6 @@
 
             // When the server responds successfully, update the page with the received data.
             success:function(data){
-                // Log the received data to the console for debugging.
-                console.log(data);
                 // Replace the HTML content of an element with id 'Content' with the new data.
                 $('#record-content').html(data)
             }
