@@ -52,7 +52,7 @@ class RecordController extends Controller
             if($records->where('user_id', $user->id)->isEmpty()){
                 $output.="<a href='". route("nurse.recordCreate", $user->id) ."' class='btn btn-success'>Create Patient's Health Record</a>";
             } else {
-                $output.="<a href='". route("nurse.recordShow", $records->id) ."' class='btn btn-info'>Show Patient's Health Record</a>";
+                $output.="<a href='". route("nurse.recordShow", $user->record->id) ."' class='btn btn-info'>Show Patient's Health Record</a>";
             }
 
             $output.='</td></tr>';
