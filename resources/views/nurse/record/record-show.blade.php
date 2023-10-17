@@ -138,120 +138,47 @@
     <!-- If user have made Consultation -->
     <div class="border border-secondary mx-auto" id="consultation-content">
         @if(isset($record->consultations))
-        @if(isset($record) && !empty($record))
         <!-- Date that being created (Automated) -->
-        <div class="row mx-auto">
+        <!-- Options -->
+        <div class="row mx-auto my-1">
+            <div class="col pt text-left">
+                <a class="info btn btn-info" href="{{ route('nurse.consultationCreate', $record->id ) }}">Create</a>
+            </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
-                <span class="info">{{ $record->consultations->date_created->format('F d, Y') }}</span>
+                <select class="info" id="date" name="date" data-record-id="{{ $record->id }}">
+                    <option selected disabled hidden>Select Date</option>
+                    @foreach($record->consultations as $consultation)
+                        <option data-status="{{ $consultation->consultation_response->remarks }}"
+                                data-date="{{ $consultation->date_created->format('m-d-Y') }}"
+                                class="@if($consultation->consultation_response->remarks === 'Monitoring Case') 
+                                            text-warning 
+                                        @else 
+                                            text-success 
+                                        @endif"
+                                value="{{ $consultation->id }}">
+                            {{ $consultation->date_created->format('F d, Y') }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
         <!-- First Row -->
-        <div class="border border-2 row row-cols-2 pt-2 mt-2 mx-auto">
-            <!-- Complaint -->
-            <div class="col-sm-2">
-                <label class="info h2">Complaint: </label>
-            </div>
-            <div class="col-md-5">
-                <span class="info h2">{{ $record->consultations->consultation_responses->complaint }}</span>
-            </div>
+        <div class="border border-2 row row-cols-2 pt-2 mt-2 mx-auto" id="consultation_1" style="display: none;">
         </div>
             
         <!-- Second Row -->
-        <div class="border border-2 row row-cols-1 mt-1 pt-2 mx-auto">
-            <div class="col">
-                <label class="info h3">Vital Signs:</label>
-            </div>
-            
-            <div class="col mb-1">
-                <!-- Vital Signs -->
-                <div class="row mt-1 mx-auto">
-                    <!-- Heart Rate -->
-                    <div class="col pb-2 border border-1">
-                        <div class="row row-cols-1">
-                            <div class="col">
-                                <label class="info">Pulse / Heart Rate:</label>
-                            </div>
-                            <div class="col text-center">
-                                <span class="info">{{ $record->consultations->consultation_responses->pulse }} BPM</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- O2 Stat -->
-                    <div class="col pb-2 border border-1">
-                        <div class="row row-cols-1">
-                            <div class="col">
-                                <label class="info">O2 Stat:</label>
-                            </div>
-                            <div class="col text-center">
-                                <span class="info">{{ $record->consultations->consultation_responses->oxygen }}%</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Respiratory Rate -->
-                    <div class="col pb-2 border border-1">
-                        <div class="row row-cols-1">
-                            <div class="col">
-                                <label class="info">Respiratory Rate:</label>
-                            </div>
-                            <div class="col text-center">
-                                <span class="info">{{ $record->consultations->consultation_responses->respiratory_rate }} BPM</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Blood Pressure -->
-                    <div class="col pb-2 border border-1">
-                        <div class="row row-cols-1">
-                            <div class="col">
-                                <label class="info">Blood Pressure (mm/hg):</label>
-                            </div>
-                            <div class="col text-center">
-                                <span class="info">{{ $record->consultations->consultation_responses->top_bp }} / {{ $record->consultations->consultation_responses->bot_bp }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Temperature -->
-                    <div class="col pb-2 border border-1">
-                        <div class="row row-cols-1">
-                            <div class="col">
-                                <label class="info">Temperature:</label>
-                            </div>
-                            <div class="col text-center">
-                                <span class="info">{{ $record->consultations->consultation_responses->temperature }}°C</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="border border-2 row row-cols-1 mt-1 pt-2 mx-auto" id="consultation_2" style="display: none;">
         </div>
         
         <!-- Third Row -->
-        <div class="border border-2 row row-cols-1 mt-1 py-2 mx-auto">
-            <div class="col">
-                <label class="info h3">Treatment:</label>
-            </div>
-            <div class="col">
-                <textarea class="form-control-plaintext" name="treatment" rows="auto" readonly>{{ $record->consultations->consultation_responses->treatment }}</textarea>
-            </div>
+        <div class="border border-2 row row-cols-1 mt-1 py-2 mx-auto" id="consultation_3" style="display: none;">
         </div>
         
         <!-- Fourth Row -->
-        <div class="border border-2 row row-cols-1 mt-1 py-1 mx-auto">
-            <div class="col">
-                <label class="info h3">Nurse Remark:</label>
-                @if($record->consultations->consultation_responses->remarks === 'Monitoring Case')
-                <span class="info h3 text-warning">Monitoring Case</span>
-                @else
-                <span class="info h3 text-success">Resolved Case</span>
-                @endif
-            </div>
+        <div class="border border-2 row row-cols-1 my-1 py-1 mx-auto" id="consultation_4" style="display: none;">
         </div>
-        @endif
         @endif
     </div>
     
@@ -310,7 +237,7 @@
     $(document).ready(function () {
         // When the consultation-header is clicked
         $("#consultation-header").click(function () {
-            @if (isset($record->consultations))
+            @if ($record->consultations->where('record_id', $record->id)->isNotEmpty())
             // Show consultation-content
             $("#consultation-content").slideToggle(500);
             @else
@@ -318,17 +245,61 @@
             $("#consultation-content-empty").slideToggle(100);
             @endif;
         });
-
+        
         // When the medical-exam-header is clicked
         $("#medical-exam-header").click(function () {
             // Show medical-exam-content
             $("#medical-exam-content").slideToggle(500);
         });
-
+        
         // When the dental-exam-header is clicked
         $("#dental-exam-header").click(function () {
             // Show dental-exam-content
             $("#dental-exam-content").slideToggle(500);
+        });
+    });
+</script>
+
+<!-- Customize Select -->
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var date = document.getElementById('date');
+
+        date.addEventListener('change', function () {
+            var selectedOption = this.options[this.selectedIndex];
+            var status = selectedOption.getAttribute('data-status');
+            var selectedConsultationID = selectedOption.value; // Get the selected consultation ID
+            var recordId = '{{ $record->id }}';
+            var consultationDate = $('#date option:selected').data('date');
+
+            // Show/hide elements based on the selected option
+            switch (status) {
+                case 'Monitoring Case':
+                case 'Resolved Case':
+                    $('#consultation_1, #consultation_2, #consultation_3, #consultation_4').show();
+                    break;
+                default:
+                    // Hide elements for other cases
+                    $('#consultation_1, #consultation_2, #consultation_3, #consultation_4').hide();
+            }
+
+            // Toggle text color class based on the status
+            $(this).toggleClass('text-warning', status === 'Monitoring Case')
+                .toggleClass('text-success', status === 'Resolved Case');
+
+            // Get specific data for the chosen date and consultation ID
+            $.ajax({
+                type: 'GET',
+                url: '/nurse/record/' + recordId + '/consultation/',
+                data: { 'consultation_id': selectedConsultationID, 'date': consultationDate }, // Update this line
+                success: function (data) {
+                    // Assuming the data structure has properties like first_output, second_output, etc.
+                    $('#consultation_1').html(data.first_output);
+                    $('#consultation_2').html(data.second_output);
+                    $('#consultation_3').html(data.third_output);
+                    $('#consultation_4').html(data.fourth_output);
+                },
+            });
         });
     });
 </script>
