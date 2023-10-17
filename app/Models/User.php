@@ -54,8 +54,8 @@ class User extends Authenticatable
     }
 
     //how many relationship does this model have with other models
-    public function records()
+    public function record()
     {
-        return $this->hasMany(Record::class);
+        return $this->hasOne(Record::class);
     }
 }

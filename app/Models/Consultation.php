@@ -33,7 +33,7 @@ class Consultation extends Model
     }
 
     //how many relationship does this model have with other models
-    public function consultation_responses()
+    public function consultation_response()
     {
         return $this->hasOne(ConsultationResponse::class);
     }
