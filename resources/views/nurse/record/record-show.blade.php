@@ -141,14 +141,26 @@
         <!-- Date that being created (Automated) -->
         <!-- Options -->
         <div class="row mx-auto my-1">
-            <div class="col pt text-left">
-                <a class="info btn btn-info" href="{{ route('nurse.consultationCreate', $record->id ) }}">Create</a>
+            <div class="col pt text-left" id="consultation_header" style="display: none;">
+            </div>
+            <div class="col pt text-left" id="default_consultation_header">
+                <a class="info btn btn-primary" href="{{ route('nurse.consultationCreate', $record->id ) }}">Create</a>
             </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
                 <select class="info" id="date" name="date" data-record-id="{{ $record->id }}">
                     <option selected disabled hidden>Select Date</option>
                     @foreach($record->consultations as $consultation)
+                        @if($consultation->id )
+                            @php
+                            $dateToShow = $consultation->date_created; // Default to date_created
+
+                            if ($consultation->date_updated && is_null($consultation->date_finished)) {
+                                $dateToShow = $consultation->date_updated;
+                            } elseif ((is_null($consultation->date_updated) && $consultation->date_finished) || ($consultation->date_updated && $consultation->date_finished)) {
+                                $dateToShow = $consultation->date_finished;
+                            }
+                            @endphp
                         <option data-status="{{ $consultation->consultation_response->remarks }}"
                                 data-date="{{ $consultation->date_created->format('m-d-Y') }}"
                                 class="@if($consultation->consultation_response->remarks === 'Monitoring Case') 
@@ -157,8 +169,9 @@
                                             text-success 
                                         @endif"
                                 value="{{ $consultation->id }}">
-                            {{ $consultation->date_created->format('F d, Y') }}
+                            {{ $dateToShow->format('F d, Y') }}
                         </option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -276,11 +289,12 @@
             switch (status) {
                 case 'Monitoring Case':
                 case 'Resolved Case':
-                    $('#consultation_1, #consultation_2, #consultation_3, #consultation_4').show();
+                    $('#consultation_header, #consultation_1, #consultation_2, #consultation_3, #consultation_4').show();
+                    $('#default_consultation_header').hide();
                     break;
                 default:
                     // Hide elements for other cases
-                    $('#consultation_1, #consultation_2, #consultation_3, #consultation_4').hide();
+                    $('#consultation_header, #consultation_1, #consultation_2, #consultation_3, #consultation_4').hide();
             }
 
             // Toggle text color class based on the status
@@ -294,6 +308,7 @@
                 data: { 'consultation_id': selectedConsultationID, 'date': consultationDate }, // Update this line
                 success: function (data) {
                     // Assuming the data structure has properties like first_output, second_output, etc.
+                    $('#consultation_header').html(data.consultation_output);
                     $('#consultation_1').html(data.first_output);
                     $('#consultation_2').html(data.second_output);
                     $('#consultation_3').html(data.third_output);

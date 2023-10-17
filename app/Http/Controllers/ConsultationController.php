@@ -15,6 +15,7 @@ class ConsultationController extends Controller
     public function date(Request $request, Record $recordId)
     {
         $responseData = [
+            'consultation_output' => '',
             'first_output' => '',
             'second_output' => '',
             'third_output' => '',
@@ -34,6 +35,14 @@ class ConsultationController extends Controller
 
         if ($consultations) {
             foreach($consultations as $consultation){
+                //Consultation Header
+                $responseData['consultation_output'].='<a class="info btn btn-primary mr-2" href="'. route('nurse.consultationCreate', $consultation->record->id ) .'">Create</a>';
+                if($consultation->consultation_response->remarks === "Monitoring Case"){
+                    $responseData['consultation_output'].='<a class="info btn btn-info ml-2" href="'. route('nurse.consultationEdit', $consultation->id ) .'">Update</a>';
+                } else {
+                    $responseData['consultation_output'].='';
+                }
+                
                 //First Row
                 $responseData['first_output'].='<div class="col-sm-2">
                     <label class="info h1">Complaint:'. $consultation->consultation_response->complaint .'</label>
@@ -206,7 +215,7 @@ class ConsultationController extends Controller
      */
     public function edit(Consultation $consultation)
     {
-        //
+        return view('nurse.record.consultation.record-consultation-edit', compact('consultation'));
     }
 
     /**
@@ -214,7 +223,32 @@ class ConsultationController extends Controller
      */
     public function update(Request $request, Consultation $consultation)
     {
-        //
+        
+        // Connect Consultation Response ID to the Consultation ID
+        $request->validate([
+            'complaint' => 'required|string',
+            'pulse' => 'required|integer',
+            'oxygen' => 'required|integer',
+            'respiratory_rate' => 'required|integer',
+            'top_bp' => 'required|integer',
+            'bot_bp' => 'required|integer',
+            'temperature' => 'required|numeric',
+            'treatment' => 'required',
+            'remarks' => 'in:Monitoring Case,Resolved Case',
+        ]);
+        
+        // Update Consultation and Consultation Response
+        $consultation->update($request->all());
+        $consultation->consultation_response->update($request->all());
+
+        if(auth()->user()->role->role == 'Nurse')
+        {
+            return redirect()->route('nurse.recordShow', ['record' => $consultation->record->id ])->with('success', 'Consultation created successfully.');
+        }
+        elseif(auth()->user()->role->role == 'Doctor')
+        {
+            return redirect()->route('doctor.recordShow', ['record' => $consultation->record->id ])->with('success', 'Consultation created successfully.');
+        }
     }
 
     /**
