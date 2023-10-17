@@ -83,6 +83,10 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
         'index', 'create', 'delete'
     ]);
 
+    // record (Consultation part) (Extra)
+    Route::get('/nurse/record/{record}/consultation/', [ConsultationController::class, 'date'])
+        ->name('nurse.consultationDate');
+    
     // record alternatives
     Route::get('/nurse/record/consultation/create/{record}', [ConsultationController::class, 'create'])
         ->name('nurse.consultationCreate');
