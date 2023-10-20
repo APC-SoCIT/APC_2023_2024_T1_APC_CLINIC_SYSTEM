@@ -148,7 +148,7 @@
             </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
-                <select class="info" id="date" name="date" data-record-id="{{ $record->id }}">
+                <select class="info" id="date" name="consultation_date" data-record-id="{{ $record->id }}">
                     <option selected disabled hidden>Select Date</option>
                     @foreach($record->consultations as $consultation)
                         @if($consultation->id )
@@ -283,7 +283,7 @@
             var status = selectedOption.getAttribute('data-status');
             var selectedConsultationID = selectedOption.value; // Get the selected consultation ID
             var recordId = '{{ $record->id }}';
-            var consultationDate = $('#date option:selected').data('date');
+            var consultationDate = $('#date option:selected').data('consultation_date');
 
             // Show/hide elements based on the selected option
             switch (status) {

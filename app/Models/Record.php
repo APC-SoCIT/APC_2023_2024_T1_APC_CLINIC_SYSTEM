@@ -44,4 +44,9 @@ class Record extends Model
     {
         return $this->hasMany(Consultation::class);
     }
+
+    public function medical_exams()
+    {
+        return $this->hasMany(MedicalExam::class);
+    }
 }
