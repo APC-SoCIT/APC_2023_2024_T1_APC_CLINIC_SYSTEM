@@ -2,7 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Record;
 use App\Models\MedicalExam;
+use App\Models\PastMedicalHistory;
+use App\Models\PMHFinding;
+use App\Models\FamilyHistory;
+use App\Models\FHFinding;
+use App\Models\PersonalSocial;
+use App\Models\OBGyneReview;
+use App\Models\OBRFinding;
+use App\Models\PhysicalExamination;
+use App\Models\PEFinding;
 use Illuminate\Http\Request;
 
 class MedicalExamController extends Controller
@@ -18,7 +28,7 @@ class MedicalExamController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Record $record)
     {
         //
     }
@@ -34,7 +44,7 @@ class MedicalExamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MedicalExam $medicalExam)
+    public function show(MedicalExam $medical_exam)
     {
         //
     }
@@ -42,7 +52,7 @@ class MedicalExamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MedicalExam $medicalExam)
+    public function edit(MedicalExam $medical_exam)
     {
         //
     }
@@ -50,7 +60,7 @@ class MedicalExamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MedicalExam $medicalExam)
+    public function update(Request $request, MedicalExam $medical_exam)
     {
         //
     }
@@ -58,7 +68,7 @@ class MedicalExamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MedicalExam $medicalExam)
+    public function destroy(MedicalExam $medical_exam)
     {
         //
     }
