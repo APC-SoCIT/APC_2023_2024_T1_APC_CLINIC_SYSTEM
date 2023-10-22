@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 <!-- Tabs Title -->
-@section('title', 'Creating Health Record')
+@section('title', 'Update Consultation Record')
 
 <!-- Content Header -->
 @section('content_header')
@@ -15,7 +15,7 @@
 
 <!-- Body -->
 <div class="container-xxl mb-2 record-customize-create-container-height">
-    <form method="POST" action="{{ route('nurse.consultationUpdate', $consultation->id) }}">
+    <form method="POST" action="{{ route('nurse.consultationUpdate', $consultation->id) }}" onsubmit="return confirm('Are you sure you want to update this consultation?');">
         @csrf
         @method('PUT')
 
