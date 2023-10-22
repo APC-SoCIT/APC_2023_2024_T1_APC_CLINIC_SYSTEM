@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 <!-- Tabs Title -->
-@section('title', 'Creating Consultation Record')
+@section('title', 'Creating Consultation')
 
 <!-- Content Header -->
 @section('content_header')
