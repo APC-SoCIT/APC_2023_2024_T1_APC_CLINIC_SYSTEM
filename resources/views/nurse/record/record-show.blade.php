@@ -69,7 +69,7 @@
 
                 <!-- Edit Info -->
                 <div class="col my-1">
-                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdate{{ $record->id }}">Update Info</button>
+                    <a class="info btn btn-outline-info" href="{{ route('nurse.recordEdit', $record->id ) }}">Update Info</a>
                 </div>
             </div>
         </div>

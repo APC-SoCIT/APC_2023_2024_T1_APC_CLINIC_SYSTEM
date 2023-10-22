@@ -62,8 +62,10 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
         'index' => 'nurse.recordIndex',
         'store' => 'nurse.recordStore',
         'show' => 'nurse.recordShow',
+        'edit' => 'nurse.recordEdit',
+        'update' => 'nurse.recordUpdate',
     ])->except([
-        'edit', 'create', 'update', 'delete'
+        'create', 'delete'
     ]);
     
     // record alternatives

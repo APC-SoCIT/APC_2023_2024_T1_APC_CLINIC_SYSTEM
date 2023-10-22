@@ -1,24 +1,23 @@
 @extends('adminlte::page')
 
 <!-- Tabs Title -->
-@section('title', 'Creating Health Record')
+@section('title', 'Updating Health Record')
 
 <!-- Content Header -->
 @section('content_header')
-    <h1>Creating New Record for {{ $user->name }}</h1>
+    <h1>Update Record for {{ $record->user->name }}</h1>
 @stop
 
 <!-- Content Body -->
 @section('content')
 <!-- Go back from the last page -->
-<a class="btn btn-danger mb-2" href="{{ route('nurse.recordIndex') }}">Go Back</a>
+<a class="btn btn-danger mb-2" href="{{ route('nurse.recordShow', $record->id) }}">Go Back</a>
 
 <!-- Body -->
 <div class="container-xxl mb-2 record-customize-create-container-height">
-    <form method="POST" action="{{ route('nurse.recordStore') }}" onsubmit="return confirm('Are the details for this patience are correct?');">
+    <form method="POST" action="{{ route('nurse.recordUpdate', $record->id) }}" onsubmit="return confirm('Are the details for this patience are correct?');">
         @csrf
-        <!-- Hidden value to be save on record -->
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
+        @method('PUT')
 
         <!-- 1st row -->
         <div class="row border border-3 record-create-width mx-auto py-3">
@@ -29,7 +28,7 @@
                         <label>Birthdate:</label>
                     </div>
                     <div class="col">
-                        <input type="date" class="form-control" name="birth_date" id="birth_date" value="{{ old('birth_date') }}" onchange="calculateAge()">
+                        <input type="date" class="form-control" name="birth_date" id="birth_date" value="{{ old('birth_date', $record->birth_date->format('Y-m-d')) }}" onchange="calculateAge()">
                         @error('birth_date')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -44,7 +43,7 @@
                         <label>Age:</label>
                     </div>
                     <div class="col">
-                        <input type="number" class="form-control-plaintext" style="cursor: auto;" name="age" id="age" placeholder="0" value="{{ old('age') }}" readonly>
+                        <input type="number" class="form-control-plaintext" style="cursor: auto;" name="age" id="age" placeholder="0" value="{{ old('age', $record->age) }}" readonly>
                     </div>
                 </div>
             </div>
@@ -56,8 +55,8 @@
             <div class="col">
                 <label>Sex:</label>
                 <select class="form-control" name="sex" value="{{ old('sex') }}">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="Male" @if($record->sex == 'Male') selected @endif>Male</option>
+                    <option value="Female" @if($record->sex == 'Female') selected @endif>Female</option>
                 </select>
             </div>
             
@@ -65,10 +64,10 @@
             <div class="col">
                 <label>Civil Status:</label>
                 <select class="form-control" name="civil_status" value="{{ old('civil_status') }}">
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Dirvorced">Dirvorced</option>
-                    <option value="Widowed">Widowed</option>
+                    <option value="Single" @if($record->civil_status == 'Single') selected @endif>Single</option>
+                    <option value="Married" @if($record->civil_status == 'Married') selected @endif>Married</option>
+                    <option value="Dirvorced" @if($record->civil_status == 'Dirvorced') selected @endif>Dirvorced</option>
+                    <option value="Widowed" @if($record->civil_status == 'Widowed') selected @endif>Widowed</option>
                 </select>
             </div>
         </div>
@@ -78,7 +77,7 @@
             <!-- Address -->
             <div class="col">
                 <label>Address:</label>
-                <input type="text" class="form-control" name="address" value="{{ old('address') }}" required>
+                <input type="text" class="form-control" name="address" value="{{ old('address', $record->address) }}" required>
                 @error('address')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -89,7 +88,7 @@
                     <!-- Street -->
                     <div class="col">
                         <label>Street:</label>
-                        <input type="text" class="form-control" name="street" value="{{ old('street') }}" required>
+                        <input type="text" class="form-control" name="street" value="{{ old('street', $record->street) }}" required>
                         @error('street')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -98,7 +97,7 @@
                     <!-- City -->
                     <div class="col">
                         <label>City:</label>
-                        <input type="text" class="form-control" name="city" value="{{ old('city') }}" required>
+                        <input type="text" class="form-control" name="city" value="{{ old('city', $record->city) }}" required>
                         @error('city')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -111,7 +110,7 @@
                     <!-- Province -->
                     <div class="col">
                         <label>Province:</label>
-                        <input type="text" class="form-control" name="province" value="{{ old('province') }}" required>
+                        <input type="text" class="form-control" name="province" value="{{ old('province', $record->province) }}" required>
                         @error('province')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -120,7 +119,7 @@
                     <!-- ZIP/Postal Code -->
                     <div class="col">
                         <label>ZIP/Postal Code:</label>
-                        <input type="text" class="form-control" name="zip" value="{{ old('zip') }}" required>
+                        <input type="text" class="form-control" name="zip" value="{{ old('zip', $record->zip) }}" required>
                         @error('zip')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -134,7 +133,7 @@
             <!-- Mobile Number -->
             <div class="col">
                 <label>Mobile Number:</label>
-                <input type="text" class="form-control" name="mobile_number" value="{{ old('mobile_number') }}" pattern="[0-9]{11}" placeholder="09*********" required>
+                <input type="text" class="form-control" name="mobile_number" value="{{ old('mobile_number', $record->mobile_number) }}" pattern="[0-9]{11}" placeholder="09*********" required>
                 @error('mobile_number')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -143,7 +142,7 @@
             <!-- Contact Person -->
             <div class="col">
                 <label>Contact Person:</label>
-                <input type="text" class="form-control" name="contact_person" value="{{ old('contact_person') }}" required>
+                <input type="text" class="form-control" name="contact_person" value="{{ old('contact_person', $record->contact_person) }}" required>
                 @error('contact_person')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -152,14 +151,14 @@
             <!-- Contact Person Number -->
             <div class="col">
                 <label>Contact Person Number:</label>
-                <input type="text" class="form-control" name="contact_person_number" value="{{ old('contact_person_number') }}" pattern="[0-9]{11}" placeholder="09*********" required>
+                <input type="text" class="form-control" name="contact_person_number" value="{{ old('contact_person_number', $record->contact_person_number) }}" pattern="[0-9]{11}" placeholder="09*********" required>
                 @error('contact_person_number')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary float-right mt-2 mr-2">Create Record</button>
+        <button type="submit" class="btn btn-primary float-right mt-2 mr-2">Update Record</button>
     </form>
 </div>
 @stop

@@ -71,7 +71,12 @@ class RecordController extends Controller
             ->paginate(10);
         $records = Record::get();
 
-        //if(auth()->user()->role->role == 'Student')
+        if(auth()->user()->role->role == 'Nurse')
+        {
+            return view('nurse.record.record-home',compact('users', 'records',))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
+        }
+        //elseif(auth()->user()->role->role == 'Student')
         //{
         //    $record = Record::where('user_id', '=', auth()->user()->id)->first();
         //    return view('student.record.index', compact('record'));
@@ -86,14 +91,10 @@ class RecordController extends Controller
         //    $record = Record::where('user_id', '=', auth()->user()->id)->first();
         //    return view('faculty.record.index', compact('record'));
         //}
-        if(auth()->user()->role->role == 'Nurse')
-        {
-            return view('nurse.record.record-home',compact('users', 'records',))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
-        }
         //elseif(auth()->user()->role->role == 'Doctor')
         //{
-
+        //    return view('doctor.record.record-home',compact('users', 'records',))
+        //    ->with('i', (request()->input('page', 1) - 1) * 10);
         //}
         //elseif(auth()->user()->role->role == 'Dentist')
         //{
@@ -152,7 +153,7 @@ class RecordController extends Controller
      */
     public function edit(Record $record)
     {
-        //
+        return view('nurse.record.record-edit', compact('record'));
     }
 
     /**
@@ -160,7 +161,29 @@ class RecordController extends Controller
      */
     public function update(Request $request, Record $record)
     {
-        //
+        $request->validate([
+            'user_id' => 'integer',
+            'birth_date' => 'required|date',
+            'age' => 'integer',
+            'sex' => 'in:Male,Female',
+            'civil_status' => 'in:Single,Married,Divorced,Widowed',
+            'address' => 'required|string',
+            'street' => 'required|string',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'zip' => 'required|string',
+            'mobile_number' => 'required|regex:/^09\d{9}$/',
+            'contact_person' => 'required|string',
+            'contact_person_number' => 'required|regex:/^09\d{9}$/',
+        ], [
+            'mobile_number.regex' => 'The input for mobile number must contain \'09\' at the start.',
+            'contact_person_number.regex' => 'The input for contact person number must contain \'09\' at the start.',
+        ]);
+
+        $record->update($request->all());
+
+        return redirect()->route('nurse.recordShow', $record->id)
+            ->with('success', 'Record updated successfully');
     }
 
     /**
