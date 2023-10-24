@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MedicalExamController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\InventoryController;
@@ -89,9 +90,22 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     Route::get('/nurse/record/{record}/consultation/', [ConsultationController::class, 'date'])
         ->name('nurse.consultationDate');
     
-    // record alternatives
+    // record (Consultation part) (Alternatives)
     Route::get('/nurse/record/consultation/create/{record}', [ConsultationController::class, 'create'])
         ->name('nurse.consultationCreate');
+
+    // record (Medical Exam part) //////////////////////////////////////////////////////////////////
+    Route::resource('nurse/record/medical-exam', MedicalExamController::class)->names([
+        'store' => 'nurse.medicalExamStore',
+        'edit' => 'nurse.medicalExamEdit',
+        'update' => 'nurse.medicalExamUpdate',
+    ])->except([
+        'index', 'create', 'delete'
+    ]);
+
+    // record (Medical Exam part) (Alternatives)
+    Route::get('/nurse/record/medical-exam/create/{record}', [MedicalExamController::class, 'create'])
+        ->name('nurse.medicalExamCreate');
 
     // inventory ///////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/inventory', InventoryController::class)->names([

@@ -148,7 +148,7 @@
             </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
-                <select class="info" id="date" name="consultation_date" data-record-id="{{ $record->id }}">
+                <select class="info" id="constulation_date" name="consultation_date" data-record-id="{{ $record->id }}">
                     <option selected disabled hidden>Select Date</option>
                     @foreach($record->consultations as $consultation)
                         @if($consultation->id )
@@ -162,7 +162,7 @@
                             }
                             @endphp
                         <option data-status="{{ $consultation->consultation_response->remarks }}"
-                                data-date="{{ $consultation->date_created->format('m-d-Y') }}"
+                                data-consultation_date="{{ $consultation->date_created->format('m-d-Y') }}"
                                 class="@if($consultation->consultation_response->remarks === 'Monitoring Case') 
                                             text-warning 
                                         @else 
@@ -202,12 +202,38 @@
     </div>
     <!-- If user doesn't have made Medical Exam -->
     <div class="border border-secondary mx-auto text-center" id="medical-exam-content-empty">
-        <span class="info">No Medical Exam has been made, would you like to <a href="#">Create</a>?</span> 
+        <span class="info">No Medical Exam has been made, would you like to <a href="{{ route('nurse.medicalExamCreate', $record->id ) }}">Create</a>?</span> 
     </div>
     <!-- If user have made Medical Exam -->
     <div class="border border-secondary mx-auto" id="medical-exam-content">
+    @if(isset($record->medical_exams))
+        <!-- Date that being created (Automated) -->
+        <!-- Options -->
+        <div class="row mx-auto my-1">
+            <div class="col pt text-left" id="medical_exam_header" style="display: none;">
+            </div>
+            <div class="col pt-2 text-right">
+                <i class="far fa-calendar"></i>
+                <select class="info" id="medical_exam_date" name="medical_exam_date" data-record-id="{{ $record->id }}">
+                    <option selected disabled hidden>Select Date</option>
+                    @foreach($record->medical_exams as $medical_exam)
+                        @if($medical_exam->id )
+                            @php
+                                $dateUpdated = $medical_exam->date_updated ? $medical_exam->date_updated->format('m-d-Y') : null;
+                            @endphp
+                            <option data-date-updated="{{ $dateUpdated }}"
+                                    data-date-created="{{ $medical_exam->date_created->format('m-d-Y') }}"
+                                    class="@if($medical_exam->date_updated) text-info @endif"
+                                    value="{{ $medical_exam->id }}">
+                                {{ $dateToShow->format('F d, Y') }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
     </div>
-    
     
     <!-- Dental Record -->
     <div class="record-show-dental-exam-header border-top border-bottom border-secondary btn-info mx-auto mx-auto text-center" id="dental-exam-header">
@@ -261,8 +287,13 @@
         
         // When the medical-exam-header is clicked
         $("#medical-exam-header").click(function () {
-            // Show medical-exam-content
+            @if ($record->medical_exams->where('record_id', $record->id)->isNotEmpty())
+            // Show consultation-content
             $("#medical-exam-content").slideToggle(500);
+            @else
+            // Show consultation-empty-content
+            $("#medical-exam-content-empty").slideToggle(100);
+            @endif;
         });
         
         // When the dental-exam-header is clicked
@@ -273,17 +304,17 @@
     });
 </script>
 
-<!-- Customize Select -->
+<!-- Customize Select (Consultation) -->
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        var date = document.getElementById('date');
+        var consultation_date = document.getElementById('constulation_date');
 
-        date.addEventListener('change', function () {
+        consultation_date.addEventListener('change', function () {
             var selectedOption = this.options[this.selectedIndex];
             var status = selectedOption.getAttribute('data-status');
             var selectedConsultationID = selectedOption.value; // Get the selected consultation ID
             var recordId = '{{ $record->id }}';
-            var consultationDate = $('#date option:selected').data('consultation_date');
+            var consultationDate = $('#constulation_date option:selected').data('consultation_date');
 
             // Show/hide elements based on the selected option
             switch (status) {
@@ -313,6 +344,32 @@
                     $('#consultation_2').html(data.second_output);
                     $('#consultation_3').html(data.third_output);
                     $('#consultation_4').html(data.fourth_output);
+                },
+            });
+        });
+    });
+</script>
+
+<!-- Customize Select (Medical Exam) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var medical_exam_date = document.getElementById('medical_exam_date');
+
+        medical_exam_date.addEventListener('change', function(){
+            var selectedOption = this.options[this.selectedIndex];
+            var selectedMedicalExamID = selectedOption.value;
+            var recordId = '{{ $record->id }}';
+            var medicalExamDate = selectedOption.dataset.date_updated || selectedOption.dataset.date_created;
+
+            $(this).toggleClass('text-info', selectedOption.dataset.date_updated)
+                    .removeClass('text-info');
+
+            $.ajax({
+                type: 'GET',
+                url: '/nurse/record/' + recordId + '/medical-exam/',
+                data: { 'medical_exam_id': selectedMedicalExamID, 'date': medicalExamDate },
+                success: function (data) {
+                    // Handle the success response here
                 },
             });
         });

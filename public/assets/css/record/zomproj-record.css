@@ -72,7 +72,7 @@ select.info{font-family: 'Oswald', sans-serif;}
 }
 #medical-exam-content{
     width: 1235px;
-    height: 1000px;
+    height: auto;
     display: none; /* Hide it initially */
 }
 #dental-exam-content{
