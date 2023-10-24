@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OBGyneReview extends Model
+class ObGyneReview extends Model
 {
     use HasFactory;
 
@@ -36,6 +36,6 @@ class OBGyneReview extends Model
     //how many relationship does this model have with other models
     public function obr_finding()
     {
-        return $this->hasOne(OBRFinding::class);
+        return $this->hasOne(ObGyneReview::class);
     }
 }

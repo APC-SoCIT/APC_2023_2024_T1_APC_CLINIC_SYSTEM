@@ -13,7 +13,6 @@ class MedicalExam extends Model
         'record_id',
         'date_created',
         'date_updated',
-        'date_finished',
     ];
 
     /**
@@ -24,7 +23,6 @@ class MedicalExam extends Model
     protected $casts = [
         'date_created' => 'date:m-d-Y',
         'date_updated' => 'date:m-d-Y',
-        'date_finished' => 'date:m-d-Y',
     ];
 
     //where this model belong to other model

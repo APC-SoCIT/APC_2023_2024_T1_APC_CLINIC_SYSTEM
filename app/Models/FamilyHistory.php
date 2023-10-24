@@ -33,6 +33,6 @@ class FamilyHistory extends Model
     //how many relationship does this model have with other models
     public function fh_finding()
     {
-        return $this->hasOne(FHFinding::class);
+        return $this->hasOne(FamilyHistoryFinding::class);
     }
 }

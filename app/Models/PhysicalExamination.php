@@ -50,6 +50,6 @@ class PhysicalExamination extends Model
     //how many relationship does this model have with other models
     public function pe_finding()
     {
-        return $this->hasOne(PEFinding::class);
+        return $this->hasOne(PhysicalExaminationFinding::class);
     }
 }

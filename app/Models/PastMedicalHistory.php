@@ -37,6 +37,6 @@ class PastMedicalHistory extends Model
     //how many relationship does this model have with other models
     public function pmh_finding()
     {
-        return $this->hasOne(PMHFinding::class);
+        return $this->hasOne(PastMedicalHistoryFinding::class);
     }
 }
