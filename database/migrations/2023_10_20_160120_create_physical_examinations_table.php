@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('bot_bp');
             $table->integer('pulse');
             $table->integer('respiratory_rate');
-            $table->integer('bmi');
+            $table->float('bmi');
 
             //Secondary
             $table->string('pe_general_appearance')->default('No');

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('record_id')->nullable();  // Add record_id
             $table->date('date_created');
             $table->date('date_updated')->nullable();
-            $table->date('date_finished')->nullable();
             $table->timestamps();
 
             // Add foreign key constraint

@@ -25,9 +25,9 @@ return new class extends Migration
             $table->text('med_take')->nullable();
             //Hospitalization and Operation
             $table->string('hospitalization')->default('No');
-            $table->string('hospitalization_result')->nullable();
+            $table->integer('hospitalization_result')->nullable();
             $table->string('operation')->default('No');
-            $table->string('operation_result')->nullable();
+            $table->integer('operation_result')->nullable();
             $table->timestamps();
 
             // Add foreign key constraint
