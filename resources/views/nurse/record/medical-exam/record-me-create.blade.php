@@ -549,7 +549,7 @@
             </div>
         </div>
 
-        <!-- Fourth Row -->
+        <!-- Fifth Row -->
         <div class="row">
             <div class="col">
                 <!-- Title -->
@@ -679,7 +679,7 @@
             </div>
         </div>
 
-        <!-- Fifth Row -->
+        <!-- Sixth Row -->
         <div class="row row-cols-1">
             <div class="col">
                 <!-- Title -->
