@@ -17,6 +17,7 @@ class PersonalSocial extends Model
         'alcoholic',
         'shot',
         'week',
+        'medication',
         'med_take',
         'hospitalization',
         'hospitalization_result',
