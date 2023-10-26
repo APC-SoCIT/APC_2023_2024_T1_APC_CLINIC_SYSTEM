@@ -103,6 +103,10 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
         'index', 'create', 'delete'
     ]);
 
+    // record (Medical Exam part) (Extra)
+    Route::get('/nurse/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
+        ->name('nurse.medicalExamDate');
+
     // record (Medical Exam part) (Alternatives)
     Route::get('/nurse/record/medical-exam/create/{record}', [MedicalExamController::class, 'create'])
         ->name('nurse.medicalExamCreate');

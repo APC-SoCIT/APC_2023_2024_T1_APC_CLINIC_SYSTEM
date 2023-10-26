@@ -148,7 +148,7 @@
             </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
-                <select class="info" id="constulation_date" name="consultation_date" data-record-id="{{ $record->id }}">
+                <select class="info" id="consultation_date" name="consultation_date" data-record-id="{{ $record->id }}">
                     <option selected disabled hidden>Select Date</option>
                     @foreach($record->consultations as $consultation)
                         @if($consultation->id )
@@ -232,6 +232,30 @@
                 </select>
             </div>
         </div>
+
+        <!-- First Row -->
+        <div class="border border-2 row row-cols-2 pt-2 mt-2 mx-auto" id="medical_exam_1" style="display: none;">
+        </div>
+            
+        <!-- Second Row -->
+        <div class="border border-2 row row-cols-1 mt-1 pt-2 mx-auto" id="medical_exam_2" style="display: none;">
+        </div>
+        
+        <!-- Third Row -->
+        <div class="border border-2 row row-cols-1 mt-1 py-2 mx-auto" id="medical_exam_3" style="display: none;">
+        </div>
+        
+        <!-- Fourth Row -->
+        <div class="border border-2 row row-cols-1 my-1 py-1 mx-auto" id="medical_exam_4" style="display: none;">
+        </div>
+        
+        <!-- Fifth Row -->
+        <div class="border border-2 row row-cols-1 my-1 py-1 mx-auto" id="medical_exam_5" style="display: none;">
+        </div>
+        
+        <!-- Sixth Row -->
+        <div class="border border-2 row row-cols-1 my-1 py-1 mx-auto" id="medical_exam_6" style="display: none;">
+        </div>
     @endif
     </div>
     
@@ -307,14 +331,20 @@
 <!-- Customize Select (Consultation) -->
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        var consultation_date = document.getElementById('constulation_date');
+        var consultation_date = document.getElementById('consultation_date');
+        var medical_exam_date = document.getElementById('medical_exam_date');
 
         consultation_date.addEventListener('change', function () {
-            var selectedOption = this.options[this.selectedIndex];
-            var status = selectedOption.getAttribute('data-status');
-            var selectedConsultationID = selectedOption.value; // Get the selected consultation ID
+            // Get the selected option from the consultation_date dropdown
+            var selectedConsultationOption = this.options[this.selectedIndex];
+            
+            // Get the status and ID from the selected option
+            var status = selectedConsultationOption.getAttribute('data-status');
+            var selectedConsultationID = selectedConsultationOption.value; // Get the selected consultation ID
+            
+            // Get the record ID and consultation date from the Blade template
             var recordId = '{{ $record->id }}';
-            var consultationDate = $('#constulation_date option:selected').data('consultation_date');
+            var consultationDate = $('#consultation_date option:selected').data('consultation_date');
 
             // Show/hide elements based on the selected option
             switch (status) {
@@ -332,11 +362,11 @@
             $(this).toggleClass('text-warning', status === 'Monitoring Case')
                 .toggleClass('text-success', status === 'Resolved Case');
 
-            // Get specific data for the chosen date and consultation ID
+            // Get specific data for the chosen date and consultation ID using AJAX
             $.ajax({
                 type: 'GET',
                 url: '/nurse/record/' + recordId + '/consultation/',
-                data: { 'consultation_id': selectedConsultationID, 'date': consultationDate }, // Update this line
+                data: { 'consultation_id': selectedConsultationID, 'date': consultationDate }, // Send consultation ID and date
                 success: function (data) {
                     // Assuming the data structure has properties like first_output, second_output, etc.
                     $('#consultation_header').html(data.consultation_output);
@@ -347,29 +377,27 @@
                 },
             });
         });
-    });
-</script>
-
-<!-- Customize Select (Medical Exam) -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var medical_exam_date = document.getElementById('medical_exam_date');
 
         medical_exam_date.addEventListener('change', function(){
-            var selectedOption = this.options[this.selectedIndex];
-            var selectedMedicalExamID = selectedOption.value;
+            var selectedMEOption = $(this).find(':selected');
+            var selectedMedicalExamID = selectedMEOption.value;
+            var selectedME_created = selectedMEOption.data('date-created');
+            var selectedME_update = selectedMEOption.data('date-updated');
             var recordId = '{{ $record->id }}';
-            var medicalExamDate = selectedOption.dataset.date_updated || selectedOption.dataset.date_created;
 
-            $(this).toggleClass('text-info', selectedOption.dataset.date_updated)
-                    .removeClass('text-info');
+            // Show medical exam rows when an option is selected
+            if (selectedMEOption) {
+                $('#medical_exam_header, #medical_exam_1, #medical_exam_2, #medical_exam_3, #medical_exam_4, #medical_exam_5, #medical_exam_6').show();
+            }
 
             $.ajax({
                 type: 'GET',
                 url: '/nurse/record/' + recordId + '/medical-exam/',
-                data: { 'medical_exam_id': selectedMedicalExamID, 'date': medicalExamDate },
-                success: function (data) {
-                    // Handle the success response here
+                data: { 'date': selectedME_created || selectedME_update, },
+                success: function(data) {
+                    // Handle the response and update your UI accordingly
+                    console.log(data);
+                    $('#medical_exam_header').html(data.med_output);
                 },
             });
         });

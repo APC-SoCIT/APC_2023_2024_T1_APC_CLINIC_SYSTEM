@@ -20,6 +20,37 @@ class MedicalExamController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function date(Request $request, Record $recordId)
+    {
+        $responseData = [
+            'med_output' => '',
+            'first_output' => '',
+            'second_output' => '',
+            'third_output' => '',
+            'fourth_output' => '',
+            'fifth_output' => '',
+            'sixth_output' => '',
+        ];
+
+        $medical_exams = MedicalExam::whereDate('date_created', $request->date)
+                    ->orWhereDate('date_updated', $request->date)
+                    ->orWhereNull('date_updated')->get();
+        
+        if($medical_exams){
+            foreach($medical_exams as $medical_exam){
+                //Medical Exam Header
+                if(auth()->user()->role->role == 'Nurse' || auth()->user()->role->role == 'Doctor'){
+                    $responseData['med_output'].='<a class="info btn btn-info ml-2" href="'. route('nurse.medicalExamEdit', $medical_exam->id ) .'">Update</a>';
+                }
+            }
+        }
+
+        return response($responseData);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         //
