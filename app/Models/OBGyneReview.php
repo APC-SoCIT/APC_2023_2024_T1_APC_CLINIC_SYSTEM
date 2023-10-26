@@ -36,6 +36,6 @@ class ObGyneReview extends Model
     //how many relationship does this model have with other models
     public function obr_finding()
     {
-        return $this->hasOne(ObGyneReview::class);
+        return $this->hasOne(ObGyneReviewFinding::class);
     }
 }
