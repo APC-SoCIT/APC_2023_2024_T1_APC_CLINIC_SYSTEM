@@ -110,6 +110,7 @@ select.info{font-family: 'Oswald', sans-serif;}
     overflow-y: auto; /* Add a scrollbar if the content exceeds the maximum height */
 }
 
+/* Creating and Search */
 table {
     width: 100%;
 }
@@ -123,5 +124,5 @@ th {
     position: sticky;
     top: 0;
     background-color: #dcdcdc;
-    z-index: 2;
+    z-index: 1;
 }

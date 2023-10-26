@@ -497,8 +497,6 @@
 
             // When the server responds successfully, update the page with the received data.
             success:function(data){
-                // Log the received data to the console for debugging.
-                console.log(data);
                 // Replace the HTML content of an element with id 'Content' with the new data.
                 $('#inventory-content').html(data)
             }

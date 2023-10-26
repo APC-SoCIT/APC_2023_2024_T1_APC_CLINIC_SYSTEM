@@ -234,23 +234,23 @@
         </div>
 
         <!-- First Row -->
-        <div class="border border-2 row row-cols-2 pt-2 mt-2 mx-auto" id="medical_exam_1" style="display: none;">
+        <div class="border border-2 row pt-2 mt-2 mx-auto" id="medical_exam_1" style="display: none;">
         </div>
             
         <!-- Second Row -->
-        <div class="border border-2 row row-cols-1 mt-1 pt-2 mx-auto" id="medical_exam_2" style="display: none;">
+        <div class="border border-2 row mt-1 pt-2 mx-auto" id="medical_exam_2" style="display: none;">
         </div>
         
         <!-- Third Row -->
-        <div class="border border-2 row row-cols-1 mt-1 py-2 mx-auto" id="medical_exam_3" style="display: none;">
+        <div class="border border-2 row mt-1 py-2 mx-auto" id="medical_exam_3" style="display: none;">
         </div>
         
         <!-- Fourth Row -->
-        <div class="border border-2 row row-cols-1 my-1 py-1 mx-auto" id="medical_exam_4" style="display: none;">
+        <div class="border border-2 row my-1 py-1 mx-auto" id="medical_exam_4" style="display: none;">
         </div>
         
         <!-- Fifth Row -->
-        <div class="border border-2 row row-cols-1 my-1 py-1 mx-auto" id="medical_exam_5" style="display: none;">
+        <div class="border border-2 row my-1 py-1 mx-auto" id="medical_exam_5" style="display: none;">
         </div>
         
         <!-- Sixth Row -->
@@ -398,6 +398,12 @@
                     // Handle the response and update your UI accordingly
                     console.log(data);
                     $('#medical_exam_header').html(data.med_output);
+                    $('#medical_exam_1').html(data.first_output);
+                    $('#medical_exam_2').html(data.second_output);
+                    $('#medical_exam_3').html(data.third_output);
+                    $('#medical_exam_4').html(data.fourth_output);
+                    $('#medical_exam_5').html(data.fifth_output);
+                    $('#medical_exam_6').html(data.sixth_output);
                 },
             });
         });
