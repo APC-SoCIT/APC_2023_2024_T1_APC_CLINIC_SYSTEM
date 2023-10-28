@@ -219,13 +219,17 @@
                     @foreach($record->medical_exams as $medical_exam)
                         @if($medical_exam->id )
                             @php
-                                $dateUpdated = $medical_exam->date_updated ? $medical_exam->date_updated->format('m-d-Y') : null;
+                                $dateUpdated = $medical_exam->date_created;
+
+                                if($medical_exam->date_updated){
+                                    $dateUpdated = $medical_exam->date_updated ? $medical_exam->date_updated->format('m-d-Y') : null;
+                                }
                             @endphp
                             <option data-date-updated="{{ $dateUpdated }}"
                                     data-date-created="{{ $medical_exam->date_created->format('m-d-Y') }}"
                                     class="@if($medical_exam->date_updated) text-info @endif"
                                     value="{{ $medical_exam->id }}">
-                                {{ $dateToShow->format('F d, Y') }}
+                                {{ $dateUpdated->format('F d, Y') }}
                             </option>
                         @endif
                     @endforeach

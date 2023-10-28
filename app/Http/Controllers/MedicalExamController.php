@@ -1462,7 +1462,7 @@ class MedicalExamController extends Controller
         
         $ob_gyne_reviewID = $ob_gyne_review->id;
         $ob_gyne_review_findingData = $request->all();
-        $ob_gyne_review_findingData['ob_gyn_review_id'] = $ob_gyne_reviewID;
+        $ob_gyne_review_findingData['ob_gyne_review_id'] = $ob_gyne_reviewID;
         
         ObGyneReviewFinding::create($ob_gyne_review_findingData);
 
