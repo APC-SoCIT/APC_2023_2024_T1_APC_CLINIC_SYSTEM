@@ -74,7 +74,7 @@ class RecordController extends Controller
         if(auth()->user()->role->role == 'Nurse')
         {
             return view('nurse.record.record-home',compact('users', 'records',))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+                ->with('i', (request()->input('page', 1) - 1) * 10);
         }
         //elseif(auth()->user()->role->role == 'Student')
         //{
