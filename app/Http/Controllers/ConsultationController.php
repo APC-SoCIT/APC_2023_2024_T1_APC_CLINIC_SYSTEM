@@ -160,10 +160,10 @@ class ConsultationController extends Controller
         {
             return view('nurse.record.consultation.record-consultation-create', compact('record'));
         }
-        //elseif(auth()->user()->role->role == 'Doctor')
-        //{
-        //    return view('doctor.record.consultation.record-consultation-create', compact('record'));
-        //}
+        elseif(auth()->user()->role->role == 'Doctor')
+        {
+            return view('doctor.record.consultation.record-consultation-create', compact('record'));
+        }
     }
 
     /**
@@ -226,10 +226,10 @@ class ConsultationController extends Controller
         {
             return view('nurse.record.consultation.record-consultation-edit', compact('consultation'));
         }
-        //elseif(auth()->user()->role->role == 'Doctor')
-        //{
-        //    return view('doctor.record.consultation.record-consultation-edit', compact('consultation'));
-        //}
+        elseif(auth()->user()->role->role == 'Doctor')
+        {
+            return view('doctor.record.consultation.record-consultation-edit', compact('consultation'));
+        }
     }
 
     /**
