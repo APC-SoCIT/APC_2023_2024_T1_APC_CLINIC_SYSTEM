@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Inventory;
+use App\Models\InventoryInfo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +14,7 @@ class InventoryItemsSeeder extends Seeder
      */
     public function run(): void
     {
-        $inventories=[
+        $inventory_infos=[
             [
                 'name' => 'Biogesic',
                 'dosage' => '20',
@@ -357,8 +358,15 @@ class InventoryItemsSeeder extends Seeder
                 'type' => 'Medicine',
             ],
         ];
-        foreach ($inventories as $key => $inventories) {
-            Inventory::create($inventories);
+        foreach ($inventory_infos as $key => $inventory_infos) {
+            $inventory = Inventory::create();
+            InventoryInfo::create([
+                'inventory_id' => $inventory->id,
+                'name' => $inventory_infos['name'],
+                'dosage'=> $inventory_infos['dosage'],
+                'quantity'=> $inventory_infos['quantity'],
+                'type'=> $inventory_infos['type'],
+            ]);
         }
     }
 }
