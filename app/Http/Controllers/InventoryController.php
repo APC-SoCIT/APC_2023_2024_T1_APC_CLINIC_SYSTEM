@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\InventoryInfo;
+use App\Models\AddQuantity;
+use App\Models\ReduceQuantity;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -14,19 +17,21 @@ class InventoryController extends Controller
     public function search(Request $request)
     {
         $output = "";
-        $inventoryItems = Inventory::where('name', 'LIKE', '%'.$request->search.'%')->get();
 
-        foreach($inventoryItems as $inventoryItem)
+        $inventory_infos = InventoryInfo::where('name', 'LIKE', '%'.$request->search.'%')
+            ->get();
+
+        foreach($inventory_infos as $inventory_info)
         {
             $output.=
             '<tr>
-            <td>'.$inventoryItem->name.'</td>
-            <td>'.$inventoryItem->type.'</td>
-            <td>'.$inventoryItem->quantity.'</td>';
+            <td>'.$inventory_info->name.'</td>
+            <td>'.$inventory_info->type.'</td>
+            <td>'.$inventory_info->quantity.'</td>';
 
             //If item type is 'Medicine'
-            if($inventoryItem->type == 'Medicine'){
-                $output.='<td>'.$inventoryItem->dosage.' mg</td>';
+            if($inventory_info->type == 'Medicine'){
+                $output.='<td>'.$inventory_info->dosage.' mg</td>';
             } 
             else {
                 $output.='<td></td>';
@@ -36,13 +41,13 @@ class InventoryController extends Controller
             '<td>
                 <div class="row justify-content-center">
                     <div class="col-3">
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdate'.$inventoryItem->id.'">Update Item</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdate'.$inventory_info->id.'">Update Item</button>
                     </div>
                     <div class="col-3">
-                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdropAdd'.$inventoryItem->id.'">Add Quantity</button>
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdropAdd'.$inventory_info->id.'">Add Quantity</button>
                     </div>
                     <div class="col-4">
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropReduce'.$inventoryItem->id.'">Reduce Quantity</button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropReduce'.$inventory_info->id.'">Reduce Quantity</button>
                     </div>
                 </div>
             </td>
@@ -57,9 +62,15 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventoryItems = Inventory::orderBy('name', 'asc')->get();
+        $inventoryItems = Inventory::join('inventory_infos', 'inventories.id', '=', 'inventory_infos.inventory_id')
+            ->orderBy('inventory_infos.name', 'asc')
+            ->select('inventories.*')
+            ->paginate(10);
+        
+        $inventory_infos = InventoryInfo::get();
 
-        return view('nurse.inventory.inventory-home', compact('inventoryItems'));
+        return view('nurse.inventory.inventory-home', compact('inventoryItems', 'inventory_infos'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -75,7 +86,9 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
+        $inventory = Inventory::create();
         $request->validate([
+            'inventory_id' => $inventory->id,
             'name' => [
                 'required',
                 'string',
@@ -90,7 +103,7 @@ class InventoryController extends Controller
             'dosage' => 'required_if:type,Medicine|integer',
         ]);
 
-        Inventory::create($request->all());
+        InventoryInfo::create($request->all());
         return redirect()->route('nurse.inventoryIndex')
             ->with('success', 'Item added successfully');
     }
@@ -114,14 +127,14 @@ class InventoryController extends Controller
     /**
      * Update item info
      */
-    public function update(Request $request, Inventory $inventoryItem)
+    public function update(Request $request, InventoryInfo $inventoryItem)
     {
         $request->validate([
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('inventories')
+                Rule::unique('inventory_infos')
                     ->ignore($inventoryItem->id)
                     ->where(function ($query) use ($request) {
                         return $query->where('type', $request->type)
@@ -144,7 +157,7 @@ class InventoryController extends Controller
     /**
      * adding quantity
      */
-    public function add(Request $request, Inventory $inventoryItem)
+    public function add(Request $request, InventoryInfo $inventoryItem)
     {
         /**
          * Update item info
@@ -164,7 +177,7 @@ class InventoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function reduce(Request $request, Inventory $inventoryItem)
+    public function reduce(Request $request, InventoryInfo $inventoryItem)
     {
         $request->validate([
             'reduce_quantity' => 'required|integer',

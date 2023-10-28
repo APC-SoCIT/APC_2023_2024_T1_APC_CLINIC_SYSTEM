@@ -53,7 +53,7 @@
     </div>
     
     <!-- List table of Medicine and Equipment that have in Inventory -->
-    <div class="mt-3 customize-table-container">
+    <div class="mt-2 customize-table-container">
         <table class="table">
             <!-- Header of the table -->
             <thead>
@@ -70,13 +70,13 @@
                 <!-- Showing all items in the inventory table and each item will be called as "inventoryItem" -->
                 @foreach($inventoryItems as $inventoryItem)
                 <tr>
-                    <td>{{ $inventoryItem->name }}</td>
-                    <td>{{ $inventoryItem->type }}</td>
-                    <td>{{ $inventoryItem->quantity }}</td>
+                    <td>{{ $inventoryItem->inventory_info->name }}</td>
+                    <td>{{ $inventoryItem->inventory_info->type }}</td>
+                    <td>{{ $inventoryItem->inventory_info->quantity }}</td>
                     <!-- If Item type is 'Medicine', show 'dosages' -->
                     <td>    
-                        @if($inventoryItem->type == 'Medicine')
-                        {{ $inventoryItem->dosage }} mg
+                        @if($inventoryItem->inventory_info->type == 'Medicine')
+                        {{ $inventoryItem->inventory_info->dosage }} mg
                         @else
                         @endif
                     </td>
@@ -84,46 +84,46 @@
                         <div class="row justify-content-center">
                             <!-- Update Info Button -->
                             <div class="col-3">
-                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdate{{ $inventoryItem->id }}">Update Item</button>
+                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdropUpdate{{ $inventoryItem->inventory_info->id }}">Update Item</button>
                             </div>
 
                             <!-- Update Item Info Modal -->
-                            <div class="modal fade" id="staticBackdropUpdate{{ $inventoryItem->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $inventoryItem->id }}" aria-hidden="true">
+                            <div class="modal fade" id="staticBackdropUpdate{{ $inventoryItem->inventory_info->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $inventoryItem->inventory_info->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <!-- Modal header -->
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropLabel{{ $inventoryItem->id }}">Update Item Info</h1>
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel{{ $inventoryItem->inventory_info->id }}">Update Item Info</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
 
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('nurse.inventoryUpdate', $inventoryItem->id) }}">
+                                            <form method="POST" action="{{ route('nurse.inventoryUpdate', $inventoryItem->inventory_info->id) }}">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="row">
                                                     <div class="col">
                                                         <label><b>Item Name:</b></label>
-                                                        <input type="text" class="form-control" name="name" value="{{ old('name', $inventoryItem->name) }}" required>
+                                                        <input type="text" class="form-control" name="name" value="{{ old('name', $inventoryItem->inventory_info->name) }}" required>
                                                         @error('name')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="col">
                                                         <label><b>Item Type:</b></label>
-                                                        <select class="form-control update-inventory-add-select" data-modal-id="{{ $inventoryItem->id }}" data-item-type="{{ $inventoryItem->type }}" name="type">
-                                                            <option value="Medicine" @if($inventoryItem->type == 'Medicine') selected @endif>Medicine</option>
-                                                            <option value="Equipment" @if($inventoryItem->type == 'Equipment') selected @endif>Equipment</option>
+                                                        <select class="form-control update-inventory-add-select" data-modal-id="{{ $inventoryItem->inventory_info->id }}" data-item-type="{{ $inventoryItem->inventory_info->type }}" name="type">
+                                                            <option value="Medicine" @if($inventoryItem->inventory_info->type == 'Medicine') selected @endif>Medicine</option>
+                                                            <option value="Equipment" @if($inventoryItem->inventory_info->type == 'Equipment') selected @endif>Equipment</option>
                                                         </select>
                                                     </div>
                                                 </div>
 
                                                 <!-- If 'type' is Medicine -->
-                                                <div class="row update-choosen-medicine" id="update-choosen-medicine-{{ $inventoryItem->id }}">
+                                                <div class="row update-choosen-medicine" id="update-choosen-medicine-{{ $inventoryItem->inventory_info->id }}">
                                                     <div class="col">
                                                         <label><b>Dosage:</b></label>
-                                                        <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->id }}" name="dosage" value="{{ old('dosage', $inventoryItem->dosage) }}">
+                                                        <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->inventory_info->id }}" name="dosage" value="{{ old('dosage', $inventoryItem->inventory_info->dosage) }}">
                                                         @error('dosage')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
@@ -131,9 +131,9 @@
                                                 </div>
 
                                                 <!-- If 'type' is Equipment -->
-                                                <div class="row update-choosen-equipment" id="update-choosen-equipment-{{ $inventoryItem->id }}" style="display: none;">
+                                                <div class="row update-choosen-equipment" id="update-choosen-equipment-{{ $inventoryItem->inventory_info->id }}" style="display: none;">
                                                     <div class="col">
-                                                        <input type="hidden" class="form-control" id="update-dosage2-status-{{ $inventoryItem->id }}" name="dosage" value="0" disabled>
+                                                        <input type="hidden" class="form-control" id="update-dosage2-status-{{ $inventoryItem->inventory_info->id }}" name="dosage" value="0" disabled>
                                                     </div>
                                                 </div>
                                                 
@@ -146,29 +146,29 @@
 
                             <!-- Adding Quantity -->
                             <div class="col-3">
-                                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdropAdd{{ $inventoryItem->id }}">Add Quantity</button>
+                                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdropAdd{{ $inventoryItem->inventory_info->id }}">Add Quantity</button>
                             </div>
 
                             <!-- Adding Quantity Modal -->
-                            <div class="modal fade" id="staticBackdropAdd{{ $inventoryItem->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropAdd{{ $inventoryItem->id }}" aria-hidden="true">
+                            <div class="modal fade" id="staticBackdropAdd{{ $inventoryItem->inventory_info->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropAdd{{ $inventoryItem->inventory_info->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <!-- Modal header -->
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropAdd{{ $inventoryItem->id }}">Add Quantity</h1>
+                                            <h1 class="modal-title fs-5" id="staticBackdropAdd{{ $inventoryItem->inventory_info->id }}">Add Quantity</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
 
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('nurse.inventoryAdd', $inventoryItem->id) }}">
+                                            <form method="POST" action="{{ route('nurse.inventoryAdd', $inventoryItem->inventory_info->id) }}">
                                                 @csrf
                                                 @method('PUT')
                                                 
                                                 <div class="row">
                                                     <div class="col">
                                                         <label><b>Current Quantity:</b></label>
-                                                        <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventoryItem->quantity }}" readonly>
+                                                        <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventoryItem->inventory_info->quantity }}" readonly>
                                                     </div>
                                                     <div class="col text-center">
                                                         <label class="h1">+</label>
@@ -188,29 +188,29 @@
 
                             <!-- Reducing Quantity -->
                             <div class="col-4">
-                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropReduce{{ $inventoryItem->id }}">Reduce Quantity</button>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropReduce{{ $inventoryItem->inventory_info->id }}">Reduce Quantity</button>
                             </div>
 
                             <!-- Reducing Quantity Modal -->
-                            <div class="modal fade" id="staticBackdropReduce{{ $inventoryItem->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropReduce{{ $inventoryItem->id }}" aria-hidden="true">
+                            <div class="modal fade" id="staticBackdropReduce{{ $inventoryItem->inventory_info->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropReduce{{ $inventoryItem->inventory_info->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <!-- Modal header -->
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropReduce{{ $inventoryItem->id }}">Deduct Quantity</h1>
+                                            <h1 class="modal-title fs-5" id="staticBackdropReduce{{ $inventoryItem->inventory_info->id }}">Deduct Quantity</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
 
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('nurse.inventoryReduce', $inventoryItem->id) }}">
+                                            <form method="POST" action="{{ route('nurse.inventoryReduce', $inventoryItem->inventory_info->id) }}">
                                                 @csrf
                                                 @method('PUT')
                                                 
                                                 <div class="row">
                                                     <div class="col">
                                                         <label><b>Current Quantity:</b></label>
-                                                        <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventoryItem->quantity }}" readonly>
+                                                        <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventoryItem->inventory_info->quantity }}" readonly>
                                                     </div>
                                                     <div class="col text-center">
                                                         <label class="h1">-</label>
@@ -238,44 +238,44 @@
 
             <!-- Search body of the table -->
             <tbody id="inventory-content" class="inventory-content-search">
-                @foreach($inventoryItems as $inventoryItem)
+                @foreach($inventory_infos as $inventory_info)
                 <!-- Update Item Info Modal -->
-                <div class="modal fade" id="staticBackdropUpdate{{ $inventoryItem->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $inventoryItem->id }}" aria-hidden="true">
+                <div class="modal fade" id="staticBackdropUpdate{{ $inventory_info->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $inventory_info->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <!-- Modal header -->
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel{{ $inventoryItem->id }}">Update Item Info</h1>
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel{{ $inventory_info->id }}">Update Item Info</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <form method="POST" action="{{ route('nurse.inventoryUpdate', $inventoryItem->id) }}">
+                                <form method="POST" action="{{ route('nurse.inventoryUpdate', $inventory_info->id) }}">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
                                         <div class="col">
                                             <label><b>Item Name:</b></label>
-                                            <input type="text" class="form-control" name="name" value="{{ old('name', $inventoryItem->name) }}" required>
+                                            <input type="text" class="form-control" name="name" value="{{ old('name', $inventory_info->name) }}" required>
                                             @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col">
                                             <label><b>Item Type:</b></label>
-                                            <select class="form-control update-inventory-add-select" data-modal-id="{{ $inventoryItem->id }}" data-item-type="{{ $inventoryItem->type }}" name="type">
-                                                <option value="Medicine" @if($inventoryItem->type == 'Medicine') selected @endif>Medicine</option>
-                                                <option value="Equipment" @if($inventoryItem->type == 'Equipment') selected @endif>Equipment</option>
+                                            <select class="form-control update-inventory-add-select" data-modal-id="{{ $inventory_info->id }}" data-item-type="{{ $inventory_info->type }}" name="type">
+                                                <option value="Medicine" @if($inventory_info->type == 'Medicine') selected @endif>Medicine</option>
+                                                <option value="Equipment" @if($inventory_info->type == 'Equipment') selected @endif>Equipment</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <!-- If 'type' is Medicine -->
-                                    <div class="row update-choosen-medicine" id="update-choosen-medicine-{{ $inventoryItem->id }}">
+                                    <div class="row update-choosen-medicine" id="update-choosen-medicine-{{ $inventory_info->id }}">
                                         <div class="col">
                                             <label><b>Dosage:</b></label>
-                                            <input type="number" class="form-control" id="update-dosage1-status-{{ $inventoryItem->id }}" name="dosage" value="{{ old('dosage', $inventoryItem->dosage) }}">
+                                            <input type="number" class="form-control" id="update-dosage1-status-{{ $inventory_info->id }}" name="dosage" value="{{ old('dosage', $inventory_info->dosage) }}">
                                             @error('dosage')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -283,9 +283,9 @@
                                     </div>
 
                                     <!-- If 'type' is Equipment -->
-                                    <div class="row update-choosen-equipment" id="update-choosen-equipment-{{ $inventoryItem->id }}" style="display: none;">
+                                    <div class="row update-choosen-equipment" id="update-choosen-equipment-{{ $inventory_info->id }}" style="display: none;">
                                         <div class="col">
-                                            <input type="hidden" class="form-control" id="update-dosage2-status-{{ $inventoryItem->id }}" name="dosage" value="0" disabled>
+                                            <input type="hidden" class="form-control" id="update-dosage2-status-{{ $inventory_info->id }}" name="dosage" value="0" disabled>
                                         </div>
                                     </div>
                                     
@@ -297,25 +297,25 @@
                 </div>
 
                 <!-- Adding Quantity Modal -->
-                <div class="modal fade" id="staticBackdropAdd{{ $inventoryItem->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropAdd{{ $inventoryItem->id }}" aria-hidden="true">
+                <div class="modal fade" id="staticBackdropAdd{{ $inventory_info->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropAdd{{ $inventory_info->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <!-- Modal header -->
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropAdd{{ $inventoryItem->id }}">Add Quantity</h1>
+                                <h1 class="modal-title fs-5" id="staticBackdropAdd{{ $inventory_info->id }}">Add Quantity</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <form method="POST" action="{{ route('nurse.inventoryAdd', $inventoryItem->id) }}">
+                                <form method="POST" action="{{ route('nurse.inventoryAdd', $inventory_info->id) }}">
                                     @csrf
                                     @method('PUT')
                                     
                                     <div class="row">
                                         <div class="col">
                                             <label><b>Current Quantity:</b></label>
-                                            <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventoryItem->quantity }}" readonly>
+                                            <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventory_info->quantity }}" readonly>
                                         </div>
                                         <div class="col text-center">
                                             <label class="h1">+</label>
@@ -334,25 +334,25 @@
                 </div>
 
                 <!-- Reducing Quantity Modal -->
-                <div class="modal fade" id="staticBackdropReduce{{ $inventoryItem->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropReduce{{ $inventoryItem->id }}" aria-hidden="true">
+                <div class="modal fade" id="staticBackdropReduce{{ $inventory_info->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropReduce{{ $inventory_info->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <!-- Modal header -->
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropReduce{{ $inventoryItem->id }}">Deduct Quantity</h1>
+                                <h1 class="modal-title fs-5" id="staticBackdropReduce{{ $inventory_info->id }}">Deduct Quantity</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <form method="POST" action="{{ route('nurse.inventoryReduce', $inventoryItem->id) }}">
+                                <form method="POST" action="{{ route('nurse.inventoryReduce', $inventory_info->id) }}">
                                     @csrf
                                     @method('PUT')
                                     
                                     <div class="row">
                                         <div class="col">
                                             <label><b>Current Quantity:</b></label>
-                                            <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventoryItem->quantity }}" readonly>
+                                            <input type="number" class="form-control" style="cursor: auto;" value="{{ $inventory_info->quantity }}" readonly>
                                         </div>
                                         <div class="col text-center">
                                             <label class="h1">-</label>
@@ -376,6 +376,7 @@
             </tbody>
         </table>
     </div>
+    {!! $inventoryItems->links('zomproj.customize-pagination', ['paginator' => $inventoryItems]) !!}
 </div>
 
 <!-- Add Item Modal -->
