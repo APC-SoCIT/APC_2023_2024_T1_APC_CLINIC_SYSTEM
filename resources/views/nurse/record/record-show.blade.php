@@ -148,7 +148,7 @@
             </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
-                <select class="info" id="consultation_date" name="consultation_date" data-record-id="{{ $record->id }}">
+                <select class="info" id="consultation_date" name="consultation_date">
                     <option selected disabled hidden>Select Date</option>
                     @foreach($record->consultations as $consultation)
                         @if($consultation->id )
@@ -214,22 +214,26 @@
             </div>
             <div class="col pt-2 text-right">
                 <i class="far fa-calendar"></i>
-                <select class="info" id="medical_exam_date" name="medical_exam_date" data-record-id="{{ $record->id }}">
+                <select class="info" id="medical_exam_date" name="medical_exam_date">
                     <option selected disabled hidden>Select Date</option>
                     @foreach($record->medical_exams as $medical_exam)
                         @if($medical_exam->id )
-                            @php
-                                $dateUpdated = $medical_exam->date_created;
-
-                                if($medical_exam->date_updated){
-                                    $dateUpdated = $medical_exam->date_updated ? $medical_exam->date_updated->format('m-d-Y') : null;
-                                }
-                            @endphp
-                            <option data-date-updated="{{ $dateUpdated }}"
+                            <option 
+                                @if($medical_exam->date_created && is_null($medical_exam->date_updated))
                                     data-date-created="{{ $medical_exam->date_created->format('m-d-Y') }}"
-                                    class="@if($medical_exam->date_updated) text-info @endif"
-                                    value="{{ $medical_exam->id }}">
-                                {{ $dateUpdated->format('F d, Y') }}
+                                @elseif($medical_exam->date_updated && is_null($medical_exam->date_created))
+                                    data-date-updated="{{ $medical_exam->date_updated->format('m-d-Y') }}"
+                                @else
+                                    data-id="{{ $medical_exam->id }}"
+                                @endif
+
+                                class="@if($medical_exam->date_updated && is_null($medical_exam->date_created)) text-info @endif"
+                                value="{{ $medical_exam->id }}">
+                                @if($medical_exam->date_created || ($medical_exam->date_created && $medical_exam->date_updated))
+                                    {{ $medical_exam->date_created->format('F d, Y') }}
+                                @elseif($medical_exam->date_updated)
+                                    {{ $medical_exam->date_updated->format('F d, Y') }}
+                                @endif
                             </option>
                         @endif
                     @endforeach
@@ -384,9 +388,10 @@
 
         medical_exam_date.addEventListener('change', function(){
             var selectedMEOption = $(this).find(':selected');
-            var selectedMedicalExamID = selectedMEOption.value;
+            var selectedMedicalExamID = selectedMEOption.val();
             var selectedME_created = selectedMEOption.data('date-created');
             var selectedME_update = selectedMEOption.data('date-updated');
+            var selectedME_id = selectedMEOption.data('id');
             var recordId = '{{ $record->id }}';
 
             // Show medical exam rows when an option is selected
@@ -397,7 +402,7 @@
             $.ajax({
                 type: 'GET',
                 url: '/nurse/record/' + recordId + '/medical-exam/',
-                data: { 'date': selectedME_created || selectedME_update, },
+                data: { 'medical_exam_id': selectedMedicalExamID, 'date_created': selectedME_created, 'date_updated':selectedME_update, 'id': selectedME_id },
                 success: function(data) {
                     // Handle the response and update your UI accordingly
                     console.log(data);

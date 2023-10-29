@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('medical_exams', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('record_id')->nullable();  // Add record_id
-            $table->date('date_created');
+            $table->date('date_created')->nullable();
             $table->date('date_updated')->nullable();
             $table->timestamps();
 
