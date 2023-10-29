@@ -69,7 +69,9 @@
 
                 <!-- Edit Info -->
                 <div class="col my-1">
+                    @if(auth()->user()->role->role === 'Nurse')
                     <a class="info btn btn-outline-info" href="{{ route('nurse.recordEdit', $record->id ) }}">Update Info</a>
+                    @endif
                 </div>
             </div>
         </div>
