@@ -465,10 +465,10 @@
                 <div class="row py-1 mx-auto mt-1 border">
                     <div class="col">
                         <label class="info mb-0">
-                            <input type="checkbox" class="customize-checkbox mr-1" id="medication" name="medication" value="Yes" onchange="toggleText_area('medication')" checked>
+                            <input type="checkbox" class="customize-checkbox mr-1" id="medication" name="medication" value="Yes" onchange="toggleNumber(this, 'medication')">
                             <span class="customize-checkbox-label h4"><strong>Medications:</strong></span>
                         </label>
-                        <textarea class="form-control" id="findingText_area-medication" rows="2" name="med_take" disabled>Not Applicable</textarea>
+                        <textarea class="form-control" id="med_take" rows="2" name="med_take" disabled>Not Applicable</textarea>
                     </div>
                 </div>
             </div>
@@ -1181,6 +1181,8 @@
         const hospital = document.getElementById("hospitalization_result");
         //operation
         const operation = document.getElementById("operation_result");
+        //medication
+        const med_take = document.getElementById("med_take");
         //eyes
         const eyes_od_top = document.getElementById("pe_eyes_top_od");
         const eyes_od_bot = document.getElementById("pe_eyes_bot_od");
@@ -1210,6 +1212,10 @@
             } else if (checkboxId === 'operation'){
                 operation.disabled = false;
                 operation.required = true;
+            } else if (checkboxId = 'medication'){
+                med_take.disabled = false;
+                med_take.required = true;
+                med_take.value = "";
             } else if (checkboxId === 'pe_eyes'){
                 eyes_od_top.value = "";
                 eyes_od_bot.value = "";
@@ -1261,6 +1267,10 @@
                 operation.value = "";
                 operation.disabled = true;
                 operation.required = false;
+            } else if (checkboxId = 'medication'){
+                med_take.disabled = true;
+                med_take.required = false;
+                med_take.value = "Not Applicable";
             } else if (checkboxId === 'pe_eyes'){
                 eyes_od_top.disabled = false;
                 eyes_od_bot.disabled = false;
