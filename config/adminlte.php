@@ -266,7 +266,7 @@ return [
     'dashboard_url3' => 'staffHome',
     'dashboard_url4' => 'nurseHome',
     'dashboard_url5' => 'doctorHome',
-    'dashboard_url6' => 'dentistHome',
+    'dashboard_url6' => 'dentist.recordIndex',
     'dashboard_url7' => 'adminHome',
     'logout_url' => 'logout',
     'login_url' => 'login',
@@ -410,7 +410,7 @@ return [
         ],
         [
             'text' => "Patient's Records",
-            'url' => '#',
+            'route' => 'dentist.recordIndex',
             'icon' => 'fas fa-regular fa-file-medical',
             'can' => 'dentist',
         ],

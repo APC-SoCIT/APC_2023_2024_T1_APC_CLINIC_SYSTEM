@@ -96,10 +96,11 @@ class RecordController extends Controller
         //    return view('doctor.record.record-home',compact('users', 'records',))
         //    ->with('i', (request()->input('page', 1) - 1) * 10);
         //}
-        //elseif(auth()->user()->role->role == 'Dentist')
-        //{
-
-        //}
+        elseif(auth()->user()->role->role == 'Dentist')
+        {
+            return view('dentist.record.record-home',compact('users', 'records',))
+                ->with('i', (request()->input('page', 1) - 1) * 10);
+        }
     }
 
     /**
@@ -145,7 +146,14 @@ class RecordController extends Controller
      */
     public function show(Record $record)
     {
-        return view('nurse.record.record-show', compact('record'));
+        if(auth()->user()->role->role == 'Nurse')
+        {
+            return view('nurse.record.record-show', compact('record'));
+        }
+        elseif(auth()->user()->role->role == 'Dentist')
+        {
+            return view('dentist.record.record-show', compact('record'));
+        }
     }
 
     /**

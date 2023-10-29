@@ -142,8 +142,36 @@ Route::middleware(['auth', 'role:Doctor'])->group(function () {
 
 //Dentist
 Route::middleware(['auth', 'role:Dentist'])->group(function () {
-    //homepage
-    Route::get('/dentist/home', [HomeController::class, 'dentistHome'])->name('dentistHome');
+    // record //////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/dentist/record', RecordController::class)->names([
+        'index' => 'dentist.recordIndex',
+        'store' => 'dentist.recordStore',
+        'show' => 'dentist.recordShow',
+        'edit' => 'dentist.recordEdit',
+        'update' => 'dentist.recordUpdate',
+    ])->except([
+        'create', 'delete'
+    ]);
+    
+    // record alternatives
+    Route::get('/dentist/record/create/{user}', [RecordController::class, 'create'])
+        ->name('dentist.recordCreate');
+
+    // record (Extra)
+    Route::get('/dentist/search', [RecordController::class, 'search'])
+    ->name('dentist.recordSearch');
+        
+    // record (Consultation part) //////////////////////////////////////////////////////////////////
+
+    // record (Consultation part) (Extra)
+    Route::get('/dentist/record/{record}/consultation/', [ConsultationController::class, 'date'])
+        ->name('dentist.consultationDate');
+
+    // record (Medical Exam part) //////////////////////////////////////////////////////////////////
+
+    // record (Medical Exam part) (Extra)
+    Route::get('/dentist/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
+        ->name('dentist.medicalExamDate');
 });
 
 //Admin
