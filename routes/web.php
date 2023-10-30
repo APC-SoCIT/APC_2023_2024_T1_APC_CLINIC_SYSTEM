@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DentalExamController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MedicalExamController;
 use App\Http\Controllers\RecordController;
@@ -111,6 +112,10 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     Route::get('/nurse/record/medical-exam/create/{record}', [MedicalExamController::class, 'create'])
         ->name('nurse.medicalExamCreate');
 
+    // record (Dental Exam part) (Extra) ///////////////////////////////////////////////////////////
+    Route::get('/nurse/record/{record}/dental-exam/', [DentalExamController::class, 'date'])
+        ->name('nurse.dentalExamDate');
+
     // inventory ///////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/inventory', InventoryController::class)->names([
         'index' => 'nurse.inventoryIndex',
@@ -145,33 +150,39 @@ Route::middleware(['auth', 'role:Dentist'])->group(function () {
     // record //////////////////////////////////////////////////////////////////////////////////////
     Route::resource('/dentist/record', RecordController::class)->names([
         'index' => 'dentist.recordIndex',
-        'store' => 'dentist.recordStore',
         'show' => 'dentist.recordShow',
-        'edit' => 'dentist.recordEdit',
-        'update' => 'dentist.recordUpdate',
     ])->except([
-        'create', 'delete'
+        'create', 'store', 'edit', 'update', 'delete'
     ]);
-    
-    // record alternatives
-    Route::get('/dentist/record/create/{user}', [RecordController::class, 'create'])
-        ->name('dentist.recordCreate');
 
     // record (Extra)
     Route::get('/dentist/search', [RecordController::class, 'search'])
     ->name('dentist.recordSearch');
         
-    // record (Consultation part) //////////////////////////////////////////////////////////////////
-
-    // record (Consultation part) (Extra)
+    // record (Consultation part) (Extra) /////////////////////////////////////////////////////////
     Route::get('/dentist/record/{record}/consultation/', [ConsultationController::class, 'date'])
         ->name('dentist.consultationDate');
 
-    // record (Medical Exam part) //////////////////////////////////////////////////////////////////
-
-    // record (Medical Exam part) (Extra)
+    // record (Medical Exam part) (Extra) /////////////////////////////////////////////////////////
     Route::get('/dentist/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
         ->name('dentist.medicalExamDate');
+
+    // record (Dental Exam part) //////////////////////////////////////////////////////////////////
+    Route::resource('dentist/record/dental-exam', DentalExamController::class)->names([
+        'store' => 'dentist.dentalExamStore',
+        'edit' => 'dentist.dentalExamEdit',
+        'update' => 'dentist.dentalExamUpdate',
+    ])->except([
+        'index', 'create', 'delete'
+    ]);
+
+    // record (Dental Exam part) (Extra)
+    Route::get('/dentist/record/{record}/dental-exam/', [DentalExamController::class, 'date'])
+        ->name('dentist.dentalExamDate');
+
+    // record (Dental Exam part) (Alternatives)
+    Route::get('/dentist/record/dental-exam/create/{record}', [DentalExamController::class, 'create'])
+        ->name('dentist.dentalExamCreate');
 });
 
 //Admin
