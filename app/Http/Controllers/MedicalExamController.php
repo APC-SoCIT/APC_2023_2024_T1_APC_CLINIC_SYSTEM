@@ -53,7 +53,17 @@ class MedicalExamController extends Controller
                     if ($medical_exam->date_updated && $medical_exam->date_created) {
                         $responseData['med_output'].='<span class="info">Original Copy</span>';
                     }else{
-                        $responseData['med_output'].='<a class="info btn btn-info ml-2" href="'. route('nurse.medicalExamEdit', $medical_exam->id ) .'">Update</a>';
+                        if(auth()->user()->role->role == 'Nurse'){
+                            $responseData['med_output'].='<a class="info btn btn-info ml-2" href="'. route('nurse.medicalExamEdit', $medical_exam->id ) .'">Update</a>';
+                        } else {
+                            $responseData['med_output'].='<a class="info btn btn-info ml-2" href="'. route('doctor.medicalExamEdit', $medical_exam->id ) .'">Update</a>';
+                        }
+                    }
+                } else {
+                    if ($medical_exam->date_updated && $medical_exam->date_created) {
+                        $responseData['med_output'].='<span class="info">Original Copy</span>';
+                    } else {
+                        $responseData['med_output'].='<span class="info">Updated Version</span>';
                     }
                 }
 

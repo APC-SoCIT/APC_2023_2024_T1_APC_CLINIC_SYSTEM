@@ -401,6 +401,8 @@
                 $('#medical_exam_header, #medical_exam_1, #medical_exam_2, #medical_exam_3, #medical_exam_4, #medical_exam_5, #medical_exam_6').show();
             }
 
+            $(this).toggleClass('text-info', selectedME_update);
+            
             $.ajax({
                 type: 'GET',
                 url: '/nurse/record/' + recordId + '/medical-exam/',
