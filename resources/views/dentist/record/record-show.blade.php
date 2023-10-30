@@ -128,7 +128,7 @@
     </div>
     <!-- If user doesn't have made Consultation -->
     <div class="border border-secondary mx-auto text-center" id="consultation-content-empty">
-        <span class="info">No Consultation has been made</span> 
+        <span class="info">No Consultation has been made, only the nurse and the doctor can provide this area</span> 
     </div>
     <!-- If user have made Consultation -->
     <div class="border border-secondary mx-auto" id="consultation-content">
@@ -196,7 +196,7 @@
     </div>
     <!-- If user doesn't have made Medical Exam -->
     <div class="border border-secondary mx-auto text-center" id="medical-exam-content-empty">
-        <span class="info">No Medical Exam has been made</span> 
+        <span class="info">No Medical Exam has been made, only the nurse and the doctor can provide this area</span> 
     </div>
     <!-- If user have made Medical Exam -->
     <div class="border border-secondary mx-auto" id="medical-exam-content">
@@ -267,10 +267,77 @@
     </div>
     <!-- If user doesn't have made Dental Exam -->
     <div class="border border-secondary mx-auto text-center" id="dental-exam-content-empty">
-        <span class="info">No Dental Exam has been made, only the dentist can provide this area.</span> 
+        <span class="info">No Dental Exam has been made, would you like to <a href="{{ route('dentist.dentalExamCreate', $record->id ) }}">Create</a>?</span> 
     </div>
     <!-- If user have made Dental Exam -->
     <div class="border border-secondary mx-auto" id="dental-exam-content">
+    @if(isset($record->dental_exams))
+        <!-- Date that being created (Automated) -->
+        <!-- Options -->
+        <div class="row mx-auto my-1">
+            <div class="col pt text-left" id="dental_exam_header" style="display: none;">
+            </div>
+            <div class="col pt-2 text-right">
+                <i class="far fa-calendar"></i>
+                <select class="info" id="dental_exam_date" name="dental_exam_date">
+                    <option selected disabled hidden>Select Date</option>
+                    @foreach($record->dental_exams as $dental_exam)
+                        @if($dental_exam->id )
+                            <option 
+                                @if($dental_exam->date_created && is_null($dental_exam->date_updated))
+                                    data-date-created="{{ $dental_exam->date_created->format('m-d-Y') }}"
+                                @elseif($dental_exam->date_updated && is_null($dental_exam->date_created))
+                                    data-date-updated="{{ $dental_exam->date_updated->format('m-d-Y') }}"
+                                @else
+                                    data-id="{{ $dental_exam->id }}"
+                                @endif
+
+                                class="@if($dental_exam->date_updated && is_null($dental_exam->date_created)) text-info @endif"
+                                value="{{ $dental_exam->id }}">
+                                @if($dental_exam->date_created || ($dental_exam->date_created && $dental_exam->date_updated))
+                                    {{ $dental_exam->date_created->format('F d, Y') }}
+                                @elseif($dental_exam->date_updated)
+                                    {{ $dental_exam->date_updated->format('F d, Y') }}
+                                @endif
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <!-- First Row -->
+        <div class="border border-2 row pt-2 mt-2 mx-auto" id="dental_exam_1" style="display: none;">
+        </div>
+            
+        <!-- Second Row -->
+        <div class="border border-2 row mt-1 pt-2 mx-auto" id="dental_exam_2" style="display: none;">
+        </div>
+        
+        <!-- Third Row -->
+        <div class="border border-2 row mt-1 py-2 mx-auto" id="dental_exam_3" style="display: none;">
+        </div>
+        
+        <!-- Fourth Row -->
+        <div class="border border-2 row my-1 py-1 mx-auto" id="dental_exam_4" style="display: none;">
+        </div>
+        
+        <!-- Fifth Row -->
+        <div class="border border-2 row my-1 py-1 mx-auto" id="dental_exam_5" style="display: none;">
+        </div>
+        
+        <!-- Sixth Row -->
+        <div class="border border-2 row my-1 py-1 mx-auto" id="dental_exam_6" style="display: none;">
+        </div>
+        
+        <!-- Sixth Row -->
+        <div class="border border-2 row my-1 py-1 mx-auto" id="dental_exam_7" style="display: none;">
+        </div>
+        
+        <!-- Sixth Row -->
+        <div class="border border-2 row my-1 py-1 mx-auto" id="dental_exam_8" style="display: none;">
+        </div>
+    @endif
     </div>
 </div>
 @stop
@@ -324,8 +391,13 @@
         
         // When the dental-exam-header is clicked
         $("#dental-exam-header").click(function () {
-            // Show dental-exam-content
+            @if ($record->dental_exams->where('record_id', $record->id)->isNotEmpty())
+            // Show consultation-content
             $("#dental-exam-content").slideToggle(500);
+            @else
+            // Show consultation-empty-content
+            $("#dental-exam-content-empty").slideToggle(100);
+            @endif;
         });
     });
 </script>
@@ -335,6 +407,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         var consultation_date = document.getElementById('consultation_date');
         var medical_exam_date = document.getElementById('medical_exam_date');
+        var dental_exam_date = document.getElementById('dental_exam_date');
 
         consultation_date.addEventListener('change', function () {
             // Get the selected option from the consultation_date dropdown
@@ -393,7 +466,9 @@
                 $('#medical_exam_header, #medical_exam_1, #medical_exam_2, #medical_exam_3, #medical_exam_4, #medical_exam_5, #medical_exam_6').show();
             }
 
-            $(this).toggleClass('text-info', selectedME_update);
+            if (selectedME_update && selectedME_created === null){
+                $(this).toggleClass('text-info');
+            }
 
             $.ajax({
                 type: 'GET',
@@ -409,6 +484,43 @@
                     $('#medical_exam_4').html(data.fourth_output);
                     $('#medical_exam_5').html(data.fifth_output);
                     $('#medical_exam_6').html(data.sixth_output);
+                },
+            });
+        });
+
+        dental_exam_date.addEventListener('change', function(){
+            var selectedDEOption = $(this).find(':selected');
+            var selectedDentalExamID = selectedDEOption.val();
+            var selectedDE_created = selectedDEOption.data('date-created');
+            var selectedDE_update = selectedDEOption.data('date-updated');
+            var selectedDE_id = selectedDEOption.data('id');
+            var recordId = '{{ $record->id }}';
+
+            // Show medical exam rows when an option is selected
+            if (selectedDEOption) {
+                $('#dental_exam_header, #dental_exam_1, #dental_exam_2, #dental_exam_3, #dental_exam_4, #dental_exam_5, #dental_exam_6, #dental_exam_7, #dental_exam_8').show();
+            }
+
+            if (selectedDE_update){
+                $(this).toggleClass('text-info');
+            }            
+
+            $.ajax({
+                type: 'GET',
+                url: '/dentist/record/' + recordId + '/dental-exam/',
+                data: { 'dental_exam_id': selectedDentalExamID, 'date_created': selectedDE_created, 'date_updated':selectedDE_update, 'id': selectedDE_id },
+                success: function(data) {
+                    // Handle the response and update your UI accordingly
+                    console.log(data);
+                    $('#medical_exam_header').html(data.med_output);
+                    $('#medical_exam_1').html(data.first_output);
+                    $('#medical_exam_2').html(data.second_output);
+                    $('#medical_exam_3').html(data.third_output);
+                    $('#medical_exam_4').html(data.fourth_output);
+                    $('#medical_exam_5').html(data.fifth_output);
+                    $('#medical_exam_6').html(data.sixth_output);
+                    $('#medical_exam_7').html(data.seventh_output);
+                    $('#medical_exam_8').html(data.eighth_output);
                 },
             });
         });
