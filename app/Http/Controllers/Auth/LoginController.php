@@ -59,7 +59,7 @@ class LoginController extends Controller
             }else if (auth()->user()->role->role == 'Nurse') {      //if User's role is Nurse
                 return redirect()->route('nurseHome');
             }else if (auth()->user()->role->role == 'Doctor') {     //if User's role is Doctor
-                return redirect()->route('doctorHome');
+                return redirect()->route('doctor.recordIndex');
             }else if (auth()->user()->role->role == 'Dentist') {    //if User's role is Dentist
                 return redirect()->route('dentist.recordIndex');
             }else if (auth()->user()->role->role == 'Admin') {      //if User's role is Admin

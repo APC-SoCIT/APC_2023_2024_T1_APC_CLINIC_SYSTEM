@@ -62,7 +62,7 @@ class MedicalExamController extends Controller
                 } else {
                     if ($medical_exam->date_updated && $medical_exam->date_created) {
                         $responseData['med_output'].='<span class="info">Original Copy</span>';
-                    } else {
+                    } else if ($medical_exam->date_updated){
                         $responseData['med_output'].='<span class="info">Updated Version</span>';
                     }
                 }
