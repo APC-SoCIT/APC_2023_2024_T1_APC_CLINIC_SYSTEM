@@ -261,11 +261,11 @@ return [
 
     'use_route_url' => true,
     'dashboard_url' => 'noRoleHome',
-    'dashboard_url1' => 'studentHome',
-    'dashboard_url2' => 'facultyHome',
-    'dashboard_url3' => 'staffHome',
+    'dashboard_url1' => 'student.recordIndex',
+    'dashboard_url2' => 'faculty.recordIndex',
+    'dashboard_url3' => 'staff.recordIndex',
     'dashboard_url4' => 'nurseHome',
-    'dashboard_url5' => 'doctorHome',
+    'dashboard_url5' => 'doctor.recordIndex',
     'dashboard_url6' => 'dentist.recordIndex',
     'dashboard_url7' => 'adminHome',
     'logout_url' => 'logout',
@@ -326,7 +326,7 @@ return [
         ],
         [
             'text' => "My Health Record",
-            'url' => '#',
+            'route' => 'student.recordIndex',
             'icon' => 'fas fa-regular fa-file-medical',
             'can' => 'student',
         ],
@@ -341,7 +341,7 @@ return [
 
         [
             'text' => "My Health Record",
-            'url' => '#',
+            'route' => 'faculty.recordIndex',
             'icon' => 'fas fa-regular fa-file-medical',
             'can' => 'faculty',
         ],
@@ -349,7 +349,7 @@ return [
         //Staff
         [
             'text' => 'Appointment',
-            'url' => '#',
+            'route' => 'staff.recordIndex',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'staff',
         ],
@@ -396,7 +396,7 @@ return [
         ],
         [
             'text' => "Patient's Records",
-            'url' => '#',
+            'route' => 'doctor.recordIndex',
             'icon' => 'fas fa-regular fa-file-medical',
             'can' => 'doctor',
         ],

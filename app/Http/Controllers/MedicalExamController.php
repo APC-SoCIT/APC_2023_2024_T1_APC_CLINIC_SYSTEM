@@ -1597,7 +1597,7 @@ class MedicalExamController extends Controller
         }
         elseif(auth()->user()->role->role == 'Doctor')
         {
-            return view('doctor.record.medical-exan.record-me-edit', compact('medical_exam'));
+            return view('doctor.record.medical-exam.record-me-edit', compact('medical_exam'));
         }
     }
 

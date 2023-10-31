@@ -80,26 +80,26 @@ class RecordController extends Controller
             return view('nurse.record.record-home',compact('users', 'records',))
                 ->with('i', (request()->input('page', 1) - 1) * 10);
         }
-        //elseif(auth()->user()->role->role == 'Student')
-        //{
-        //    $record = Record::where('user_id', '=', auth()->user()->id)->first();
-        //    return view('student.record.index', compact('record'));
-        //}
-        //elseif(auth()->user()->role->role == 'Faculty')
-        //{
-        //    $record = Record::where('user_id', '=', auth()->user()->id)->first();
-        //    return view('faculty.record.index', compact('record'));
-        //}
-        //elseif(auth()->user()->role->role == 'Staff')
-        //{
-        //    $record = Record::where('user_id', '=', auth()->user()->id)->first();
-        //    return view('faculty.record.index', compact('record'));
-        //}
-        //elseif(auth()->user()->role->role == 'Doctor')
-        //{
-        //    return view('doctor.record.record-home',compact('users', 'records',))
-        //    ->with('i', (request()->input('page', 1) - 1) * 10);
-        //}
+        elseif(auth()->user()->role->role == 'Student')
+        {
+            $record = Record::where('user_id', '=', auth()->user()->id)->first();
+            return view('student.record.record-show', compact('record'));
+        }
+        elseif(auth()->user()->role->role == 'Faculty')
+        {
+            $record = Record::where('user_id', '=', auth()->user()->id)->first();
+            return view('faculty.record.record-show', compact('record'));
+        }
+        elseif(auth()->user()->role->role == 'Staff')
+        {
+            $record = Record::where('user_id', '=', auth()->user()->id)->first();
+            return view('faculty.record.record-show', compact('record'));
+        }
+        elseif(auth()->user()->role->role == 'Doctor')
+        {
+            return view('doctor.record.record-home',compact('users', 'records',))
+                ->with('i', (request()->input('page', 1) - 1) * 10);
+        }
         elseif(auth()->user()->role->role == 'Dentist')
         {
             return view('dentist.record.record-home',compact('users', 'records',))
@@ -157,6 +157,10 @@ class RecordController extends Controller
         elseif(auth()->user()->role->role == 'Dentist')
         {
             return view('dentist.record.record-show', compact('record'));
+        }
+        elseif(auth()->user()->role->role == 'Doctor')
+        {
+            return view('doctor.record.record-show', compact('record'));
         }
     }
 

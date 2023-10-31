@@ -38,20 +38,68 @@ Route::middleware(['auth', 'role:No Role'])->group(function () {
 
 //Student
 Route::middleware(['auth', 'role:Student'])->group(function () {
-    //homepage
-    Route::get('/student/home', [HomeController::class, 'studentHome'])->name('studentHome');
+    // record /////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/student/record', RecordController::class)->names([
+        'index' => 'student.recordIndex',
+    ])->except([
+       'search', 'show', 'create', 'store', 'edit', 'update', 'delete'
+    ]);
+        
+    // record (Consultation part) (Extra) /////////////////////////////////////////////////////////
+    Route::get('/student/record/{record}/consultation/', [ConsultationController::class, 'date'])
+        ->name('student.consultationDate');
+
+    // record (Medical Exam part) (Extra) /////////////////////////////////////////////////////////
+    Route::get('/student/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
+        ->name('student.medicalExamDate');
+
+    // record (Dental Exam part) (Extra) //////////////////////////////////////////////////////////
+    Route::get('/student/record/{record}/dental-exam/', [DentalExamController::class, 'date'])
+        ->name('student.dentalExamDate');
 });
 
 //Faculty
 Route::middleware(['auth', 'role:Faculty'])->group(function () {
-    //homepage
-    Route::get('/faculty/home', [HomeController::class, 'facultyHome'])->name('facultyHome');
+    // record /////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/faculty/record', RecordController::class)->names([
+        'index' => 'faculty.recordIndex',
+    ])->except([
+       'search', 'show', 'create', 'store', 'edit', 'update', 'delete'
+    ]);
+        
+    // record (Consultation part) (Extra) /////////////////////////////////////////////////////////
+    Route::get('/faculty/record/{record}/consultation/', [ConsultationController::class, 'date'])
+        ->name('faculty.consultationDate');
+
+    // record (Medical Exam part) (Extra) /////////////////////////////////////////////////////////
+    Route::get('/faculty/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
+        ->name('faculty.medicalExamDate');
+
+    // record (Dental Exam part) (Extra) //////////////////////////////////////////////////////////
+    Route::get('/faculty/record/{record}/dental-exam/', [DentalExamController::class, 'date'])
+        ->name('faculty.dentalExamDate');
 });
 
 //Staff
 Route::middleware(['auth', 'role:Staff'])->group(function () {
-    //homepage
-    Route::get('/staff/home', [HomeController::class, 'staffHome'])->name('staffHome');
+    // record /////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/staff/record', RecordController::class)->names([
+        'index' => 'staff.recordIndex',
+    ])->except([
+       'search', 'show', 'create', 'store', 'edit', 'update', 'delete'
+    ]);
+        
+    // record (Consultation part) (Extra) /////////////////////////////////////////////////////////
+    Route::get('/staff/record/{record}/consultation/', [ConsultationController::class, 'date'])
+        ->name('staff.consultationDate');
+
+    // record (Medical Exam part) (Extra) /////////////////////////////////////////////////////////
+    Route::get('/staff/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
+        ->name('staff.medicalExamDate');
+
+    // record (Dental Exam part) (Extra) //////////////////////////////////////////////////////////
+    Route::get('/staff/record/{record}/dental-exam/', [DentalExamController::class, 'date'])
+        ->name('staff.dentalExamDate');
 });
 
 //Nurse
@@ -141,8 +189,55 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
 
 //Doctor
 Route::middleware(['auth', 'role:Doctor'])->group(function () {
-    //homepage
-    Route::get('/doctor/home', [HomeController::class, 'doctorHome'])->name('doctorHome');
+    // record //////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/doctor/record', RecordController::class)->names([
+        'index' => 'doctor.recordIndex',
+        'show' => 'doctor.recordShow',
+    ])->except([
+        'create', 'store', 'edit', 'update', 'delete'
+    ]);
+
+    // record (Extra)
+    Route::get('/record/search', [RecordController::class, 'search'])
+    ->name('nurse.recordSearch');
+        
+    // record (Consultation part) //////////////////////////////////////////////////////////////////
+    Route::resource('doctor/record/consultation', ConsultationController::class)->names([
+        'store' => 'doctor.consultationStore',
+        'edit' => 'doctor.consultationEdit',
+        'update' => 'doctor.consultationUpdate',
+    ])->except([
+        'index', 'create', 'delete'
+    ]);
+
+    // record (Consultation part) (Extra)
+    Route::get('/doctor/record/{record}/consultation/', [ConsultationController::class, 'date'])
+        ->name('doctor.consultationDate');
+    
+    // record (Consultation part) (Alternatives)
+    Route::get('/doctor/record/consultation/create/{record}', [ConsultationController::class, 'create'])
+        ->name('doctor.consultationCreate');
+
+    // record (Medical Exam part) //////////////////////////////////////////////////////////////////
+    Route::resource('doctor/record/medical-exam', MedicalExamController::class)->names([
+        'store' => 'doctor.medicalExamStore',
+        'edit' => 'doctor.medicalExamEdit',
+        'update' => 'doctor.medicalExamUpdate',
+    ])->except([
+        'index', 'create', 'delete'
+    ]);
+
+    // record (Medical Exam part) (Extra)
+    Route::get('/doctor/record/{record}/medical-exam/', [MedicalExamController::class, 'date'])
+        ->name('doctor.medicalExamDate');
+
+    // record (Medical Exam part) (Alternatives)
+    Route::get('/doctor/record/medical-exam/create/{record}', [MedicalExamController::class, 'create'])
+        ->name('doctor.medicalExamCreate');
+
+    // record (Dental Exam part) (Extra) ///////////////////////////////////////////////////////////
+    Route::get('/doctor/record/{record}/dental-exam/', [DentalExamController::class, 'date'])
+        ->name('doctor.dentalExamDate');
 });
 
 //Dentist
@@ -156,8 +251,8 @@ Route::middleware(['auth', 'role:Dentist'])->group(function () {
     ]);
 
     // record (Extra)
-    Route::get('/dentist/search', [RecordController::class, 'search'])
-    ->name('dentist.recordSearch');
+    Route::get('/record/search', [RecordController::class, 'search'])
+    ->name('nurse.recordSearch');
         
     // record (Consultation part) (Extra) /////////////////////////////////////////////////////////
     Route::get('/dentist/record/{record}/consultation/', [ConsultationController::class, 'date'])

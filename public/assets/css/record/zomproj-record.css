@@ -9,6 +9,13 @@ select.info{font-family: 'Oswald', sans-serif;}
     height: 550px;
 }
 
+/* CSS for Patient Home */
+.record-customize-container-height-patient{
+    height: 560px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 /* CSS for Create */
 .record-customize-create-container-height{
     height: 500px;

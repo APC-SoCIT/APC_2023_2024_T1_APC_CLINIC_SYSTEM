@@ -51,11 +51,11 @@ class LoginController extends Controller
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
             if (auth()->user()->role->role == 'Student') {          //if User's role is Student
-                return redirect()->route('studentHome');
+                return redirect()->route('student.recordIndex');
             }else if (auth()->user()->role->role == 'Faculty') {    //if User's role is Faculty
-                return redirect()->route('facultyHome');
+                return redirect()->route('faculty.recordIndex');
             }else if (auth()->user()->role->role == 'Staff') {      //if User's role is Staff
-                return redirect()->route('staffHome');
+                return redirect()->route('staff.recordIndex');
             }else if (auth()->user()->role->role == 'Nurse') {      //if User's role is Nurse
                 return redirect()->route('nurseHome');
             }else if (auth()->user()->role->role == 'Doctor') {     //if User's role is Doctor
