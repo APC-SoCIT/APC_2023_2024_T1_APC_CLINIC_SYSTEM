@@ -129,7 +129,7 @@
         $.ajax({
             type:'get',
             // Define the URL for the search request (likely configured in a Laravel route).
-            url:'{{ route('nurse.recordSearch') }}',
+            url:'{{ route('dentist.recordSearch') }}',
             // Send the user's input as search data.
             data:{'search':$value},
 
