@@ -29,11 +29,11 @@ class DentalExamResult extends Model
     }
 
     //how many relationship does this model have with other models
-    public function restoration()
+    public function restoration_respond()
     {
         return $this->hasOne(Restoration::class);
     }
-    public function extraction()
+    public function extraction_respond()
     {
         return $this->hasOne(Extraction::class);
     }
