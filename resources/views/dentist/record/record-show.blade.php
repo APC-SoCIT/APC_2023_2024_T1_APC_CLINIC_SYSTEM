@@ -466,8 +466,10 @@
                 $('#medical_exam_header, #medical_exam_1, #medical_exam_2, #medical_exam_3, #medical_exam_4, #medical_exam_5, #medical_exam_6').show();
             }
 
-            if (selectedME_update && selectedME_created === null){
-                $(this).toggleClass('text-info');
+            if (selectedME_update) {
+                $(this).addClass('text-info');
+            } else {
+                $(this).removeClass('text-info');
             }
 
             $.ajax({
@@ -476,7 +478,6 @@
                 data: { 'medical_exam_id': selectedMedicalExamID, 'date_created': selectedME_created, 'date_updated':selectedME_update, 'id': selectedME_id },
                 success: function(data) {
                     // Handle the response and update your UI accordingly
-                    console.log(data);
                     $('#medical_exam_header').html(data.med_output);
                     $('#medical_exam_1').html(data.first_output);
                     $('#medical_exam_2').html(data.second_output);
@@ -501,9 +502,11 @@
                 $('#dental_exam_header, #dental_exam_1, #dental_exam_2, #dental_exam_3, #dental_exam_4, #dental_exam_5, #dental_exam_6, #dental_exam_7, #dental_exam_8').show();
             }
 
-            if (selectedDE_update){
-                $(this).toggleClass('text-info');
-            }            
+            if (selectedDE_update) {
+                $(this).addClass('text-info');
+            } else {
+                $(this).removeClass('text-info');
+            }        
 
             $.ajax({
                 type: 'GET',
@@ -511,16 +514,15 @@
                 data: { 'dental_exam_id': selectedDentalExamID, 'date_created': selectedDE_created, 'date_updated':selectedDE_update, 'id': selectedDE_id },
                 success: function(data) {
                     // Handle the response and update your UI accordingly
-                    console.log(data);
-                    $('#medical_exam_header').html(data.med_output);
-                    $('#medical_exam_1').html(data.first_output);
-                    $('#medical_exam_2').html(data.second_output);
-                    $('#medical_exam_3').html(data.third_output);
-                    $('#medical_exam_4').html(data.fourth_output);
-                    $('#medical_exam_5').html(data.fifth_output);
-                    $('#medical_exam_6').html(data.sixth_output);
-                    $('#medical_exam_7').html(data.seventh_output);
-                    $('#medical_exam_8').html(data.eighth_output);
+                    $('#dental_exam_header').html(data.den_output);
+                    $('#dental_exam_1').html(data.first_output);
+                    $('#dental_exam_2').html(data.second_output);
+                    $('#dental_exam_3').html(data.third_output);
+                    $('#dental_exam_4').html(data.fourth_output);
+                    $('#dental_exam_5').html(data.fifth_output);
+                    $('#dental_exam_6').html(data.sixth_output);
+                    $('#dental_exam_7').html(data.seventh_output);
+                    $('#dental_exam_8').html(data.eighth_output);
                 },
             });
         });
