@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
-use App\Models\Role;
 use Faker\Generator as Faker;
 
 class UserFactory extends Factory

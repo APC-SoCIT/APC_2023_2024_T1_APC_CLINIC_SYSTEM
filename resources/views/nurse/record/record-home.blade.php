@@ -90,6 +90,7 @@
         </table>
     </div>
 </div>
+{!! $users->links('zomproj.customize-pagination', ['paginator' => $users]) !!}
 @stop
 
 <!-- CSS -->
