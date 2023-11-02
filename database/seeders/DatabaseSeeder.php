@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserRolesTestSeeder::class,
             InventoryItemsSeeder::class,
-            TestRecordSeeder::class,
+            //TestRecordSeeder::class,
         ]);
     }
 }

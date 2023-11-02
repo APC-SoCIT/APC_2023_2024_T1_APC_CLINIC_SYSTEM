@@ -3,11 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use App\Models\User;
+use App\Models\Role;
+use Faker\Generator as Faker;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
     /**
@@ -17,12 +16,10 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $school_id = '20'.$this->faker->numberBetween(20,23) .'-'. str_pad($this->faker->randomNumber(6), 6, '0', STR_PAD_LEFT);
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'school_id' => $school_id,
         ];
     }
 
