@@ -24,12 +24,16 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the model's school id is from the faculty or staff address should be unverified.
      */
-    public function unverified(): static
+    public function worker(): Factory
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(function (array $attributes) {
+            $school_id = '20'.$this->faker->numberBetween(20,23) .'-'. str_pad($this->faker->randomNumber(5), 5, '0', STR_PAD_LEFT);
+            
+            return [
+                'school_id' => $school_id,
+            ];
+        });
     }
 }
