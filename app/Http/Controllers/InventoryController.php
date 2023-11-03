@@ -87,13 +87,13 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $inventory = Inventory::create();
+
         $request->validate([
-            'inventory_id' => $inventory->id,
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('inventories')->where(function ($query) use ($request) {
+                Rule::unique('inventory_infos')->where(function ($query) use ($request) {
                     return $query->where('type', $request->type)
                         ->orWhere('dosage', $request->dosage);
                 }),
@@ -103,7 +103,10 @@ class InventoryController extends Controller
             'dosage' => 'required_if:type,Medicine|integer',
         ]);
 
-        InventoryInfo::create($request->all());
+        $inventoryData = $request->all();
+        $inventoryData['medical_exam_id'] = $inventory->id;
+
+        InventoryInfo::create($inventoryData);
         return redirect()->route('nurse.inventoryIndex')
             ->with('success', 'Item added successfully');
     }
