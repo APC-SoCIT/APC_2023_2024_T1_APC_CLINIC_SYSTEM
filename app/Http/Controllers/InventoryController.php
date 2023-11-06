@@ -162,16 +162,24 @@ class InventoryController extends Controller
      */
     public function add(Request $request, InventoryInfo $inventoryItem)
     {
-        /**
-         * Update item info
-         */
         $request->validate([
             'add_quantity' => 'required|integer',
         ]);
     
-        // Ensure the reduce_quantity is less than or equal to the current quantity
+        // Adding original from input quantity
         $newQuantity = $inventoryItem->quantity + $request->input('add_quantity');
         $inventoryItem->update(['quantity' => $newQuantity]);
+
+        //if the add item has not yet made
+        if(!$inventoryItem->add && $inventoryItem->add != now()){
+            $addData = $request->all();
+            $addData['inventory_info_id'] = $inventoryItem->id;
+
+            AddQuantity::create($addData);
+        } else {
+            $newAdd = $inventoryItem->add->add_quantity + $request->input('add_quantity');
+            $inventoryItem->add->update(['add_quantity' => $newAdd]);
+        }
 
         return redirect()->route('nurse.inventoryIndex')
             ->with('success', "Item's quantity added successfully");
@@ -190,6 +198,17 @@ class InventoryController extends Controller
         if ($request->input('reduce_quantity') <= $inventoryItem->quantity) {
             $newQuantity = $inventoryItem->quantity - $request->input('reduce_quantity');
             $inventoryItem->update(['quantity' => $newQuantity]);
+
+            //if the reduce item has not yet made
+            if(!$inventoryItem->reduce && $inventoryItem->reduce != now()){
+                $reduceData = $request->all();
+                $reduceData['inventory_info_id'] = $inventoryItem->id;
+
+                ReduceQuantity::create($reduceData);
+            } else {
+                $newReduce = $inventoryItem->reduce->reduce_quantity + $request->input('reduce_quantity');
+                $inventoryItem->reduce->update(['reduce_quantity' => $newReduce]);
+            }
     
             return redirect()->route('nurse.inventoryIndex')
                 ->with('success', "Item's quantity deducted successfully");

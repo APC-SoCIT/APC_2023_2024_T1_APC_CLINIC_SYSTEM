@@ -24,12 +24,12 @@ class InventoryInfo extends Model
     }
     
     //how many relationship does this model have with other models
-    public function add_quantity()
+    public function add()
     {
         return $this->hasOne(AddQuantity::class);
     }
     //how many relationship does this model have with other models
-    public function reduce_quantity()
+    public function reduce()
     {
         return $this->hasOne(ReduceQuantity::class);
     }
