@@ -1,5 +1,11 @@
 .record-customize-container-height-daily{
-    height: 560px;
+    height: 240px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.record-customize-container-height-visit{
+    height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
 }
