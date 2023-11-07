@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\DentalExamController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MedicalExamController;
+use App\Http\Controllers\DailyController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\MedicalExamController;
+use App\Http\Controllers\DentalExamController;
 use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -105,7 +106,11 @@ Route::middleware(['auth', 'role:Staff'])->group(function () {
 //Nurse
 Route::middleware(['auth', 'role:Nurse'])->group(function () {
     //homepage
-    Route::get('/nurse/home', [HomeController::class, 'nurseHome'])->name('nurseHome');
+    Route::resource('/nurse/daily-visit', DailyController::class)->names([
+        'index' => 'nurse.dailyIndex',
+    ])->except([
+        'show', 'edit', 'update', 'delete'
+    ]);
 
     // record //////////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/record', RecordController::class)->names([

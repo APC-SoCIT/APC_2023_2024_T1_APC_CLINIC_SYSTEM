@@ -264,7 +264,7 @@ return [
     'dashboard_url1' => 'student.recordIndex',
     'dashboard_url2' => 'faculty.recordIndex',
     'dashboard_url3' => 'staff.recordIndex',
-    'dashboard_url4' => 'nurseHome',
+    'dashboard_url4' => 'nurse.dailyIndex',
     'dashboard_url5' => 'doctor.recordIndex',
     'dashboard_url6' => 'dentist.recordIndex',
     'dashboard_url7' => 'adminHome',
