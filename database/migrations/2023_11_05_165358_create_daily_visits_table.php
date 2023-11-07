@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();  // Add user_id
             $table->string('daily_name');
+            $table->string('daily_id')->nullable();
             $table->date('date');
             $table->time('time');
             $table->timestamps();
