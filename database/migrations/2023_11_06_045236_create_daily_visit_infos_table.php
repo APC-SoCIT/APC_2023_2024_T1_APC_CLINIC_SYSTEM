@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('sub_complaint');
             $table->text('treatment')->nullable();
             $table->string('medicine')->default('No');
-            $table->string('medicine_take')->default('No');
+            $table->integer('medicine_take')->nullable();
             $table->string('take')->nullable();
             $table->timestamps();
 

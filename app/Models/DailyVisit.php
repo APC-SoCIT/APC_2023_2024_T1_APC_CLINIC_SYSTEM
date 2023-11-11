@@ -24,6 +24,7 @@ class DailyVisit extends Model
      */
     protected $casts = [
         'date' => 'date:m-d-Y',
+        'time' => 'datetime:H:i:s',
     ];
 
     //where this model belong to other model

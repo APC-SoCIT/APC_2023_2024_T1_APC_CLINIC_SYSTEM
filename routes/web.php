@@ -108,9 +108,16 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     //homepage
     Route::resource('/nurse/daily-visit', DailyController::class)->names([
         'index' => 'nurse.dailyIndex',
+        'store' => 'nurse.dailyStore',
     ])->except([
         'show', 'edit', 'update', 'delete'
     ]);
+
+    // homepage (Extra)
+    Route::get('/record/daily-visit/search', [DailyController::class, 'name'])
+        ->name('nurse.dailyName');
+    Route::get('/record/daily-visit/take', [DailyController::class, 'used'])
+        ->name('nurse.dailyUsed');
 
     // record //////////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/record', RecordController::class)->names([
@@ -129,7 +136,7 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
 
     // record (Extra)
     Route::get('/record/search', [RecordController::class, 'search'])
-    ->name('nurse.recordSearch');
+        ->name('nurse.recordSearch');
         
     // record (Consultation part) //////////////////////////////////////////////////////////////////
     Route::resource('nurse/record/consultation', ConsultationController::class)->names([

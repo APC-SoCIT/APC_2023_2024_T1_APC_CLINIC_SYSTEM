@@ -1,5 +1,11 @@
 @extends('adminlte::page')
 
+<!-- Added PHP where detects if the date recorded from $daily_visits is for today -->
+@php
+    $todayRecords = $daily_visits->filter(function ($daily_visit) {
+        return $daily_visit->date->isToday();
+    });
+@endphp
 <!-- Tabs Title -->
 @section('title', 'Homepage')
 
@@ -12,52 +18,57 @@
 @section('content')
 <div class="container-xxl border mb-2 record-customize-container-height-daily">
     <!-- Form Row -->
-    <form method="POST" action="" onsubmit="return confirm('Are you sure you want to submit this medical exam?');">
+    <form method="POST" action="{{ route('nurse.dailyStore') }}" onsubmit="return confirm('Are you sure you want to record this visit?');">
         @csrf
         <div class="row row-cols-1 border">
             <!-- General Information Row -->
             <div class="col">
-                <div class="row"> 
+                <div class="row mb-1"> 
                     <!-- Patient Name -->
                     <div class="col">
-                        <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-                        <input type="text" class="form-control" name="" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+                            <input type="text" class="form-control" id="daily_name" name="daily_name" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         </div>
                     </div> 
 
                     <!-- ID -->
-                        <div class="col">
-                        <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Student ID</span>
-                        <input type="text" class="form-control-plaintext" name="" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
+                    <div class="col">
+                        <div class="input-group mb-1">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Student ID</span>
+                            <input type="text" class="form-control-plaintext px-2" id="daily_id" name="daily_id" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
                         </div>
                     </div>
+
                     <!-- Date -->
                     <div class="col-2">
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-1">
                             <span class="input-group-text mr-2" id="inputGroup-sizing-default"><i class="far fa-calendar"></i></span>
-                            <input type="date" class="form-control-plaintext" id="current_date" name="" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
+                            <input type="date" class="form-control-plaintext" id="current_date" name="date" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
                         </div>
                     </div>
 
                     <!-- Time -->
                     <div class="col-2">
-                        <input type="time" class="form-control-plaintext" id="current_time" name="" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
+                        <input type="time" class="form-control-plaintext" id="current_time" name="time" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" readonly>
                     </div>
                 </div> 
             </div> 
+
+            <!-- Dropdown connect to the Name -->
+            <ul class="customize-name-dropdown border px-2" id="name_dropdown"></ul> 
+
             <!-- Second Row -->
-            <div class="row row-cols-1 border mb-2">
+            <div class="row row-cols-1 border">
                 <!-- Complaint Row -->
                 <div class="col">
                     <div class="row"> 
                         <!-- Main Complaint -->
                         <div class="col">
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="main_compliant">Main Complaint</label>
+                                <label class="input-group-text" for="main_compliant" required>Main Complaint</label>
                                 <select class="form-control" name="main_complaint" id="main_compliant">
-                                    <option selected hidden>Choose...</option>
+                                    <option selected hidden disbaled>Choose...</option>
                                     <option value="Cardiology">Cardiology</option>
                                     <option value="Pulmonology">Pulmonology</option>
                                     <option value="Gastroenterology">Gastroenterology</option>
@@ -79,9 +90,9 @@
                         <!-- Sub Complaint -->
                         <div class="col">
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="sub_complaint">Sub Complaint</label>
+                                <label class="input-group-text" for="sub_complaint" required>Sub Complaint</label>
                                 <select class="form-control" name="sub_complaint" id="sub_complaint">
-                                    <option selected hidden>Choose...</option>
+                                    <option selected hidden disbaled>Choose...</option>
                                 </select>
                             </div>
                         </div> 
@@ -93,13 +104,32 @@
                 <!-- Treatment Row -->
                 <div class="input-group">
                     <span class="input-group-text">Treatment Notes</span>
-                    <textarea class="form-control" name="" aria-label="Treatment Notes"></textarea>
+                    <textarea class="form-control" name="treatment" aria-label="Treatment Notes" required></textarea>
                 </div>
             </div> 
             
-            <!-- Submit -->
-            <div class="col text-right px-3 my-2" style="width: 75px;">
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- Medicibe and Submit -->
+            <div class="col">
+                <div class="row">
+                    <!-- Medicine -->
+                    <div class="col-2 px-3 my-2">
+                        <input type="checkbox" class="customize-checkbox-label" id="medicine" name="medicine" onclick="toggleTake('medicine')" value="Yes">
+                        <label class="h4">Take Medicine?</label>
+                    </div>
+
+                    <!-- If medicine is checked show this -->
+                    <div class="col-3 px-3 my-2" id="medicine_take_cols" style="display: none;">
+                        <label class="h4">How many?</label>
+                        <input type="number" class="customize-input-number" id="medicine_take" name="medicine_take" oninput="updateMedicineInputs()">
+                    </div>
+                    
+                    <!-- add input on what medicine and taken depends on value requested -->
+                    <div class="col px-3 my-2" id="medicine_take_type" style="max-height: 150px; overflow-y: auto;"></div>
+
+                    <div class="col text-right px-3 my-2" style="width: 75px;">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -112,31 +142,33 @@
         <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Complainant Name</th>
                 <th scope="col">ID Number</th>
                 <th scope="col">Time of Visit</th>
             </tr>
             </thead>
             <tbody>
+            @if($todayRecords->isEmpty())
                 <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>2018-343002</td>
-                    <td>12:00 PM</td>
+                    <td colspan="4" class="text-center">
+                        <h2>No visit record has been made today</h2>
+                    </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Layla Dingle</td>
-                    <td>2020-000221</td>
-                    <td>9:25 AM</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Ayaka Kamisato</td>
-                    <td>2020-444201</td>
-                    <td>2:30 PM</td>
-                </tr>
+            @elseif($daily_visits->isNotEmpty())
+                @foreach($daily_visits as $daily_visit)
+                    @if($daily_visit->date->isToday())
+                        <tr>
+                            <td>{{ $daily_visit->daily_name }}</td>
+                            @if($daily_visit->daily_id)
+                                <td>{{ $daily_visit->daily_id }}</td>
+                            @else
+                                <td><p>Outside of the Facility</p></td>
+                            @endif
+                            <td>{{ $daily_visit->date->format('F d, Y') }} - {{ $daily_visit->time->format('h:i A') }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+            @endif
             </tbody>
         </table>
     </div>
@@ -162,24 +194,29 @@
 <!-- Get Current Date and Time Live -->
 <script>
     $(document).ready(function(){
+        // Function to update date and time
         function updateDateTime() {
             const date = new Date();
 
             // Update Date
             var currentDate = document.getElementById("current_date");
+            // Format the date as ISO string and extract the date part
             var formattedDate = date.toISOString().split('T')[0];
+            // Set the value of the 'current_date' input field
             currentDate.value = formattedDate;
 
             // Update Time
             var currentTime = document.getElementById("current_time");
+            // Format the time as a string and extract the time part
             var formattedTime = date.toTimeString().split(' ')[0];
+            // Set the value of the 'current_time' input field
             currentTime.value = formattedTime;
         }
 
         // Update every second (1000 milliseconds)
         setInterval(updateDateTime, 1000);
 
-        // Initial update
+        // Initial update when the document is ready
         updateDateTime();
     });
 </script>
@@ -290,5 +327,133 @@
             }
         });
     });
+</script>
+
+<!-- Dropdown live search for User Name -->
+<script type="text/javascript">
+    // This script listens for user input in the 'search' input field and triggers an action when a key is released.
+    $('#daily_name').on('keyup', function(){
+        // Get the value entered by the user.
+        $value=$(this).val();
+
+        // default will be change into search if it has value
+        if($value){
+            $('#name_dropdown').show();
+            $('#daily_id').val('');
+        } else {
+            $('#name_dropdown').hide();            
+            $('#daily_id').val('');
+        }
+
+        // Send an AJAX GET request to the server to perform a search using the user's input.
+        $.ajax({
+            type:'get',
+            // Define the URL for the search request (likely configured in a Laravel route).
+            url:'{{ route('nurse.dailyName') }}',
+            // Send the user's input as search data.
+            data:{'name' : $value},
+
+            // When the server responds successfully, update the page with the received data.
+            success:function(data){
+                // Replace the HTML content of an element with id 'name_dropdown' with the new data.
+                $('#name_dropdown').html(data);
+
+                // Add a click event listener to the dropdown names
+                $('.dropdown-names').click(function(){
+                    // Set the daily_name input value to the clicked name
+                    $('#daily_name').val($(this).data('fill_name'));
+                    // Set the daily_id input value to the clicked ID
+                    $('#daily_id').val($(this).data('fill_id'));
+                    // Hide the dropdown after selection
+                    $('#name_dropdown').hide();
+                });
+            }
+        });
+    });
+</script>
+
+<!-- Checkbox -->
+<script>
+    function toggleTake(checkboxId) {
+        var count_cols = document.getElementById(checkboxId + "_take_cols");
+        var count = document.getElementById(checkboxId + "_take");
+        var med_type = document.getElementById(checkboxId + "_take_type");
+        var checkbox = document.getElementById(checkboxId);
+        count.required = checkbox.checked;
+        if (!checkbox.checked) {
+            count.value = ""; // Clear input text
+            checkbox.value = "No"; // Set checkbox value to "No"
+            count_cols.style.display = 'none'; // Hide the associated element
+            count.required = false;
+        }else{
+            count.value = ""; // Clear input text
+            checkbox.value = "Yes"; // Set checkbox value to "Yes"
+            count_cols.style.display = 'block'; // Show the associated element
+        }
+    }
+</script>
+
+<!-- JavaScript to dynamically add inputs -->
+<script type="text/javascript">
+    function updateMedicineInputs() {
+        var medicineTakeValue = document.getElementById("medicine_take").value;
+        var medicineTakeTypeDiv = document.getElementById("medicine_take_type");
+
+        // Clear existing content
+        medicineTakeTypeDiv.innerHTML = "";
+
+        // Add new inputs based on medicineTakeValue
+        for (var i = 1; i <= medicineTakeValue; i++) {
+            // Create a container for each set of inputs
+            var container = document.createElement("div");
+
+            container.innerHTML = `
+                <label for="medicine_name_${i}">Name of the Medicine take:</label> 
+                <span id="quantity_med_${i}"></span> 
+                <select name="medicine_name[]" id="medicine_name_${i}" onchange="showQuantity(${i})" style="width: 175px;" required>
+                    <option hidden disabled selected>Choose Medicine</option>
+                    @foreach($inventory_infos as $inventory_info)
+                        <option value="{{ $inventory_info->name }}">{{ $inventory_info->name }}</option>
+                    @endforeach
+                </select>
+                = 
+                <input type="number" class="customize-input-number" id="med_quantity_${i}" name="medicine_quantity[]" placeholder="Take" required><br>
+                <textarea id="taking_${i}" name="take[]" class="recording_meds" hidden></textarea>
+            `;
+
+            medicineTakeTypeDiv.appendChild(container);
+        }
+    }
+
+    function showQuantity(i) {
+        var selectedMed = document.getElementById('medicine_name_' + i);
+        var inputQuant = document.getElementById('med_quantity_' + i);
+        var selectedQuantity = document.getElementById('quantity_med_' + i);
+        var filling = document.getElementById('taking_' + i);
+
+        // Bind 'input' event for live updates
+        $(inputQuant).on('input', function () {
+            filling.value = i +'. Medicine: ' + selectedMed.value + ' Take: ' + inputQuant.value;
+        });
+
+        if (selectedMed) {
+            filling.value = i +'. Medicine: ' + selectedMed.value + ' Take: ' + inputQuant.value;
+        }
+
+        // Send an AJAX GET request to the server to perform a search using the user's input.
+        $.ajax({
+            type: 'get',
+            // Define the URL for the search request (likely configured in a Laravel route).
+            url: '{{ route('nurse.dailyUsed') }}',
+            // Send the user's input as search data.
+            data: { 'medicine_name': selectedMed.value },
+
+            // When the server responds successfully, update the page with the received data.
+            success: function (data) {
+                // Replace the HTML content of an element with id 'quantity_med_' + i with the new data.
+                selectedQuantity.innerHTML = data;
+            }
+        });
+    }
 </script>
 @stop
