@@ -413,11 +413,11 @@
                 <select name="medicine_name[]" id="medicine_name_${i}" onchange="showQuantity(${i})" style="width: 175px;" required>
                     <option hidden disabled selected>Choose Medicine</option>
                     @foreach($inventory_infos as $inventory_info)
-                        <option value="{{ $inventory_info->name }}">{{ $inventory_info->name }}</option>
+                        <option value="{{ $inventory_info->name }}" data-id="{{ $inventory_info->id }}">{{ $inventory_info->name }}</option>
                     @endforeach
                 </select>
                 = 
-                <input type="number" class="customize-input-number" id="med_quantity_${i}" name="medicine_quantity[]" placeholder="Take" required><br>
+                <input type="number" class="customize-input-number" id="med_quantity_${i}" name="reduce_quantity[]" placeholder="Take" required><br>
                 <textarea id="taking_${i}" name="take[]" class="recording_meds" hidden></textarea>
             `;
 

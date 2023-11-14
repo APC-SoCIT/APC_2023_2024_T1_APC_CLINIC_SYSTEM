@@ -40,3 +40,10 @@
     width: 
     55px;
 }
+
+input.customize-bg-input {
+    background-color: transparent;
+    border: none; /* Remove the border */
+    width: 50px; /* Adjust padding as needed */
+    pointer-events: none;
+  }

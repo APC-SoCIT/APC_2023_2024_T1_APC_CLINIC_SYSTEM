@@ -19,7 +19,7 @@ class DailyController extends Controller
             ->get();
 
         foreach ($InventoryInfos as $InventoryInfo) {
-            $quantity_output.='<a>'. $InventoryInfo->quantity .'</a>';
+            $quantity_output.='<input type="number" class="customize-bg-input" name="quantity[]" value="'. $InventoryInfo->quantity .'" readonly>';
         }
 
         return response($quantity_output);
@@ -87,7 +87,8 @@ class DailyController extends Controller
         ]);
         
         // Combine multiple take values into one
-        $validatedData['take'] = implode(', ', $validatedData['take']);
+        $validatedData['take'] = implode('
+        ', $validatedData['take']);
         
         $daily_visit_infoData = $validatedData;
         $daily_visit_infoData['daily_visit_id'] = $daily_visit->id;
