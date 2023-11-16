@@ -36,35 +36,6 @@
                     <span class="info">{{ $record->user->school_id }}</span>
                 </div>
 
-                <!-- Patient's Grade, Year, or Specialization -->
-                <div class="col my-1">
-                    @if($record->user->role->role == 'Student')
-                        @if($record->user->grade)
-                        <label class="info"><b>Grade:</b></label>
-                        <span class="info">{{ $record->user->grade }}</span>
-                        @elseif($record->user->year)
-                        <label class="info"><b>Year:</b></label>
-                        <span class="info">{{ $record->user->year }}</span>
-                        @endif
-                    @else
-                    <label class="info"><b>Specialization:</b></label>
-                    <span class="info">{{ $record->user->specialization }}</span>
-                    @endif
-                </div>
-                
-                <!-- Patient's Course and Section (Student) -->
-                @if($record->user->role->role == 'Student')
-                <div class="col my-1">
-                    <label class="info"><b>Course:</b></label>
-                    <span class="info">{{ $record->user->course }}</span>
-                </div>
-                
-                <div class="col my-1">
-                    <label class="info"><b>Section:</b></label>
-                    <span class="info">{{ $record->user->section }}</span>
-                </div>
-                @endif
-
                 <!-- Patient's Mobile Number -->
                 <div class="col my-1">
                     <label class="info"><b>Mobile Number:</b></label>

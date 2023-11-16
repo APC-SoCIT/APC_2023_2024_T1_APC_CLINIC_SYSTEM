@@ -46,9 +46,6 @@
                         <label class="info"><b>Year:</b></label>
                         <span class="info">{{ $record->user->year }}</span>
                         @endif
-                    @else
-                    <label class="info"><b>Specialization:</b></label>
-                    <span class="info">{{ $record->user->specialization }}</span>
                     @endif
                 </div>
                 
