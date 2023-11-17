@@ -69,6 +69,9 @@
                     @if(auth()->user()->role->role === 'Nurse')
                     <a class="info btn btn-outline-info" href="{{ route('nurse.recordEdit', $record->id ) }}">Update Info</a>
                     @endif
+                    @if($record->user->role->role == 'Student')
+                    <a class="info btn btn-outline-danger" href="#">Emergency Mail</a>
+                    @endif
                 </div>
             </div>
         </div>
