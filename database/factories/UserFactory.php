@@ -15,9 +15,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $school_id = '20'.$this->faker->numberBetween(20,23) .'-'. str_pad($this->faker->randomNumber(6), 6, '0', STR_PAD_LEFT);
-
+        $course = $this->faker->randomElement(['STEM', 'ABM', 'HUMSS', 'BSCS', 'BSIT']);
         return [
             'school_id' => $school_id,
+            'course' => $course,
         ];
     }
 

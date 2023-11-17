@@ -267,7 +267,7 @@ return [
     'dashboard_url4' => 'nurse.dailyIndex',
     'dashboard_url5' => 'doctor.recordIndex',
     'dashboard_url6' => 'dentist.recordIndex',
-    'dashboard_url7' => 'adminHome',
+    'dashboard_url7' => 'admin.recordIndex',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => '',
@@ -416,6 +416,12 @@ return [
         ],
         
         //Admin
+        [
+            'text' => "Patient's Records",
+            'route' => 'admin.recordIndex',
+            'icon' => 'fas fa-regular fa-file-medical',
+            'can' => 'admin',
+        ],
         [
             'text' => 'Reports',
             'icon' => 'fas fa-sharp fa-regular fa-folder',

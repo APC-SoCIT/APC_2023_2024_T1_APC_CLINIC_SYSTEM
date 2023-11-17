@@ -211,7 +211,7 @@ Route::middleware(['auth', 'role:Doctor'])->group(function () {
 
     // record (Extra)
     Route::get('/record/search', [RecordController::class, 'search'])
-    ->name('nurse.recordSearch');
+    ->name('doctor.recordSearch');
         
     // record (Consultation part) //////////////////////////////////////////////////////////////////
     Route::resource('doctor/record/consultation', ConsultationController::class)->names([
@@ -264,7 +264,7 @@ Route::middleware(['auth', 'role:Dentist'])->group(function () {
 
     // record (Extra)
     Route::get('/record/search', [RecordController::class, 'search'])
-    ->name('nurse.recordSearch');
+    ->name('dentist.recordSearch');
         
     // record (Consultation part) (Extra) /////////////////////////////////////////////////////////
     Route::get('/dentist/record/{record}/consultation/', [ConsultationController::class, 'date'])
@@ -294,6 +294,17 @@ Route::middleware(['auth', 'role:Dentist'])->group(function () {
 
 //Admin
 Route::middleware(['auth', 'role:Admin'])->group(function () {
-    //homepage
-    Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('adminHome');
+    // record //////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/admin/record', RecordController::class)->names([
+        'index' => 'admin.recordIndex',
+        'show' => 'admin.recordShow',
+        'edit' => 'admin.recordEdit',
+        'update' => 'admin.recordUpdate',
+    ])->except([
+        'store', 'create', 'delete'
+    ]);
+
+    // record (Extra)
+    Route::get('/admin/search', [RecordController::class, 'search'])
+        ->name('admin.recordSearch');
 });

@@ -14,12 +14,12 @@ class DailyController extends Controller
     {
         $quantity_output = "";
         
-        $InventoryInfos = InventoryInfo::where('name', 'LIKE', '%' . $request->medicine_name . '%')
+        $inventory_infos = InventoryInfo::where('name', 'LIKE', '%' . $request->medicine_name . '%')
             ->whereNotIn('type', ['Equipment'])
             ->get();
 
-        foreach ($InventoryInfos as $InventoryInfo) {
-            $quantity_output.='<input type="number" class="customize-bg-input" name="quantity[]" value="'. $InventoryInfo->quantity .'" readonly>';
+        foreach ($inventory_infos as $inventory_info) {
+            $quantity_output.='<input type="number" class="customize-bg-input" name="quantity[]" value="'. $inventory_info->quantity .'" readonly>';
         }
 
         return response($quantity_output);
@@ -66,7 +66,7 @@ class DailyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, InventoryInfo $inventory_info)
     {
         $request->validate([
             'daily_name' => 'required|string',
@@ -94,6 +94,12 @@ class DailyController extends Controller
         $daily_visit_infoData['daily_visit_id'] = $daily_visit->id;
         
         DailyVisitInfo::create($daily_visit_infoData);
+        
+        $request->validate([
+            'reduce_quantity.*' => 'integer',
+        ]);
+
+
         
         return redirect()->route('nurse.dailyIndex');
     }

@@ -75,9 +75,9 @@
                     <!-- Show Patient's Record -->
                     <td class="text-center">
                     @if($records->where('user_id', $user->id)->isEmpty())
-                    <label>This patient has no record yet</label>
+                    <h5>No record made</h5>
                     @else
-                    <a href="{{ route('dentist.recordShow', $user->record->id) }}" class="btn btn-info">Show Patient's Health Record</a>
+                    <a href="{{ route('admin.recordShow', $user->record->id) }}" class="btn btn-info">Show Patient's Health Record</a>
                     @endif
                     </td>
                 </tr>
@@ -90,6 +90,7 @@
         </table>
     </div>
 </div>
+{!! $users->links('zomproj.customize-pagination', ['paginator' => $users]) !!}
 @stop
 
 <!-- CSS -->
@@ -129,7 +130,7 @@
         $.ajax({
             type:'get',
             // Define the URL for the search request (likely configured in a Laravel route).
-            url:'{{ route('dentist.recordSearch') }}',
+            url:'{{ route('admin.recordSearch') }}',
             // Send the user's input as search data.
             data:{'search':$value},
 
