@@ -38,22 +38,27 @@
 
                 <!-- Patient's Grade, Year, or Specialization -->
                 <div class="col my-1">
-                    @if($record->user->role->role == 'Student')
-                        @if($record->user->grade)
-                        <label class="info"><b>Grade:</b></label>
-                        <span class="info">{{ $record->user->grade }}</span>
-                        @elseif($record->user->year)
-                        <label class="info"><b>Year:</b></label>
-                        <span class="info">{{ $record->user->year }}</span>
-                        @endif
+                @if($record->user->role->role == 'Student')
+                    @if($record->user->grade)
+                    <label class="info"><b>Grade:</b></label>
+                    <span class="info">{{ $record->user->grade }}</span>
+                    @elseif($record->user->year)
+                    <label class="info"><b>Year:</b></label>
+                    <span class="info">{{ $record->user->year }}</span>
                     @endif
+                @endif
                 </div>
                 
                 <!-- Patient's Course and Section (Student) -->
                 @if($record->user->role->role == 'Student')
                 <div class="col my-1">
-                    <label class="info"><b>Course:</b></label>
-                    <span class="info">{{ $record->user->course }}</span>
+                    @if($record->user->strand)
+                    <label class="info"><b>Strand:</b></label>
+                    <span class="info">{{ $record->user->strand }}</span>
+                    @elseif($record->user->program)
+                    <label class="info"><b>Program:</b></label>
+                    <span class="info">{{ $record->user->program }}</span>
+                    @endif
                 </div>
                 
                 <div class="col my-1">
