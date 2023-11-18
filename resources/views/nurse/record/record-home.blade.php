@@ -33,7 +33,7 @@
                 <tr>
                     <th class="th-position">Patient Name</th>
                     <th class="th-position">ID</th>
-                    <th class="th-position">Course / Specialization</th>
+                    <th class="th-position">Strand / Program</th>
                     <th class="th-position">Grade / Year</th>
                     <th class="th-position">Section</th>
                     <th class="th-position">Roles</th>
@@ -49,8 +49,8 @@
                     <td>{{ $user->school_id }}</td>
                     <!-- If user has 'course' or 'specialization' -->
                     <td>
-                        @if($user->course ?: $user->specialization)
-                        {{ $user->course ?: $user->specialization }}
+                        @if($user->role->role == 'Student')
+                        {{ $user->strand ?: $user->program }}
                         @else
                         Not Applicable
                         @endif
