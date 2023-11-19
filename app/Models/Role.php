@@ -9,7 +9,7 @@ class Role extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'role'
+        'title'
     ];
 
     //how many relationship does this model have with other models

@@ -27,22 +27,22 @@ class RecordController extends Controller
             <td>'. $user->school_id .'</td>';
             
             // if patient has course or specialization
-            if($user->course || $user->specialization){
-                $output.='<td>'. $user->course ?: $user->specialization .'</td>';
+            if($user->role->title == 'Student'){
+                $output.='<td>'. ($user->strand ?: $user->program) .'</td>';
             } else {
                 $output.='<td>Not Applicable</td>';
             }
 
             // if patient has grade or year
             if($user->grade || $user->year){
-                $output.='<td>'. $user->grade ?: $user->year .'</td>';
+                $output.='<td>'. ($user->grade ?: $user->year) .'</td>';
             } else {
                 $output.='<td>Not Applicable</td>';
             }
 
             // if patient has section
             if($user->section){
-                $output.='<td>'. $user->sectiuon .'</td>';
+                $output.='<td>'. $user->section .'</td>';
             } else {
                 $output.='<td>Not Applicable</td>';
             }
