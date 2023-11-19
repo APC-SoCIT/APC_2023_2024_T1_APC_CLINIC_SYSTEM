@@ -50,7 +50,7 @@
     @php( $dashboard_url7 = $dashboard_url7 ? url($dashboard_url7) : '' )
 @endif
 
-@if(auth()->user()->role->role == 'Student')
+@if(auth()->user()->role->title == 'Student')
     <a href="{{ $dashboard_url1 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"
@@ -70,7 +70,7 @@
         </span>
 
     </a>
-@elseif(auth()->user()->role->role == 'Faculty')
+@elseif(auth()->user()->role->title == 'Faculty')
     <a href="{{ $dashboard_url2 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"
@@ -90,7 +90,7 @@
         </span>
 
     </a>
-@elseif(auth()->user()->role->role == 'Staff')
+@elseif(auth()->user()->role->title == 'Staff')
     <a href="{{ $dashboard_url3 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"
@@ -110,7 +110,7 @@
         </span>
 
     </a>
-@elseif(auth()->user()->role->role == 'Nurse')
+@elseif(auth()->user()->role->title == 'Nurse')
     <a href="{{ $dashboard_url4 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"
@@ -130,7 +130,7 @@
         </span>
 
     </a>
-@elseif(auth()->user()->role->role == 'Doctor')
+@elseif(auth()->user()->role->title == 'Doctor')
     <a href="{{ $dashboard_url5 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"
@@ -150,7 +150,7 @@
         </span>
 
     </a>
-@elseif(auth()->user()->role->role == 'Dentist')
+@elseif(auth()->user()->role->title == 'Dentist')
     <a href="{{ $dashboard_url6 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"
@@ -170,7 +170,7 @@
         </span>
 
     </a>
-@elseif(auth()->user()->role->role == 'Admin')
+@elseif(auth()->user()->role->title == 'Admin')
     <a href="{{ $dashboard_url7 }}"
         @if($layoutHelper->isLayoutTopnavEnabled())
             class="navbar-brand {{ config('adminlte.classes_brand') }}"

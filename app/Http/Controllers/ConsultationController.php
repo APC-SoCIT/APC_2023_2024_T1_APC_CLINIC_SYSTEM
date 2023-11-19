@@ -36,8 +36,8 @@ class ConsultationController extends Controller
         if ($consultations) {
             foreach($consultations as $consultation){
                 //Consultation Header
-                if(auth()->user()->role->role == 'Nurse' || auth()->user()->role->role == 'Doctor'){
-                    if(auth()->user()->role->role == 'Nurse'){
+                if(auth()->user()->role->title == 'Nurse' || auth()->user()->role->title == 'Doctor'){
+                    if(auth()->user()->role->title == 'Nurse'){
                         $responseData['consultation_output'].='<a class="info btn btn-primary mr-2" href="'. route('nurse.consultationCreate', $consultation->record->id ) .'">Create</a>';
                         if($consultation->consultation_response->remarks === "Monitoring Case"){
                             $responseData['consultation_output'].='<a class="info btn btn-info ml-2" href="'. route('nurse.consultationEdit', $consultation->id ) .'">Update</a>';
@@ -163,11 +163,11 @@ class ConsultationController extends Controller
      */
     public function create(Record $record)
     {
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return view('nurse.record.consultation.record-consultation-create', compact('record'));
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return view('doctor.record.consultation.record-consultation-create', compact('record'));
         }
@@ -206,11 +206,11 @@ class ConsultationController extends Controller
         // Create Consultation Response
         ConsultationResponse::create($consultationResponseData);
         
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return redirect()->route('nurse.recordShow', ['record' => $recordID])->with('success', 'Consultation created successfully.');
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return redirect()->route('doctor.recordShow', ['record' => $recordID])->with('success', 'Consultation created successfully.');
         }
@@ -229,11 +229,11 @@ class ConsultationController extends Controller
      */
     public function edit(Consultation $consultation)
     {
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return view('nurse.record.consultation.record-consultation-edit', compact('consultation'));
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return view('doctor.record.consultation.record-consultation-edit', compact('consultation'));
         }
@@ -262,11 +262,11 @@ class ConsultationController extends Controller
         $consultation->update($request->all());
         $consultation->consultation_response->update($request->all());
 
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return redirect()->route('nurse.recordShow', ['record' => $consultation->record->id ])->with('success', 'Consultation created successfully.');
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return redirect()->route('doctor.recordShow', ['record' => $consultation->record->id ])->with('success', 'Consultation created successfully.');
         }

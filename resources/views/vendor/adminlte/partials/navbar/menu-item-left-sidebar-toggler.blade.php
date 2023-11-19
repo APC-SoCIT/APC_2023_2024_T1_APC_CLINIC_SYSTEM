@@ -11,19 +11,19 @@
             data-auto-collapse-size="{{ config('adminlte.sidebar_collapse_auto_size') }}"
         @endif
         
-        @if(auth()->user()->role->role == 'Student')
+        @if(auth()->user()->role->title == 'Student')
             style="color: white;"
-        @elseif(auth()->user()->role->role == 'Faculty')
+        @elseif(auth()->user()->role->title == 'Faculty')
             style="color: white;"
-        @elseif(auth()->user()->role->role == 'Staff')
+        @elseif(auth()->user()->role->title == 'Staff')
             style="color: white;"
-        @elseif(auth()->user()->role->role == 'Nurse')
+        @elseif(auth()->user()->role->title == 'Nurse')
             style="color: black;"
-        @elseif(auth()->user()->role->role == 'Doctor')
+        @elseif(auth()->user()->role->title == 'Doctor')
             style="color: white;"
-        @elseif(auth()->user()->role->role == 'Dentist')
+        @elseif(auth()->user()->role->title == 'Dentist')
             style="color: white;"
-        @elseif(auth()->user()->role->role == 'Admin')
+        @elseif(auth()->user()->role->title == 'Admin')
             style="color: white;"
         @else
             style="color: white;"

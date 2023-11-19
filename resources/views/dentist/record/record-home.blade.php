@@ -49,7 +49,7 @@
                     <td>{{ $user->school_id }}</td>
                     <!-- If user has 'course' or 'specialization' -->
                     <td>
-                        @if($user->role->role == 'Student')
+                        @if($user->role->title == 'Student')
                         {{ $user->strand ?: $user->program }}
                         @else
                         Not Applicable
@@ -71,7 +71,7 @@
                         Not Applicable
                         @endif
                     </td>
-                    <td>{{ $user->role->role }}</td>
+                    <td>{{ $user->role->title }}</td>
                     <!-- Show Patient's Record -->
                     <td class="text-center">
                     @if($records->where('user_id', $user->id)->isEmpty())

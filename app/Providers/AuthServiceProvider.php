@@ -25,49 +25,49 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('student', function($user){
-            if(auth()->user()->role->role == 'Student'){
+            if(auth()->user()->role->title == 'Student'){
                 return true;
             }
             return false;
         });
 
         Gate::define('faculty', function($user){
-            if(auth()->user()->role->role == 'Faculty'){
+            if(auth()->user()->role->title == 'Faculty'){
                 return true;
             }
             return false;
         });
 
         Gate::define('staff', function($user){
-            if(auth()->user()->role->role == 'Staff'){
+            if(auth()->user()->role->title == 'Staff'){
                 return true;
             }
             return false;
         });
         
         Gate::define('nurse', function($user){
-            if(auth()->user()->role->role == 'Nurse'){
+            if(auth()->user()->role->title == 'Nurse'){
                 return true;
             }
             return false;
         });
 
         Gate::define('doctor', function($user){
-            if(auth()->user()->role->role == 'Doctor'){
+            if(auth()->user()->role->title == 'Doctor'){
                 return true;
             }
             return false;
         });
 
         Gate::define('dentist', function($user){
-            if(auth()->user()->role->role == 'Dentist'){
+            if(auth()->user()->role->title == 'Dentist'){
                 return true;
             }
             return false;
         });
 
         Gate::define('admin', function($user){
-            if(auth()->user()->role->role == 'Admin'){
+            if(auth()->user()->role->title == 'Admin'){
                 return true;
             }
             return false;

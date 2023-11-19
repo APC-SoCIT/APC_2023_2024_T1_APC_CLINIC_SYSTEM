@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('role')->unique();
+            $table->string('title')->unique();
             $table->timestamps();
         });
 
         DB::table('roles')->insert([
-            ['role' => 'No Role'],
-            ['role' => 'Student'],
-            ['role' => 'Faculty'],
-            ['role' => 'Staff'],
-            ['role' => 'Nurse'],
-            ['role' => 'Doctor'],
-            ['role' => 'Dentist'],
-            ['role' => 'Admin'],
+            ['title' => 'No Role'],
+            ['title' => 'Student'],
+            ['title' => 'Faculty'],
+            ['title' => 'Staff'],
+            ['title' => 'Nurse'],
+            ['title' => 'Doctor'],
+            ['title' => 'Dentist'],
+            ['title' => 'Admin'],
         ]);
     }
 

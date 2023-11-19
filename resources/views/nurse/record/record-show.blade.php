@@ -34,7 +34,7 @@
 
                 <!-- Patient's Grade, Year, or Specialization -->
                 <div class="col my-1">
-                @if($record->user->role->role == 'Student')
+                @if($record->user->role->title == 'Student')
                     @if($record->user->grade)
                     <label class="info"><b>Grade:</b></label>
                     <span class="info">{{ $record->user->grade }}</span>
@@ -46,7 +46,7 @@
                 </div>
                 
                 <!-- Patient's Course and Section (Student) -->
-                @if($record->user->role->role == 'Student')
+                @if($record->user->role->title == 'Student')
                 <div class="col my-1">
                     @if($record->user->strand)
                     <label class="info"><b>Strand:</b></label>
@@ -71,10 +71,10 @@
 
                 <!-- Edit Info -->
                 <div class="col my-1">
-                    @if(auth()->user()->role->role === 'Nurse')
+                    @if(auth()->user()->role->title === 'Nurse')
                     <a class="info btn btn-outline-info" href="{{ route('nurse.recordEdit', $record->id ) }}">Update Info</a>
                     @endif
-                    @if($record->user->role->role == 'Student')
+                    @if($record->user->role->title == 'Student')
                     <a class="info btn btn-outline-danger" href="#">Emergency Mail</a>
                     @endif
                 </div>

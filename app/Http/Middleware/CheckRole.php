@@ -15,7 +15,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $roles): Response
     {
-        if ($request->user() || in_array($request->user()->role->role, $roles)) {
+        if ($request->user() || in_array($request->user()->role->title, $roles)) {
             return $next($request);
         }
         abort(403, 'Unauthorized');

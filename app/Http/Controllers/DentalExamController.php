@@ -44,7 +44,7 @@ class DentalExamController extends Controller
 
         foreach ($dental_exams as $dental_exam) {
             //Dental Exam Header
-            if (auth()->user()->role->role == 'Dentist'){
+            if (auth()->user()->role->title == 'Dentist'){
                 if ($dental_exam->date_updated && $dental_exam->date_created) {
                     $responseData['den_output'].='<span class="info">Original Copy</span>';
                 }else{

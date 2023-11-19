@@ -38,7 +38,7 @@
 
                 <!-- Patient's Grade, Year, or Specialization -->
                 <div class="col my-1">
-                @if($record->user->role->role == 'Student')
+                @if($record->user->role->title == 'Student')
                     @if($record->user->grade)
                     <label class="info"><b>Grade:</b></label>
                     <span class="info">{{ $record->user->grade }}</span>
@@ -50,7 +50,7 @@
                 </div>
                 
                 <!-- Patient's Course and Section (Student) -->
-                @if($record->user->role->role == 'Student')
+                @if($record->user->role->title == 'Student')
                 <div class="col my-1">
                     @if($record->user->strand)
                     <label class="info"><b>Strand:</b></label>

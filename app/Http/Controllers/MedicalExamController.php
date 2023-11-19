@@ -49,11 +49,11 @@ class MedicalExamController extends Controller
         if ($medical_exams){
             foreach ($medical_exams as $medical_exam){
                 //Medical Exam Header
-                if (auth()->user()->role->role == 'Nurse' || auth()->user()->role->role == 'Doctor'){
+                if (auth()->user()->role->title == 'Nurse' || auth()->user()->role->title == 'Doctor'){
                     if ($medical_exam->date_updated && $medical_exam->date_created) {
                         $responseData['med_output'].='<span class="info">Original Copy</span>';
                     }else{
-                        if(auth()->user()->role->role == 'Nurse'){
+                        if(auth()->user()->role->title == 'Nurse'){
                             $responseData['med_output'].='<a class="info btn btn-info ml-2" href="'. route('nurse.medicalExamEdit', $medical_exam->id ) .'">Update</a>';
                         } else {
                             $responseData['med_output'].='<a class="info btn btn-info ml-2" href="'. route('doctor.medicalExamEdit', $medical_exam->id ) .'">Update</a>';
@@ -1297,11 +1297,11 @@ class MedicalExamController extends Controller
      */
     public function create(Record $record)
     {
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return view('nurse.record.medical-exam.record-me-create', compact('record'));
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return view('doctor.record.medical-exan.record-me-create', compact('record'));
         }
@@ -1568,11 +1568,11 @@ class MedicalExamController extends Controller
         
         PhysicalExaminationFinding::create($physical_examination_findingData);
 
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return redirect()->route('nurse.recordShow', ['record' => $recordID])->with('success', 'Medical exam created successfully.');
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return redirect()->route('doctor.recordShow', ['record' => $recordID])->with('success', 'Medical exam created successfully.');
         }
@@ -1591,11 +1591,11 @@ class MedicalExamController extends Controller
      */
     public function edit(MedicalExam $medical_exam)
     {
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return view('nurse.record.medical-exam.record-me-edit', compact('medical_exam'));
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return view('doctor.record.medical-exam.record-me-edit', compact('medical_exam'));
         }
@@ -2079,11 +2079,11 @@ class MedicalExamController extends Controller
             $medical_exam->physical_examination->pe_finding->update($request->all());
         }
 
-        if(auth()->user()->role->role == 'Nurse')
+        if(auth()->user()->role->title == 'Nurse')
         {
             return redirect()->route('nurse.recordShow', ['record' => $medical_exam->record->id])->with('success', 'Medical exam created successfully.');
         }
-        elseif(auth()->user()->role->role == 'Doctor')
+        elseif(auth()->user()->role->title == 'Doctor')
         {
             return redirect()->route('doctor.recordShow', ['record' => $medical_exam->record->id])->with('success', 'Medical exam created successfully.');
         }
