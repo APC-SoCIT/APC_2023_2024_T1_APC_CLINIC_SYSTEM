@@ -140,23 +140,23 @@
     <h1 class="text-center">Visits for the Day</h1>
     <div>
         <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Complainant Name</th>
-                <th scope="col">ID Number</th>
-                <th scope="col">Time of Visit</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th scope="col">Complainant Name</th>
+                    <th scope="col">ID Number</th>
+                    <th scope="col">Time of Visit</th>
+                </tr>
             </thead>
             <tbody>
-            @if($todayRecords->isEmpty())
+                @if($todayRecords->isEmpty())
                 <tr>
                     <td colspan="4" class="text-center">
                         <h2>No visit record has been made today</h2>
                     </td>
                 </tr>
-            @elseif($daily_visits->isNotEmpty())
-                @foreach($daily_visits as $daily_visit)
-                    @if($daily_visit->date->isToday())
+                @elseif($daily_visits->isNotEmpty())
+                    @foreach($daily_visits as $daily_visit)
+                        @if($daily_visit->date->isToday())
                         <tr>
                             <td>{{ $daily_visit->daily_name }}</td>
                             @if($daily_visit->daily_id)
@@ -166,9 +166,9 @@
                             @endif
                             <td>{{ $daily_visit->date->format('F d, Y') }} - {{ $daily_visit->time->format('h:i A') }}</td>
                         </tr>
-                    @endif
-                @endforeach
-            @endif
+                        @endif
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>

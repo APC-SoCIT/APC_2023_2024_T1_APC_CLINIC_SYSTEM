@@ -7,6 +7,7 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\MedicalExamController;
 use App\Http\Controllers\DentalExamController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -307,4 +308,15 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     // record (Extra)
     Route::get('/admin/search', [RecordController::class, 'search'])
         ->name('admin.recordSearch');
+    
+    // record //////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/admin/report', ReportController::class)->names([
+        'index' => 'admin.reportIndex',
+        'show' => 'admin.reportShow',
+        'edit' => 'admin.reportEdit',
+        'update' => 'admin.reportUpdate',
+        'delete' => 'admin.reportDelete',
+    ])->except([
+        'store', 'create'
+    ]);
 });
