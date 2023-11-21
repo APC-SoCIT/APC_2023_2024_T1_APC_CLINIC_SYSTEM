@@ -14,16 +14,18 @@ return new class extends Migration
         Schema::create('daily_visit_infos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('daily_visit_id')->nullable();  // Add daily_visit_id
+            $table->unsignedBigInteger('inventory_info_id')->nullable();  // Add inventory_info_id
             $table->string('main_complaint');
             $table->string('sub_complaint');
             $table->text('treatment')->nullable();
             $table->string('medicine')->default('No');
-            $table->integer('medicine_take')->nullable();
-            $table->string('take')->nullable();
+            $table->integer('medicine_count')->nullable();
+            $table->text('take')->nullable();
             $table->timestamps();
 
             // Add foreign key constraint 
             $table->foreign('daily_visit_id')->references('id')->on('daily_visits');
+            $table->foreign('inventory_info_id')->references('id')->on('inventory_infos');
         });
     }
 

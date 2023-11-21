@@ -12,6 +12,16 @@ class ReduceQuantity extends Model
     protected $fillable = [
         'inventory_info_id',
         'reduce_quantity',
+        'reduce_date',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'reduce_date' => 'date:m-d-Y',
     ];
 
     //how many relationship does this model have with other models

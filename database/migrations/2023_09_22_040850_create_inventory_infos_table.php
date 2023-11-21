@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('inventory_id')->nullable();  // Add inventory_id
             $table->string('name');
-            $table->enum('type',['Medicine', 'Equipment']);
+            $table->enum('type', ['Medicine', 'Equipment']);
             $table->integer('dosage')->default(0);
             $table->integer('quantity')->default(0);
             $table->timestamps();

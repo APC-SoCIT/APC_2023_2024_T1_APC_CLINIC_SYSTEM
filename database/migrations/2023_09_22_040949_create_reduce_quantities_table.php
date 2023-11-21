@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('inventory_info_id')->nullable();  // Add inventory_info_id
             $table->integer('reduce_quantity')->default(0);
+            $table->date('reduce_date');
             $table->timestamps();
             
             // Add foreign key constraint 

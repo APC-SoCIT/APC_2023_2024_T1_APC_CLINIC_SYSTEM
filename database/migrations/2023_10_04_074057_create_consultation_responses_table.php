@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('consultation_responses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('consultation_id')->nullable();  // Add consultation_id
-            $table->text('complaint');
+            $table->string('complaint');
             $table->integer('pulse');
             $table->integer('oxygen');
             $table->integer('respiratory_rate');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('bot_bp');
             $table->float('temperature');
             $table->text('treatment');
-            $table->string('remarks');
+            $table->enum('remarks', ['Monitoring Case', 'Resolved Case']);
             $table->timestamps();
             
             // Add foreign key constraint

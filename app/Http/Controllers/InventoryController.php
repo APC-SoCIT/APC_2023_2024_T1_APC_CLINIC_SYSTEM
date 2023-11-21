@@ -86,7 +86,7 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $inventory = Inventory::create();
+        $inventory = Inventory::create(['date_created' => now()]);
 
         $request->validate([
             'name' => [
@@ -164,6 +164,7 @@ class InventoryController extends Controller
     {
         $request->validate([
             'add_quantity' => 'required|integer',
+            'add_date',
         ]);
     
         // Adding original from input quantity
@@ -174,6 +175,7 @@ class InventoryController extends Controller
         if(!$inventoryItem->add && $inventoryItem->add != now()){
             $addData = $request->all();
             $addData['inventory_info_id'] = $inventoryItem->id;
+            $addData['add_date'] = now();
 
             AddQuantity::create($addData);
         } else {
@@ -192,6 +194,7 @@ class InventoryController extends Controller
     {
         $request->validate([
             'reduce_quantity' => 'required|integer',
+            'reduce_date',
         ]);
     
         // Ensure the reduce_quantity is less than or equal to the current quantity
@@ -203,6 +206,7 @@ class InventoryController extends Controller
             if(!$inventoryItem->reduce && $inventoryItem->reduce != now()){
                 $reduceData = $request->all();
                 $reduceData['inventory_info_id'] = $inventoryItem->id;
+                $reduceData['reduce_date'] = now();
 
                 ReduceQuantity::create($reduceData);
             } else {

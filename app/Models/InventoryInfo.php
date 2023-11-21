@@ -28,9 +28,13 @@ class InventoryInfo extends Model
     {
         return $this->hasOne(AddQuantity::class);
     }
-    //how many relationship does this model have with other models
     public function reduce()
     {
         return $this->hasOne(ReduceQuantity::class);
     }
+    public function daily_info()
+    {
+        return $this->hasOne(DailyVisitInfo::class);
+    }
+
 }

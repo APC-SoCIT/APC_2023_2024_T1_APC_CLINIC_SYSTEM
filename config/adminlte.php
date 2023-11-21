@@ -425,6 +425,12 @@ return [
         [
             'text' => 'Reports',
             'icon' => 'fas fa-sharp fa-regular fa-folder',
+            'route' => 'admin.reportIndex',
+            'can' => 'admin',
+        ],
+        [
+            'text' => 'Emergency Mail',
+            'icon' => 'fas fa-envelope',
             'url' => '#',
             'can' => 'admin',
         ],

@@ -358,14 +358,14 @@ class InventoryItemsSeeder extends Seeder
                 'type' => 'Medicine',
             ],
         ];
-        foreach ($inventory_infos as $key => $inventory_infos) {
-            $inventory = Inventory::create();
+        foreach ($inventory_infos as $key => $inventory_info) {
+            $inventory = Inventory::create(['date_created' => now()]);
             InventoryInfo::create([
                 'inventory_id' => $inventory->id,
-                'name' => $inventory_infos['name'],
-                'dosage'=> $inventory_infos['dosage'],
-                'quantity'=> $inventory_infos['quantity'],
-                'type'=> $inventory_infos['type'],
+                'name' => $inventory_info['name'],
+                'dosage' => $inventory_info['dosage'],
+                'quantity' => $inventory_info['quantity'],
+                'type' => $inventory_info['type'],
             ]);
         }
     }
