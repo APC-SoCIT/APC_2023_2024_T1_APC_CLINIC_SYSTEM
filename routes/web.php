@@ -9,6 +9,7 @@ use App\Http\Controllers\MedicalExamController;
 use App\Http\Controllers\DentalExamController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -107,7 +108,7 @@ Route::middleware(['auth', 'role:Staff'])->group(function () {
 
 //Nurse
 Route::middleware(['auth', 'role:Nurse'])->group(function () {
-    //homepage
+    // homepage ///////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/daily-visit', DailyController::class)->names([
         'index' => 'nurse.dailyIndex',
         'store' => 'nurse.dailyStore',
@@ -121,7 +122,7 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     Route::get('/record/daily-visit/take', [DailyController::class, 'used'])
         ->name('nurse.dailyUsed');
 
-    // appointment //////////////////////////////////////////////////////////////////////////////////////
+    // appointment /////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/appointment', AppointmentController::class)->names([
         'index' => 'nurse.appointmentIndex',
     ])->except([
@@ -326,5 +327,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         'delete' => 'admin.reportDelete',
     ])->except([
         'store', 'create'
+    ]);
+
+    // appointment /////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/admin/email', EmailController::class)->names([
+        'index' => 'admin.emailIndex',
+        'store' => 'admin.emailStore',
+    ])->except([
+        'create', 'delete'
     ]);
 });
