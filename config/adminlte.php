@@ -431,7 +431,7 @@ return [
         [
             'text' => 'Emergency Mail',
             'icon' => 'fas fa-envelope',
-            'url' => '#',
+            'route' => 'admin.emailIndex',
             'can' => 'admin',
         ],
     ],
