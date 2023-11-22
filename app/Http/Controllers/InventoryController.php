@@ -104,7 +104,7 @@ class InventoryController extends Controller
         ]);
 
         $inventoryData = $request->all();
-        $inventoryData['medical_exam_id'] = $inventory->id;
+        $inventoryData['inventory_id'] = $inventory->id;
 
         InventoryInfo::create($inventoryData);
         return redirect()->route('nurse.inventoryIndex')
