@@ -319,7 +319,7 @@ return [
 
         //Student
         [
-            'text' => 'Clinic Availability',
+            'text' => 'Appointments',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'student',
@@ -333,7 +333,7 @@ return [
 
         //Faculty
         [
-            'text' => 'Clinic Availability',
+            'text' => 'Appointments',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'faculty',
@@ -348,7 +348,7 @@ return [
 
         //Staff
         [
-            'text' => 'Clinic Availability',
+            'text' => 'Appointments',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'staff',
@@ -363,7 +363,7 @@ return [
         
         //Nurse
         [
-            'text' => 'Clinic Availability',
+            'text' => 'Appointments',
             'route' => 'nurse.appointmentIndex',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'nurse',
@@ -389,7 +389,7 @@ return [
 
         //Doctor
         [
-            'text' => 'Clinic Availability',
+            'text' => 'Appointments',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'doctor',
@@ -403,7 +403,7 @@ return [
         
         //Dentist
         [
-            'text' => 'Clinic Availability',
+            'text' => 'Appointments',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'dentist',
