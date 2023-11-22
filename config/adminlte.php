@@ -319,7 +319,7 @@ return [
 
         //Student
         [
-            'text' => 'Appointment',
+            'text' => 'Clinic Availability',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'student',
@@ -333,7 +333,7 @@ return [
 
         //Faculty
         [
-            'text' => 'Appointment',
+            'text' => 'Clinic Availability',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'faculty',
@@ -348,23 +348,23 @@ return [
 
         //Staff
         [
-            'text' => 'Appointment',
-            'route' => 'staff.recordIndex',
+            'text' => 'Clinic Availability',
+            'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'staff',
         ],
 
         [
             'text' => "My Health Record",
-            'url' => '#',
+            'route' => 'staff.recordIndex',
             'icon' => 'fas fa-regular fa-file-medical',
             'can' => 'staff',
         ],
         
         //Nurse
         [
-            'text' => 'Appointment',
-            'url' => '#',
+            'text' => 'Clinic Availability',
+            'route' => 'nurse.appointmentIndex',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'nurse',
         ],
@@ -389,7 +389,7 @@ return [
 
         //Doctor
         [
-            'text' => 'Appointment',
+            'text' => 'Clinic Availability',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'doctor',
@@ -403,7 +403,7 @@ return [
         
         //Dentist
         [
-            'text' => 'Appointment',
+            'text' => 'Clinic Availability',
             'url' => '#',
             'icon' => 'fas fa-sharp fa-solid fa-calendar',
             'can' => 'dentist',

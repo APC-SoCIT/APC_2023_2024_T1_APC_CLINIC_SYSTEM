@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\DailyController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\ConsultationController;
@@ -119,6 +120,13 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
         ->name('nurse.dailyName');
     Route::get('/record/daily-visit/take', [DailyController::class, 'used'])
         ->name('nurse.dailyUsed');
+
+    // appointment //////////////////////////////////////////////////////////////////////////////////////
+    Route::resource('/nurse/appointment', AppointmentController::class)->names([
+        'index' => 'nurse.appointmentIndex',
+    ])->except([
+        'create', 'delete'
+    ]);
 
     // record //////////////////////////////////////////////////////////////////////////////////////
     Route::resource('/nurse/record', RecordController::class)->names([
