@@ -71,12 +71,21 @@
 
                 <!-- Edit Info -->
                 <div class="col my-1">
+                    <div class="row">
                     @if(auth()->user()->role->title === 'Nurse')
-                    <a class="info btn btn-outline-info" href="{{ route('nurse.recordEdit', $record->id ) }}">Update Info</a>
+                    <div class="col-3">
+                        <a class="info btn btn-outline-info" href="{{ route('nurse.recordEdit', $record->id ) }}">Update Info</a>
+                    </div>
                     @endif
                     @if($record->user->role->title == 'Student')
-                    <a class="info btn btn-outline-danger" href="#">Emergency Mail</a>
+                    <div class="col">
+                    <form method="GET" action="{{ route('nurse.recordEmergency', $record->id ) }}" onsubmit="return confirm('Are you sure you want to submit this medical exam?');">
+                        @csrf
+                        <button class="info btn btn-outline-danger">Emergency Mail</button>
+                    </form>
+                    </div>
                     @endif
+                    </div>
                 </div>
             </div>
         </div>

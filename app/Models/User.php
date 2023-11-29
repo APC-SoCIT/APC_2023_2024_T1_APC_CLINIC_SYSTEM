@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Record::class);
     }
+    //how many relationship does this model have with other models
+    public function emergency_email_info()
+    {
+        return $this->hasOne(EmergencyEmailInfo::class);
+    }
 }

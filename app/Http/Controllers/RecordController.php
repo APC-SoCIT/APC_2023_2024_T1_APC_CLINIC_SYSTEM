@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Record;
 use App\Models\User;
+use App\Models\EmergencyEmail;
+use App\Models\EmergencyEmailInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+use App\Mail\Emergency;
+use Illuminate\Support\Facades\Mail;
 
 class RecordController extends Controller
 {
@@ -63,6 +68,22 @@ class RecordController extends Controller
         }
 
         return response($output);
+    }
+
+    /**
+     * Send Email to a specific prof that handle that section
+     */
+    public function emergency(Record $record, EmergencyEmail $emergency_datas)
+    {
+        if ($record->user->section == $emergency_datas->section_handle) {
+            foreach ($emergency_datas as $emergency_data) {
+                $data = [
+                    'faculty_name' => 'Darcy Medina'
+                ];
+
+                Mail::to($emergency_data->emergency_email_info->email)->send(new Emergency($date, $record));
+            }
+        }
     }
 
     /**

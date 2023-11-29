@@ -144,6 +144,9 @@ Route::middleware(['auth', 'role:Nurse'])->group(function () {
     Route::get('/nurse/record/create/{user}', [RecordController::class, 'create'])
         ->name('nurse.recordCreate');
 
+    Route::get('/nurse/record/emergency/{record}', [RecordController::class, 'emergency'])                  ///////////////////// UNDONE Part
+        ->name('nurse.recordEmergency');
+
     // record (Extra)
     Route::get('/record/search', [RecordController::class, 'search'])
         ->name('nurse.recordSearch');

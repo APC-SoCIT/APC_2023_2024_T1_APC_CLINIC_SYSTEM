@@ -12,6 +12,17 @@ class EmailController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function list()
+    {
+        $emails = EmergencyEmail::paginate(10);
+
+        return view('admin.email.email-home',compact('emails'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $emails = EmergencyEmail::paginate(10);
